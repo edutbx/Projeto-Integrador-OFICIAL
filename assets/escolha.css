@@ -96,13 +96,6 @@
     background-color: #007381;
   }
   
-  /* Container para múltiplos botões (como registrar e login) */
-  .actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
   /* Seção de botão "Voltar" */
   .voltar {
     margin-top: 40px;

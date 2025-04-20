@@ -151,18 +151,37 @@ footer form {
     margin: 0 auto;
 }
 footer input, footer textarea {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
     width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
+    height: 52px;
+    letter-spacing: 0.03rem;
+    border: 3px solid white;
+    outline: none;
+    border-radius: 8px;
+    text-indent: 20px;
+    margin-top: 6px;
+    transition: all 0.3s ease;
+    padding: 0 25px;
+}
+footer input:focus, footer textarea:focus{
+    border-color:  #008f9c;
 }
 footer button {
-    background: #008f9c;
+    width: 655px;
+    margin-top: 30px;
+    background: #6b43ff;
     color: #fff;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    line-height: 40px;
+    font-size: 20px;
+    letter-spacing: 0.025em;
     cursor: pointer;
+    font-weight: 800;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
 }
 footer button:hover {
     background: #006b75;
