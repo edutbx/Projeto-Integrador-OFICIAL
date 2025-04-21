@@ -33,6 +33,90 @@ img{
 img:hover{
     cursor: pointer;
 }
+.hero {
+    background: linear-gradient(to right, #008f9c, #00b4db);
+    color: #fff;
+    padding: 80px 20px;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+}
+.hero {
+    background: linear-gradient(to right, #008f9c, #00b4db);
+    color: #fff;
+    padding: 80px 0; /* Remove o padding lateral */
+    height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%; /* Garante que o conteúdo ocupe toda a largura */
+    padding: 0 2rem; /* Adiciona espaçamento interno lateral */
+    box-sizing: border-box; /* Inclui o padding no cálculo do tamanho */
+}
+
+.hero-text {
+    max-width: 50%; /* Limita a largura do texto */
+}
+
+.hero-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.hero-text .btn {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.hero-text .btn:hover {
+    background-color: #0056b3;
+}
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem; /* Aumenta o espaço entre a imagem e o texto */
+    flex-wrap: nowrap;
+}
+
+.hero-content-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz com que a imagem preencha e corte o excesso se necessário */
+    display: block;
+    border: none; /* Remover a borda da imagem se preferir, já que o contêiner tem borda */
+}
+
+.hero-content-img {
+    width: 100%;
+    max-width: 600px; /* ou ajuste conforme desejado */
+    height: 100%;
+    max-height: 400px; /* ou ajuste conforme desejado */
+    border: 2px solid #ffffff;
+    box-sizing: border-box;
+}
+
+.hero-text {
+    max-width: 50%; /* Limita a largura do texto */
+    text-align: left; /* Alinha o texto à esquerda */
+}
 
 .header-container {
     display: flex;
@@ -151,7 +235,7 @@ footer form {
     margin: 0 auto;
 }
 footer input, footer textarea {
-    color: #fff;
+    color: #000000;
     font-size: 16px;
     font-weight: 500;
     width: 100%;
@@ -185,4 +269,11 @@ footer button {
 }
 footer button:hover {
     background: #006b75;
+}
+input, textarea {
+    color: #000; /* Define uma cor de texto visível */
+    background-color: #fff; /* Garante que o fundo seja branco */
+    border: 1px solid #ccc; /* Adiciona uma borda visível */
+    padding: 10px; /* Adiciona espaçamento interno */
+    font-size: 16px; /* Define um tamanho de fonte legível */
 }
