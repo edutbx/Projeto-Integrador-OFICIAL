@@ -21,6 +21,7 @@
     margin: 10px 0;
     border-radius: 0.5rem;
     transition: background 0.3s ease;
+    height: 6vh;
   }
    
   .nav-link:hover,
@@ -31,6 +32,12 @@
    
   .icon {
     margin-right: 10px;
+  }
+
+  @media (min-width:769px) and (max-width:1600px){
+    .sidebar{
+      
+    }
   }
 
   @media (min-width:300px) and (max-width:500px){

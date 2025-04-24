@@ -120,16 +120,12 @@ header{
 
 
 
-/*@media (min-width:769px) and (max-width:1600px){
+@media (min-width:769px) and (max-width:1600px){
     .container-home{
-        margin-left: 25%;
-    }
-
-    .cards{
-        width: 18rem;
+        width: 70vw;
     }
   }
-*/
+
  @media (min-width:300px) and (max-width:500px){
     .container-cards{
         flex-direction: column;

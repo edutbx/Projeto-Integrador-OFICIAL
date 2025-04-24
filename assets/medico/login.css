@@ -107,7 +107,7 @@ body{
 .container form .login{
     width: 100%;
     margin-top: 30px;
-    background: #0a8f2a;
+    background:  #00bfa6;
     color: #fff;
     border: none;
     line-height: 50px;
@@ -121,7 +121,7 @@ body{
 }
 
 .container form .login:hover{
-    background: #077b22;
+    background: #009e8c;
 }
 
 .container .login a{
@@ -136,12 +136,12 @@ body{
 }
 
 .container .links a{
-    color: #077b22;
+    color: #00bfa6;
     font-weight: 600;
     font-size: 1rem;
     text-decoration: none;
     text-underline-offset: 6px;
-    text-decoration-color: #077b22;
+    text-decoration-color:  #00bfa6;
 }
 
 .container .links a:hover{

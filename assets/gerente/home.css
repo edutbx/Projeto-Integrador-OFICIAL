@@ -99,6 +99,11 @@ h1 {
     background: #077b22;
 }
 
+@media (min-width:769px) and (max-width:1600px){
+    .container-home{
+        width: 70vw;
+    }
+  }
 
 @media (max-width: 768px) {
     .container-home{
