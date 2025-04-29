@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="/assets/paciente/login.css">
-
-    <title>Login</title>
+    <link rel="stylesheet" href="/assets/paciente/criarSenha.css">
+    <title>Criar Senha</title>
 </head>
 
 <body>
@@ -17,27 +16,26 @@
     </div>
 
     <div class="container">
-        <h1>Paciente</h1>
+        <h1>Criar Senha</h1>
         <div class="divider">
             <div class="line"></div>
             <div class="line"></div>
         </div>
 
         <form>
-            <label for="cpf">CPF:</label>
+            <label for="cpf">Senha:</label>
             <div class="custome-input">
-                <input type="cpf" name="cpf" placeholder="Seu CPF" autocomplete="off">
-                <i class='bx bx-notepad'></i>
+                <input type="password" name="password" placeholder="Digite sua senha" autocomplete="off">
+                <i class='bx bx-lock-alt'></i>
             </div>
-            <label for="password">Senha:</label>
+            <label for="password">Cofirmação de senha:</label>
             <div class="custome-input">
-                <input type="password" name="password" placeholder="Sua Senha">
+                <input type="password" name="password" placeholder="Digite novamente sua senha">
                 <i class='bx bx-lock-alt'></i>
             </div>
             <button class="login"><a href="home.html">Entrar</a></button>
             <div class="links">
-                <a href="trocarsnPaciente.html">Esqueceu a senha?</a>
-                <a href="criarSenha.html">Primeiro acesso?</a>
+                <a href="login.html">Já possui senha?</a>
             </div>
         </form>
 
