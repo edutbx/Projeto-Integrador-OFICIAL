@@ -34,18 +34,11 @@
     margin-right: 10px;
   }
 
-  @media (min-width:769px) and (max-width:1600px){
-    .sidebar{
-      
-    }
-  }
-
-  @media (min-width:300px) and (max-width:500px){
+  @media(max-width: 767px){
     .sidebar{
       display: none;
     }
-        
-    }
+  }
 
     
   

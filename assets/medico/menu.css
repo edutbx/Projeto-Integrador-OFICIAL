@@ -32,3 +32,9 @@
   .icon {
     margin-right: 10px;
   }
+
+  @media(max-width:767px){
+    .sidebar{
+      display: none;
+    }
+  }

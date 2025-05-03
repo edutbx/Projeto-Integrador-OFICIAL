@@ -11,9 +11,9 @@
 .container-calendario{
     margin: 5rem 0 0 -15rem;
     position: absolute;
-    width: 65vw;
+    width: 50rem;
     margin-top: 5vw;
-    margin-left: 25vw;
+    margin-left: 30vw;
 }
  
 .calendario{
