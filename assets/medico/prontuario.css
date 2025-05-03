@@ -14,9 +14,10 @@ h1 {
     display: flex;
 }
 .container-prontuario{
-    width: 65vw;
+    width: 100%;
     margin-top: 5vw;
-    margin-left: 25vw;
+    margin-left: 30vw;
+    margin-right: 10rem;
 }
 .container-tabela-prontuario{
     margin-top: 40px;
@@ -127,24 +128,4 @@ h1 {
     font-size: 0.93rem;
     font-weight: 500;
     color: #fff;
-}
-
-@media screen and (max-width: 768px) {
-    .container-prontuario {
-        margin-left: 150px;
-        width: 60%;
-        height: auto;
-    }
-    .gender-inputs-prontuario {
-        margin-top: 2rem;
-    }
-    .gender-group-prontuario {
-        flex-direction: column;
-    }
-    .gender-title-prontuario h6 {
-        margin: 0;
-    }
-    .gender-input-prontuario {
-        margin-top: 0.5rem;
-    }
 }

@@ -16,9 +16,10 @@ h1 {
 
 
 .container-consultas{
-    width: 65vw;
+    width: 100%;
     margin-top: 5vw;
-    margin-left: 25vw;
+    margin-left: 30vw;
+    margin-right: 10rem;
 }
 .container-consulta{
     margin-top: 90px;   

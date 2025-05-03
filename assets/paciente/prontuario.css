@@ -15,9 +15,10 @@ h1 {
     display: flex;
 }
 .container-prontuario{
-    width: 65vw;
+    width: 100%;
     margin-top: 5vw;
-    margin-left: 25vw;
+    margin-left: 30vw;
+    margin-right: 10rem;
 }
 .container-tabela-prontuario{
     margin-top: 40px;
