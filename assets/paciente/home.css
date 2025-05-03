@@ -14,7 +14,7 @@ h1 {
 
 .container-body {
     display: flex;
-    width: 100vw;
+    width: auto;
 }
 
 .container-home {
@@ -111,51 +111,9 @@ h1 {
     background-color: #1da9fa;
 }
 
-header{
-    display: none;
-    background-color: #1da9fa;
-}
+
 
 }
-
-.hamburguer{
-    display: none;
-    border: none;
-    background: none;
-    border-top: 3px solid #fff;
-    cursor: pointer;
-}
-
-.hamburguer::before,
-.hamburguer::after{
-    content: " ";
-    display: block;
-    width: 30px;
-    height: 3px;
-    background: #fff;
-    margin-top: 5px;
-    position: relative;
-    transition: 0.3s;
-}
-
-.nav-list{
-    display: none;
-    list-style: none;
-    gap: 32px;
-}
-
-.nav-list a{
-    font-size: 18px;
-    color: #fff;
-    padding-block: 16px;
-}
-
-
-@media (min-width:769px) and (max-width:1600px){
-    .container-home{
-        width: 70vw;
-    }
-  }
 
 
 @media(max-width: 767px){
@@ -171,69 +129,6 @@ header{
         margin: 0;
     }
 
-    .nav {
-        max-width: 1280px;
-        height: 70px;
-        margin-inline: auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .nav-list{
-        z-index: 1;
-        display: flex;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: blueviolet;
-        clip-path: circle(100px at 90% -15%);
-        transition: 1s ease-out;
-
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        gap: 0;
-        pointer-events: none;
-    }
-
-    .nav.active .nav-list{
-        clip-path: circle(1500px at 90% -15%);
-        pointer-events: all;
-    }
-
-    .nav.active .nav-list a{
-        opacity: 1;
-    }
-
-    .nav.active .hamburguer {
-        position: fixed;
-        top: 26px;
-        right: 16px;
-        border-top-color: transparent;
-    }
-
-    .nav.active .hamburguer::before {
-        transform: rotate(135deg);
-    }
-
-    .nav.active .hamburguer::after {
-        transform: rotate(-135deg);
-        top: -7px
-    }
-
-    .nav-list a{
-        font-size: 24px;
-        opacity: 0;
-    }
-
-    
-    .hamburguer{
-        display: block;
-        z-index: 2;
-    }
 
     .container-body {
         display: flex;
@@ -334,10 +229,6 @@ header{
         background-color: #1da9fa;
     }
     
-    header{
-        display: block;
-        padding-inline: 16px;
-        background-color: #1da9fa;
-    }
+   
 }
 

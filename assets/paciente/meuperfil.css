@@ -16,11 +16,10 @@ h1 {
 }
 
 .container-home {
-    display: flex;
-    flex-direction: column;
-    width: 65vw;
+    width: 100%;
     margin-top: 5vw;
-    margin-left: 25vw;
+    margin-left: 30vw;
+    margin-right: 10rem;
 }
 
 .perfil-box {
@@ -53,21 +52,10 @@ h1 {
     color: #333;
     line-height: 1.5;
 }
-
-@media (max-width: 768px) {
-    .container-body {
-        flex-direction: column;
-    }
-
-    .container-home {
-        width: 100%;
-        margin: 0;
-        padding: 2rem;
-    }
-
-    .perfil-box {
-        flex-direction: column;
-    }
+.botao-prontuario{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .botao-prontuario button {
@@ -89,4 +77,21 @@ h1 {
     font-size: 0.93rem;
     font-weight: 500;
     color: #fff;
+}
+
+
+@media (max-width: 768px) {
+    .container-body {
+        flex-direction: column;
+    }
+
+    .container-home {
+        width: 100%;
+        margin: 0;
+        padding: 2rem;
+    }
+
+    .perfil-box {
+        flex-direction: column;
+    }
 }
