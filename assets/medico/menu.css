@@ -1,5 +1,41 @@
+header {
+  display: none;
+}
 
-.sidebar {
+.hamburguer {
+  display: none;
+  border: none;
+  background: none;
+  border-top: 3px solid black;
+  cursor: pointer;
+}
+
+.hamburguer::before,
+.hamburguer::after {
+  content: " ";
+  display: block;
+  width: 30px;
+  height: 3px;
+  background: black;
+  margin-top: 5px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.nav-list {
+  display: none;
+  list-style: none;
+  gap: 32px;
+}
+
+.nav-list a {
+  font-size: 18px;
+  color: #fff;
+  padding-block: 16px;
+}
+
+@media(min-width: 768px) {
+  .sidebar {
     width: 20vw;
     background-color: #ffffff;
     min-height: 100vh;
@@ -9,32 +45,105 @@
     border-radius: 0 1rem 1rem 0;
     position: fixed;
   }
-   
+
   .titulo-nav img {
     width: 140px;
-    margin-bottom: 30px;
   }
-   
+
   .nav-link {
     color: #333;
     font-weight: 500;
-    margin: 10px 0;
+    margin: 8px 0;
     border-radius: 0.5rem;
     transition: background 0.3s ease;
+    height: 6vh;
   }
-   
+
   .nav-link:hover,
   .nav-link.active {
-    background-color:whitesmoke;
-    color:  #00bfa6;
+    background-color: whitesmoke;
+    color:#00bfa6;
   }
-   
+
   .icon {
     margin-right: 10px;
   }
 
-  @media(max-width:767px){
-    .sidebar{
-      display: none;
-    }
+}
+
+@media(max-width: 767px) {
+  .sidebar {
+    display: none;
   }
+
+  .nav {
+    max-width: 1280px;
+    height: 70px;
+    margin-inline: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-list {
+    z-index: 1;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #00bfa6;
+    clip-path: circle(100px at 90% -15%);
+    transition: 1s ease-out;
+
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0;
+    pointer-events: none;
+  }
+
+  .nav.active .nav-list {
+    clip-path: circle(1500px at 90% -15%);
+    pointer-events: all;
+  }
+
+  .nav.active .nav-list a {
+    opacity: 1;
+  }
+
+  .nav.active .hamburguer {
+    position: fixed;
+    top: 26px;
+    right: 16px;
+    border-top-color: transparent;
+  }
+
+  .nav.active .hamburguer::before {
+    transform: rotate(135deg);
+  }
+
+  .nav.active .hamburguer::after {
+    transform: rotate(-135deg);
+    top: -7px
+  }
+
+  .nav-list a {
+    font-size: 24px;
+    opacity: 0;
+  }
+
+
+  .hamburguer {
+    display: block;
+    z-index: 2;
+  }
+
+  header {
+    display: block;
+    padding-inline: 16px;
+  }
+
+
+}
