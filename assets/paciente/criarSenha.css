@@ -24,14 +24,14 @@ body{
 
 .logo{
     position:absolute;
-    top: 2.5rem;
-    left: 4rem;
+    top: 2%;
+    left: 5%;
     display: flex;
     align-items: center;
 }
 
 .logo img{
-    width: 15rem;
+    width: 12rem;
 }
 
 .logo a{
@@ -48,7 +48,6 @@ body{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 7%;
 }
 
 .container h1{
@@ -157,6 +156,30 @@ body{
 .container .links a:hover{
     text-decoration: underline;
 }
+
+.voltar {
+    position: absolute;
+    top: 92%;
+  }
+  
+  /* Estilo do botão "Voltar" */
+  .voltar button {
+    background-color: transparent;
+    border: 2px solid #38B6FF;
+    color:  #38B6FF;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    width: 10rem;
+  }
+  
+  /* Hover do botão "Voltar" */
+  .voltar button:hover {
+    background-color: #1da9fa;
+    color: white;
+  }
 }
 
 /*
@@ -176,7 +199,7 @@ PARA CELULAR
     
     .logo{
         position: absolute;
-        top: 2.5rem;
+        top: 1rem;
         display: flex;
         margin-left: auto;
         margin-right: auto;
@@ -310,4 +333,27 @@ PARA CELULAR
     .container .links a:hover{
         text-decoration: underline;
     }
+
+    .voltar {
+        position: absolute;
+        top: 92%;
+      }
+      
+      /* Estilo do botão "Voltar" */
+      .voltar button {
+        background-color: transparent;
+        border: 2px solid #38B6FF;
+        color:  #38B6FF;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+      }
+      
+      /* Hover do botão "Voltar" */
+      .voltar button:hover {
+        background-color: #1da9fa;
+        color: white;
+      }
 }
