@@ -12,6 +12,8 @@ h1 {
 
 .container-body {
     display: flex;
+    width: auto;
+    height: 110vh;
 }
 
 .container-home {
@@ -47,6 +49,7 @@ h1 {
 
 .cards:hover {
     height: 400px;
+    margin-top: 4rem;
 }
 
 .cards .img-box {
@@ -97,4 +100,23 @@ h1 {
 
 .cards .saiba-mais:hover{
     background: #077b22;
+}
+
+@media(min-width: 992px){
+    .container-home {
+        width: 100vw;
+        margin-top: 5vw;
+        margin-right: 4%;
+    }
+}
+
+@media(max-width: 767px){
+    
+    .container-home {
+        width: 100vw;
+        margin-top: 5vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+   
 }
