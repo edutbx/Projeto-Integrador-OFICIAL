@@ -7,7 +7,7 @@
     font-family: 'Mulish', sans-serif;
 }
 
-@media(min-width: 768px){
+
 h1 {
     text-align: center;
 }
@@ -15,6 +15,7 @@ h1 {
 .container-body {
     display: flex;
 }
+
 .container-vacinas{
     width: 100%;
     margin-top: 5vw;
@@ -22,7 +23,7 @@ h1 {
     margin-right: 10rem;
 }
 .container-vacina{
-    margin-top: 90px;
+    margin-top: 90px;   
     margin-bottom: 90px;
     color: #000;
     display: flex;
@@ -36,7 +37,6 @@ h1 {
 
 .container-vacina table {
     width: 100%;
-    max-width: 800px;
     border-collapse: collapse;
 }
 
@@ -72,7 +72,7 @@ h1 {
 
 .container-vacina table tr td .botao-vacinas {
     font-size: 14px;
-    max-width: 90px;
+    width: 90px;
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -93,15 +93,8 @@ h1 {
 .data-vacinas {
     text-align: center;
 }
-}
-@media (max-width: 767px){
-    h1 {
-        text-align: center;
-    }
-    
-    .container-body {
-        display: flex;
-    }
+
+@media (max-width: 768px){
     .container-vacinas{
         width: 100vw;
         margin-top: 5vw;
@@ -109,78 +102,21 @@ h1 {
         margin-right: auto;
     }
     .container-vacina{
-        margin-top: 90px;   
-        margin-bottom: 90px;
-        color: #000;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        background-color: whitesmoke;
-        padding: 2px 0;
-        border-radius: 20px;
-        box-shadow: 1px 1px 1px 1px rgba(50, 50, 50, 0.77);
         margin-left: 1rem;
         margin-right: 1rem;
     }
-    
-    .container-vacina table {
-        width: 100%;
-        max-width: 800px;
-        border-collapse: collapse;
-    }
-    
+
     .container-vacina table tr th {
         height: 56px;
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: .25px;
-        text-align: center;
-        padding: 0 10px;
-    }
-    
-    .container-vacina table tr.item td {
-        border-bottom: 1px solid #c8cacc;
-        padding: 0 10px;
-    }
-    
-    .container-vacina table tr.item {
-        height: 60px;
+        font-size: 20px;
     }
     
     .container-vacina table tr td.icone {
         display: none;
     }
     
-    .container-vacina table tr td {
-        vertical-align: middle;
-        width: 20%;
-        font-size: 16px;
-        font-weight: 400;
-        letter-spacing: 0.25px;
-    }
-    
     .container-vacina table tr td .botao-vacinas {
-        font-size: 14px;
         width: 70px;
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: #0019ff;
-        border: 2px solid #0019ff;
-        border-radius: 5px;
-        background-color: transparent;
-        padding: 8px 10px;
-        min-height: 20px;
-    }
-    
-    .container-vacina table tr td .botao-vacinas:hover {
-        background-color: #dbdef6;
-    }
-    
-    .data-vacinas {
-        text-align: center;
     }
     
 }

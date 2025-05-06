@@ -7,13 +7,6 @@
     font-family: 'Mulish', sans-serif;
 }
 
-/*
-
-PARA DESKTOP, TABLET E TV
-
-
-*/
-
 @media (min-width: 768px){
 body{
     height: 100vh;

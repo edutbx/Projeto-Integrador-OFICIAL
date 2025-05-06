@@ -7,15 +7,14 @@
     font-family: 'Mulish', sans-serif;
 }
 
-@media(min-width: 768px){
-
 h1 {
     text-align: center;
 }
 
 .container-body {
     display: flex;
-    width: 100vw;
+    width: auto;
+    height: 110vh;
 }
 
 .container-home {
@@ -37,98 +36,6 @@ h1 {
 .cards {
     margin: 1rem;
     width: 16rem;
-    height: 300px;
-    position: relative;
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 1px 1px 1px 1px rgba(50, 50, 50, 0.77);
-    transition: 0.5s;
-}
-
-.cards:hover {
-    height: 400px;
-}
-
-.cards .img-box {
-    position: absolute;
-    width: 250px;
-    height: auto;
-    top: 0px;
-    transition: 0.5s;
-}
-
-.cards:hover .img-box {
-    top: -100px;
-    scale: 0.75;
-}
-
-.cards .img-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.cards .conteudo-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    position: absolute;
-    top: 250px;
-    width: 100%;
-    padding: 0px 30px;
-    text-align: center;
-    height: 40px;
-    overflow: hidden;
-    transition: 0.5s;
-}
-
-.cards:hover .conteudo-cards {
-    top: 130px;
-    height: 250px;
-}
-
-.cards .saiba-mais {
-    background:  #00bfa6;
-    padding: 12px;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 8px;
-}
-
-.cards .saiba-mais:hover{
-    background: #009e8c;
-}
-}
-
-@media(max-width: 767px){
-    
-h1 {
-    text-align: center;
-}
-
-.container-body {
-    display: flex;
-}
-
-.container-home {
-    width: 100vw;
-    margin-top: 5vw;
-    margin-left: auto;
-    margin-right: auto;
-} 
-
-.container-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    min-height: 40vh;
-    margin-top: 55px;
-}
-
-.cards {
-    margin: 1rem;
-    width: 70%;
     height: 300px;
     position: relative;
     background-color: #fff;
@@ -191,4 +98,23 @@ h1 {
 .cards .saiba-mais:hover{
     background: #009e8c;
 }
+
+@media(min-width: 992px){
+    .container-home {
+        width: 100vw;
+        margin-top: 5vw;
+        margin-right: 4%;
+    }
 }
+
+@media(max-width: 767px){
+    
+    .container-home {
+        width: 100vw;
+        margin-top: 5vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+   
+}
+

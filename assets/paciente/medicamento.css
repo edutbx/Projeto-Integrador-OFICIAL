@@ -7,7 +7,7 @@
     font-family: 'Mulish', sans-serif;
 }
 
-@media(min-width: 768px){
+
 h1 {
     text-align: center;
 }
@@ -104,17 +104,8 @@ h1 {
 .medicamento li .deletarMed{
     margin-left: 5px;
 }
-}
-@media (max-width: 767px) {
-    h1 {
-        text-align: center;
-    }
-    
-    .container-body {
-        display: flex;
-    }
-    
-    
+
+@media (max-width: 767px) {    
     .container-medicamento{
         width: 100vw;
         margin-top: 5vw;
@@ -123,84 +114,8 @@ h1 {
     }
     
     .medicamento {    
-        margin-top: 2rem;
-        padding: 40px 32px;
-        border-radius: 8px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         margin-left: 1rem;
         margin-right: 1rem;
     }
     
-    .medicamento input{
-        color: #1d1d1d;
-        font-size: 16px;
-        font-weight: 500;
-        width: 100%;
-        height: 46px;
-        letter-spacing: 0.03rem;
-        border: 1px solid #1d1d1d;
-        background: transparent;
-        outline: none;
-        border-radius: 8px;
-        text-indent: 20px;
-        margin-top: 6px;
-        transition: all 0.3s ease;
-        margin-bottom: 1rem;
-    }
-    
-    .medicamento input:focus{
-       border-color:  #1da9fa;
-    }
-    
-    .medicamento button{
-        width: 25%;
-        background: #38B6FF;
-        color: #fff;
-        border: none;
-        line-height: 35px;
-        font-size: 16px;
-        letter-spacing: 0.025em;
-        cursor: pointer;
-        font-weight: 600;
-        border-radius: 8px;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        transition: all 0.3s ease;
-    }
-    
-    .medicamento button:hover{
-        background: #1da9fa;
-    }
-    
-    .medicamento ul {
-        margin-top: 2rem;
-        padding: 0;
-        list-style-type: none;
-    }
-    
-    .medicamento li {
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 5px;
-        display: flex;
-        justify-content: space-between;
-        background-color: whitesmoke;
-    }
-    
-    .medicamento li:hover{
-        background-color: lightgrey;
-    }
-    
-    .medicamento li span{
-        flex: 1;
-        text-align: left;
-    }
-    
-    .medicamento li button{
-        margin-left: 0.5rem;
-    }
-    
-    .medicamento li .editarMed
-    .medicamento li .deletarMed{
-        margin-left: 5px;
-    }
 }
