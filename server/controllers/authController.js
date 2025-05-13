@@ -83,6 +83,8 @@ exports.registerPaciente = async (req, res) => {
   const t = await sequelize.transaction();
 
   try {
+    console.log("Senha recebida para novo paciente (antes do hash):", senha);
+    
     const existingLogin = await Login.findOne({ where: { CPF: cpfLogin }, transaction: t });
     if (existingLogin) {
       await t.rollback();

@@ -29,8 +29,12 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+const path = require("path");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "public")));
 
 // Rotas
 app.use("/api", pacienteRoutes);

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saúde++ - Sistema Integrado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/paciente/estilo_unificado.css">
+</head>
+<body>
+    <header>
+        <nav class="nav">
+            <a href="#" class="logo"><img src="/assets/img/logocolorida.svg" alt="Logo Saúde++" style="height: auto; width: 100px;"></a>
+            <button class="hamburguer"></button>
+            <ul class="nav-list">
+                <li><a href="#home" class="active">Início</a></li>
+                <li><a href="#consulta">Consulta</a></li>
+                <li><a href="#exame">Exame</a></li>
+                <li><a href="#prontuario">Prontuário</a></li>
+                <li><a href="#vacina">Vacina</a></li>
+                <li><a href="#medicamento">Medicamento</a></li>
+                <li><a href="#calendario">Calendário</a></li>
+                <li><a href="#perfil">Meu Perfil</a></li>
+                <li><a href="/index.html">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container-body">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="titulo-nav text-center">
+                <a href="#"><img src="/assets/img/logocolorida.svg" alt="Logo Saúde++"></a>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link active" href="#home"><i class="fas fa-home"></i> Início</a></li>
+                <li class="nav-item"><a class="nav-link" href="#consulta"><i class="fas fa-calendar-check"></i> Consultas</a></li>
+                <li class="nav-item"><a class="nav-link" href="#exame"><i class="fas fa-vials"></i> Exames</a></li>
+                <li class="nav-item"><a class="nav-link" href="#prontuario"><i class="fas fa-notes-medical"></i> Prontuário</a></li>
+                <li class="nav-item"><a class="nav-link" href="#vacina"><i class="fas fa-syringe"></i> Vacinas</a></li>
+                <li class="nav-item"><a class="nav-link" href="#medicamento"><i class="fas fa-pills"></i> Medicamentos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#calendario"><i class="fas fa-calendar-alt"></i> Calendário</a></li>
+                <li class="nav-item"><a class="nav-link" href="#perfil"><i class="fas fa-user"></i> Meu Perfil</a></li>
+                <li class="nav-item"><a class="nav-link" href="/index.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+            </ul>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="main-content">
+            <!-- Seção Home -->
+            <section id="home" class="content-section active">
+                <h1>Nossos Serviços</h1>
+                <div class="container-cards">
+                    <!-- Cards de serviços (6 cards como no original) -->
+                    <div class="card-service" onclick="showSection('exame')">
+                        <img src="/assets/img/exame.png">
+                        <h3>Exames</h3>
+                        <p>Ver resultados e exames realizados</p>
+                    </div>
+                    <!-- Outros cards... -->
+                </div>
+                
+                <div class="container-artigos">
+                    <h2>Conteúdo Informativo</h2>
+                    <!-- Carrossel de campanhas -->
+                    <div id="campanhasCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="/assets/img/setembro amarelo.jpg" class="d-block w-100">
+                            </div>
+                            <!-- Outros itens do carrossel... -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Consultas -->
+            <section id="consulta" class="content-section">
+                <h1>Consultas</h1>
+                <table class="table-consultas">
+                    <!-- Tabela de consultas como no original -->
+                </table>
+            </section>
+
+            <!-- Seção Exames -->
+            <section id="exame" class="content-section">
+                <h1>Exames</h1>
+                <div class="exame-section">
+                    <h2>Exame de Imagem</h2>
+                    <table>
+                        <!-- Tabela de exames de imagem -->
+                    </table>
+                </div>
+                <div class="exame-section">
+                    <h2>Análises Clínicas</h2>
+                    <table>
+                        <!-- Tabela de análises clínicas -->
+                    </table>
+                </div>
+            </section>
+
+            <!-- Seção Prontuário -->
+            <section id="prontuario" class="content-section">
+                <h1>Prontuário</h1>
+                <form class="prontuario-form">
+                    <!-- Formulário de prontuário como no original -->
+                </form>
+            </section>
+
+            <!-- Seção Vacinas -->
+            <section id="vacina" class="content-section">
+                <h1>Carteira de Vacinação</h1>
+                <table>
+                    <!-- Tabela de vacinas -->
+                </table>
+            </section>
+
+            <!-- Seção Medicamentos -->
+            <section id="medicamento" class="content-section">
+                <h1>Medicamentos</h1>
+                <div class="medicamento-form">
+                    <input type="text" id="medInput" placeholder="Nome do medicamento">
+                    <button onclick="adicionarMed()">Adicionar</button>
+                    <ul id="medList"></ul>
+                </div>
+            </section>
+
+            <!-- Seção Calendário -->
+            <section id="calendario" class="content-section">
+                <h1>Calendário</h1>
+                <div class="calendar">
+                    <!-- Calendário como no original -->
+                </div>
+            </section>
+
+            <!-- Seção Perfil -->
+            <section id="perfil" class="content-section">
+                <h1>Meu Perfil</h1>
+                <div class="perfil-info">
+                    <!-- Informações do perfil como no original -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script>
+        // Função para alternar entre seções
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Atualizar navegação ativa
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`a[href="#${sectionId}"]`).classList.add('active');
+        }
+
+        // Função para adicionar medicamentos
+        function adicionarMed() {
+            const input = document.getElementById('medInput');
+            const lista = document.getElementById('medList');
+            
+            if (input.value.trim() !== '') {
+                const item = document.createElement('li');
+                item.textContent = input.value;
+                lista.appendChild(item);
+                input.value = '';
+            }
+        }
+
+        // Navegação via hash na URL
+        window.addEventListener('hashchange', function() {
+            const sectionId = window.location.hash.substring(1);
+            if (sectionId) showSection(sectionId);
+        });
+
+        // Inicializar com a seção home
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!window.location.hash) {
+                window.location.hash = 'home';
+            } else {
+                const sectionId = window.location.hash.substring(1);
+                showSection(sectionId);
+            }
+        });
+    </script>
+</body>
+</html>

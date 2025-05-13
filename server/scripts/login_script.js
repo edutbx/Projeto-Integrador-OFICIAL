@@ -4,12 +4,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const cpf = document.getElementById('cpf').value;
     const senha = document.getElementById('senha').value;
     const responseMessageDiv = document.getElementById('responseMessage');
-    const userDetailsDiv = document.getElementById('userDetails');
-    const userDetailsContent = document.getElementById('userDetailsContent');
 
     responseMessageDiv.style.display = 'none';
-    userDetailsDiv.style.display = 'none';
-    responseMessageDiv.className = 'message'; 
+    responseMessageDiv.className = 'message';
 
     const data = {
         cpf: cpf,
@@ -30,9 +27,21 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         if (response.ok) {
             responseMessageDiv.textContent = result.message || 'Login bem-sucedido!';
             responseMessageDiv.classList.add('success');
-            userDetailsContent.textContent = JSON.stringify(result.user, null, 2);
-            userDetailsDiv.style.display = 'block';
-            document.getElementById('loginForm').reset(); 
+
+            // Verifica o tipo de usuário e redireciona
+            if (result.user.TipoUsuario === 'paciente') {
+                window.location.href = '/home.html'; // Página do paciente
+            } else if (result.user.TipoUsuario === 'medico') {
+                window.location.href = '/home.html'; // Página do médico
+            } else if (result.user.TipoUsuario === 'gestor') {
+                window.location.href = '/home.html'; // Página do administrador
+            } else {
+                console.error('Tipo de usuário desconhecido:', result.user.tipo);
+                responseMessageDiv.textContent = 'Seu tipo de usuário não tem uma página definida.';
+                responseMessageDiv.classList.add('error');
+            }
+
+            document.getElementById('loginForm').reset();
         } else {
             responseMessageDiv.textContent = result.message || 'Erro ao tentar fazer login.';
             responseMessageDiv.classList.add('error');
