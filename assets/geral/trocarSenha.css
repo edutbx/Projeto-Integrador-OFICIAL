@@ -7,16 +7,9 @@
     font-family: 'Mulish', sans-serif;
 }
 
-/*
-
-PARA DESKTOP, TABLET E TV
-
-
-*/
-
 @media (min-width: 768px){
 body{
-    height: 100vh;
+    height: 110vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -159,7 +152,7 @@ body{
 
 .voltar {
     position: absolute;
-    top: 92%;
+    top: 105%;
   }
   
   /* Estilo do botão "Voltar" */
@@ -199,7 +192,7 @@ PARA CELULAR
     
     .logo{
         position: absolute;
-        top: 1rem;
+        top: 0;
         display: flex;
         margin-left: auto;
         margin-right: auto;
@@ -336,7 +329,7 @@ PARA CELULAR
 
     .voltar {
         position: absolute;
-        top: 92%;
+        top: 98%;
       }
       
       /* Estilo do botão "Voltar" */

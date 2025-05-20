@@ -7,8 +7,14 @@
     font-family: 'Mulish', sans-serif;
 }
 
+/*
 
-@media(min-width: 768px){
+PARA DESKTOP, TABLET E TV
+
+
+*/
+
+@media (min-width: 768px){
 body{
     height: 100vh;
     display: flex;
@@ -18,7 +24,7 @@ body{
 
 .logo{
     position:absolute;
-    top: 2%;
+    top: 5%;
     left: 5%;
     display: flex;
     align-items: center;
@@ -28,14 +34,14 @@ body{
     width: 12rem;
 }
 
-.logo a {
+.logo a{
     font-size: 24px;
     font-weight: bold;
     text-decoration: none;
     color: #464646;
 }
 
-.container {
+.container{
     width: 440px;
     padding: 40px 32px;
     border-radius: 8px;
@@ -92,7 +98,7 @@ body{
 }
 
 .container form .custome-input input:focus{
-    border-color:  #077b22;
+    border-color:  #1da9fa;
 }
 
 .container form .custome-input i{
@@ -104,13 +110,13 @@ body{
 }
 
 .container form .custome-input input:focus + i{
-    color: #077b22;
+    color:  #1da9fa;
 }
 
 .container form .login{
     width: 100%;
     margin-top: 30px;
-    background: #0a8f2a;
+    background: #38B6FF;
     color: #fff;
     border: none;
     line-height: 50px;
@@ -124,7 +130,7 @@ body{
 }
 
 .container form .login:hover{
-    background: #077b22;
+    background:  #1da9fa;
 }
 
 .container .login a{
@@ -139,12 +145,12 @@ body{
 }
 
 .container .links a{
-    color: #077b22;
+    color:  #1da9fa;
     font-weight: 600;
     font-size: 1rem;
     text-decoration: none;
     text-underline-offset: 6px;
-    text-decoration-color: #077b22;
+    text-decoration-color: #1da9fa;
 }
 
 .container .links a:hover{
@@ -159,8 +165,8 @@ body{
   /* Estilo do botão "Voltar" */
   .voltar button {
     background-color: transparent;
-    border: 2px solid  #0a8f2a;
-    color:  #0a8f2a;
+    border: 2px solid #38B6FF;
+    color:  #38B6FF;
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
@@ -171,13 +177,19 @@ body{
   
   /* Hover do botão "Voltar" */
   .voltar button:hover {
-    background-color:  #077b22;
+    background-color: #1da9fa;
     color: white;
   }
-
 }
 
-@media(max-width:767px){
+/*
+
+
+PARA CELULAR
+
+
+*/
+@media(max-width: 767px ){
     body{
         height: 100vh;
         display: flex;
@@ -185,7 +197,7 @@ body{
         justify-content: center;
     }
     
-    .logo {
+    .logo{
         position: absolute;
         top: 1rem;
         display: flex;
@@ -193,19 +205,19 @@ body{
         margin-right: auto;
         align-items: center;
     }
-
-    .logo img {
+    
+    .logo img{
         width: 10rem;
     }
-
-    .logo a {
+    
+    .logo a{
         font-size: 24px;
         font-weight: bold;
         text-decoration: none;
         color: #464646;
     }
-
-    .container {
+    
+    .container{
         width: auto;
         margin-top: 8%;
         margin-left: auto;
@@ -263,7 +275,7 @@ body{
     }
     
     .container form .custome-input input:focus{
-        border-color:  #077b22;
+        border-color:  #1da9fa;
     }
     
     .container form .custome-input i{
@@ -275,13 +287,13 @@ body{
     }
     
     .container form .custome-input input:focus + i{
-        color: #077b22;
+        color:  #1da9fa;
     }
     
     .container form .login{
         width: 100%;
         margin-top: 30px;
-        background: #0a8f2a;
+        background: #38B6FF;
         color: #fff;
         border: none;
         line-height: 50px;
@@ -295,7 +307,7 @@ body{
     }
     
     .container form .login:hover{
-        background: #077b22;
+        background:  #1da9fa;
     }
     
     .container .login a{
@@ -310,12 +322,12 @@ body{
     }
     
     .container .links a{
-        color: #077b22;
+        color:  #1da9fa;
         font-weight: 600;
-        font-size: 1rem;
+        font-size: 0.7rem;
         text-decoration: none;
         text-underline-offset: 6px;
-        text-decoration-color: #077b22;
+        text-decoration-color: #1da9fa;
     }
     
     .container .links a:hover{
@@ -330,8 +342,8 @@ body{
       /* Estilo do botão "Voltar" */
       .voltar button {
         background-color: transparent;
-        border: 2px solid  #0a8f2a;
-        color:   #0a8f2a;
+        border: 2px solid #38B6FF;
+        color:  #38B6FF;
         padding: 8px 16px;
         border-radius: 8px;
         cursor: pointer;
@@ -341,7 +353,7 @@ body{
       
       /* Hover do botão "Voltar" */
       .voltar button:hover {
-        background-color: #077b22;
+        background-color: #1da9fa;
         color: white;
       }
 }
