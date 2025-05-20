@@ -26,7 +26,7 @@
 }
  
 body{
-    background: #f1f1f1;
+    background: #ffffff;
 }
  
 h2{
@@ -133,5 +133,16 @@ h2{
     background: #f9f9f9;
 }
 
+.container-calendario .calendario > header {
+    display: block !important;
+}
+
+#dias{
+    background-color: #ffffff;
+}
+
+#diasSemana{
+    background-color:#33BDE5;
+}
 
 
