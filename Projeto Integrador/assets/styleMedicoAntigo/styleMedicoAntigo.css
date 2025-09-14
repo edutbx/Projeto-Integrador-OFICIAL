@@ -1,0 +1,195 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+}
+
+/*CSS HEADER MEDICO*/
+
+header{
+    background: linear-gradient(90deg, #80d0c7, #b9d8eb);
+}
+
+main{
+  flex: 1;
+}
+
+.nav{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 15vh;
+}
+
+.imgLogo {
+  width: 216.19px;
+  height: 48px;
+}
+
+/*CSS MAIN MEDICO*/
+
+.containerMain {
+  background-color: #ffffff;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+}
+
+.containerMainDiv1{
+  width: 100%;
+  height: 50%;
+  padding-top: 3%;
+}
+
+.consultas{
+  width: 100%;
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.consultaCaixa{
+  width: 22%;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 16px;
+  color: #fff;
+  font-family: sans-serif;
+  font-weight: 500;
+  padding: 10px;
+  text-align: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.consultaCaixa small {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.consultaCaixa strong {
+  margin-top: 5px;
+  font-size: 1.1rem;
+}
+
+.consultaCaixa:nth-child(1) {
+  background-color: #57C9C6;
+}
+.consultaCaixa:nth-child(2) {
+  background-color: #80E0A8; 
+}
+.consultaCaixa:nth-child(3) {
+  background-color: #F7B267; 
+}
+.consultaCaixa:nth-child(4) {
+  background-color: #F4A261;
+}
+
+.containerMainDiv2{
+  background: linear-gradient(90deg, #80d0c7, #0093e9);
+  width: 100%;
+  height: 35vh;
+  border: 4px dashed #ccc;
+  border-radius: 20px;
+  color: #fff;
+  font-family: sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.logout {
+  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.logout:hover {
+  background: linear-gradient(90deg, #ff4e4e, #ff7043);
+  transform: scale(1.05);
+}
+
+.logout:active {
+  transform: scale(0.95);
+}
+
+
+
+
+/*CSS FOOTER MEDICO*/
+
+footer {
+  background-color: #3C58A2;
+  position: relative;
+  height: auto;
+  width: 100%;
+  max-width: 100%;
+}
+
+.containerFooter {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 20px;
+}
+
+.listasFooter {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ulFooter {
+  display: flex;
+  list-style-type: none;
+  flex-direction: column;
+}
+
+.liFooter {
+  margin: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+  color: white;
+  text-decoration: none;
+}
+
+.liFooter:hover {
+  color: #FFC966;
+  font-size: 20px;
+}
+
+.tituloFooter {
+  font-weight: bold;
+  color: #FFC966;
+}
+
+.pFooter {
+  background-color: #3C58A2;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  padding: 30px;
+  border-top: 5px solid white;
+  color: white;
+}
