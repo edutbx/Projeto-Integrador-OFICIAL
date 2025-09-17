@@ -1,0 +1,23 @@
+main{
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.prontuarioPaciente {
+  width: 40%;
+  min-height: 45vh;
+  background: #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+
+}
+
+.botoes{
+    display: flex;
+    height: auto;
+    gap: 100px;
+    flex-direction: column;
+}
+
