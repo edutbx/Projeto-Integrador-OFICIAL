@@ -47,7 +47,7 @@
                 <button type="button" id="interpretarBtn" class="interpretar iniciar-consulta">Interpretar prontuário</button>
             </form>
         </div>
-        <pre id="jsonResult" style="background:#f4f4f4;padding:10px;"></pre>
+    <div id="respostaIA" style="background:#232946;color:#f4faff;padding:16px;border-radius:10px;min-height:120px;font-size:1.1em;"></div>
 
     </main>
     <a href="/medico"><button class="logout">voltar</button></a>
@@ -67,7 +67,21 @@ document.getElementById('interpretarBtn').onclick = async function() {
         body: formData
     });
     const result = await response.json();
-    document.getElementById('jsonResult').textContent = JSON.stringify(result, null, 2);
+    let resposta = '';
+    if (result.respostaIA) {
+        try {
+            // Tenta extrair o campo 'resposta' do JSON retornado pela IA
+            const iaObj = JSON.parse(result.respostaIA);
+            resposta = iaObj.resposta || result.respostaIA;
+        } catch (e) {
+            resposta = result.respostaIA;
+        }
+    } else if (result.erroIA) {
+        resposta = result.erroIA;
+    } else {
+        resposta = 'Nenhuma resposta da IA.';
+    }
+    document.getElementById('respostaIA').textContent = resposta;
 };
 </script>
 
