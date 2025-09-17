@@ -57,6 +57,14 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+<<<<<<< HEAD
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.30</version>
+        </dependency>
+=======
+>>>>>>> 21d6db1733199bba27884aab4d8dc4ad4fed399f
     </dependencies>
 
     <build>
