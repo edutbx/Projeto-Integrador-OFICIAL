@@ -1,4 +1,4 @@
-package com.br.iasaude.saudemais.Controller;
+package com.br.iasaude.saudemais.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,8 +8,6 @@ import org.springframework.util.StringUtils;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-// PDFBox import
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
