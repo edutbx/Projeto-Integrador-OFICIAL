@@ -1,3 +1,4 @@
+// Controller responsável por interpretar arquivos PDF enviados via API
 package com.br.iasaude.saudemais.controller;
 
 import org.springframework.http.MediaType;
@@ -21,23 +22,30 @@ import org.apache.pdfbox.text.PDFTextStripper;
 @RestController
 @RequestMapping("/api")
 public class PdfController {
+    // Logger para registrar informações no console
     private static final Logger logger = LoggerFactory.getLogger(PdfController.class);
+
+    // Endpoint para interpretar PDF enviado via multipart/form-data
     @PostMapping(value = "/interpretar-pdf", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> interpretarPdf(@RequestParam("file") MultipartFile file) throws IOException {
         Map<String, Object> result = new HashMap<>();
         String filename = file.getOriginalFilename();
+        // Validação do arquivo recebido
         if (file.isEmpty() || filename == null || !"pdf".equalsIgnoreCase(StringUtils.getFilenameExtension(filename))) {
             result.put("error", "Arquivo inválido");
             return ResponseEntity.badRequest().body(result);
         }
         String text = null;
+        // Extração do texto do PDF
         try (PDDocument document = PDDocument.load(file.getInputStream())) {
             PDFTextStripper stripper = new PDFTextStripper();
             text = stripper.getText(document);
             logger.info("Texto extraído do PDF: {}", text);
             result.put("conteudoExtraido", text);
         }
+        // Se não houver texto extraído, retorna erro
         if (text == null || text.trim().isEmpty()) {
+// (Removido bloco duplicado e corrigido)
             logger.warn("Texto extraído do PDF está vazio ou nulo. Não será enviada requisição para IA.");
             result.put("erroIA", "Texto extraído do PDF está vazio ou nulo.");
             return ResponseEntity.ok(result);

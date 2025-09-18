@@ -1,0 +1,40 @@
+# Comandos do Projeto - Projeto-Integrador-OFICIAL
+
+Abaixo estão os principais comandos para rodar o projeto e suas descrições:
+
+---
+
+## 1. Iniciar o servidor Spring Boot (modo normal)
+
+```
+mvn spring-boot:run
+```
+- Inicia o backend Java normalmente, exigindo autenticação nas páginas protegidas.
+- O terminal ficará rodando até você interromper (Ctrl+C).
+
+---
+
+## 2. Iniciar o servidor Spring Boot (modo desenvolvimento - sem autenticação)
+
+```
+mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
+```
+- Inicia o backend Java liberando o acesso a todas as páginas, sem exigir login.
+- Útil para desenvolvimento e testes rápidos.
+
+---
+
+## 3. Iniciar a IA (Inteligência Artificial)
+
+Abra o terminal na pasta:
+```
+src\main\resources\ia-integration
+```
+E execute:
+```
+python -m uvicorn saude_mais:app --host 0.0.0.0 --port 8000
+```
+- Inicia o servidor FastAPI da IA na porta 8000.
+- O terminal ficará rodando até você interromper (Ctrl+C).
+
+---

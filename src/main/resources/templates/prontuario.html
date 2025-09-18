@@ -1,3 +1,16 @@
+<script src="/js/auth.js"></script>
+<script>
+// Detecta perfil dev automaticamente via endpoint
+fetch('/api/profile')
+    .then(r => r.json())
+    .then(profile => {
+        window.perfilDevAtivo = !!profile.dev;
+        protegerPagina();
+        // Exemplo: carregar dados protegidos se necessário
+        // const token = getToken();
+        // if (token || window.perfilDevAtivo) { ... }
+    });
+</script>
 </html>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -6,14 +19,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Médico</title>
+    <!-- Importa os estilos do prontuário -->
     <link rel="stylesheet" href="/CSS/styleMedico/styleMedicoGenerico.css">
     <link rel="stylesheet" href="/CSS/styleMedico/styleProntuario.css">
 </head>
 
 <body>
 
+    <!-- Cabeçalho com informações do médico -->
     <header>
-    <img src="/img/Logo.png" alt="Logo Saúde++" class="logo">
+        <img src="/img/Logo.png" alt="Logo Saúde++" class="logo">
         <div class="perfil">
             <div class="perfil-info">
                 <p>Guilerme Celho Pix</p>
@@ -24,6 +39,7 @@
         </div>
     </header>
 
+    <!-- Área principal do prontuário do paciente -->
     <main>
         <div class="prontuarioPaciente">
             <h2>Prontuário do Paciente</h2>

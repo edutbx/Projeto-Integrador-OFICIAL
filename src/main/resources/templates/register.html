@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/CSS/styleLogin/styleLogin.css">
+    <title>Cadastro de Usuário</title>
+</head>
+<body>
+    <header>
+        <nav class="nav">
+            <img src="/img/Logo.png" alt="Logo Saúde++" class="imgLogo">
+        </nav>
+    </header>
+    <div class="container">
+        <div class="container1">
+            <h1>Crie sua conta</h1>
+            <a href="/login"><button class="btn-criarConta">Já tenho conta</button></a>
+        </div>
+        <div class="container2">
+            <div class="login-container">
+                <h2>Cadastro</h2>
+                <form id="registerForm">
+                    <div class="divInput">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" placeholder="Digite seu nome" required><br><br>
+                        <label for="crm">CRM</label>
+                        <input type="text" id="crm" placeholder="Digite seu CRM" required><br><br>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Digite seu email" required><br><br>
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" placeholder="Digite sua senha" required>
+                    </div>
+                    <button type="submit" class="btn-login">Cadastrar</button>
+                </form>
+                <div id="registerMsg"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+    // Lógica de cadastro via API
+    document.getElementById('registerForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const nome = document.getElementById('nome').value;
+        const crm = document.getElementById('crm').value;
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        const msg = document.getElementById('registerMsg');
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, crm, email, senha })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                msg.innerHTML = '<span style="color:green">Cadastro realizado! Faça login.</span>';
+                setTimeout(() => window.location.href = '/login.html', 1500);
+            } else {
+                msg.innerHTML = '<span style="color:red">' + (data.error || 'Erro ao cadastrar') + '</span>';
+            }
+        } catch (err) {
+            msg.innerHTML = '<span style="color:red">Erro ao cadastrar</span>';
+        }
+    });
+    </script>
+</body>
+</html>

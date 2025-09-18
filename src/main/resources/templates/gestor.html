@@ -1,17 +1,32 @@
+<script src="/js/auth.js"></script>
+<script>
+// Detecta perfil dev automaticamente via endpoint
+fetch('/api/profile')
+    .then(r => r.json())
+    .then(profile => {
+        window.perfilDevAtivo = !!profile.dev;
+        protegerPagina();
+        // Exemplo: carregar dados protegidos se necessário
+        // const token = getToken();
+        // if (token || window.perfilDevAtivo) { ... }
+    });
+</script>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Importa o CSS específico do painel do gestor -->
     <link rel="stylesheet" href="/CSS/styleGestor/styleGestor.css">
     <title>Painel gestor</title>
 </head>
 
 <body>
     <main>
+        <!-- Menu lateral com informações do gestor -->
         <div class="headerVertical">
-                <img src="/img/Logo.png" alt="logo" class="imgLogo">
+            <img src="/img/Logo.png" alt="logo" class="imgLogo">
             <ul>
                 <li class="liHeaderGestor">Nome gestor</li>
                 <li class="liHeaderGestor">CPF gestor</li>
@@ -20,31 +35,32 @@
             </ul>
         </div>
 
-        <!-- ///////////////////////////////////////////////////// -->
-
+        <!-- Área principal com os serviços oferecidos -->
         <div class="container">
+            <!-- Título e ícone dos serviços -->
             <p class="nossosServicos">Nossos serviços <img src="/img/bonecosLogo.png" alt="" style="height: 30px"></p>
             <div class="containerCard">
+                <!-- Card 1: Padronização inteligente -->
                 <div class="card">
                     <img src="/img/Imagem card 1 Nossos Serviços.png" alt="Nossos serviços 1" class="fotosCard">
                     <div class="divCard">
                         <h2>Padronização</h2>
                         <h2>inteligente</h2>
                     </div>
-                    <p class="pCard">A IA padroniza os prontuários, garantindo clareza e redução de erros nos registros
-                        médicos.</p>
+                    <p class="pCard">A IA padroniza os prontuários, garantindo clareza e redução de erros nos registros médicos.</p>
                 </div>
 
+                <!-- Card 2: Agilidade nos processos -->
                 <div class="card">
                     <img src="/img/Card 2 Nossos Serviços (2).png" alt="Nossos serviços 2" class="fotosCard">
                     <div class="divCard">
                         <h2>Agilidade</h2>
                         <h2>nos processos</h2>
                     </div>
-                    <p class="pCard">Processamento rápido e confiável dos prontuários, economizando tempo e recursos.
-                    </p>
+                    <p class="pCard">Processamento rápido e confiável dos prontuários, economizando tempo e recursos.</p>
                 </div>
 
+                <!-- Card 3: Segurança e confiabilidade -->
                 <div class="card">
                     <img src="/img/Card 3 Nossos Serviços.png" alt="Nossos serviços 3" class="fotosCard">
                     <div class="divCard">
