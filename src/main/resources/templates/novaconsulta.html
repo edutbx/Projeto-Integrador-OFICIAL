@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Médico</title>
+    <link rel="stylesheet" href="/CSS/styleMedico/styleNovaConsulta.css">
+    <link rel="stylesheet" href="/CSS/styleMedico/styleMedicoGenerico.css">
+</head>
+<body>
+    <header>
+        <img src="/img/Logo.png" alt="Logo Saúde++" class="logo">
+        <div class="perfil">
+            <div class="perfil-info">
+                <p>Guilerme Celho Pix</p>
+                <p>CRM:345678987654</p>
+                <p>Especialidade</p>
+            </div>
+            <img src="/img/icon.png" alt="" class="perfil-foto" style="height: 50px;">
+        </div>
+    </header>
+
+    <main class="containerMain">
+        <div class="containerMainDiv1" style="display: flex; flex-direction: column; align-items: center;">
+            <input
+                type="text"
+                class="procuraPaciente"
+                name="cpfPaciente"
+                id="cpfPaciente"
+                placeholder="Insira o CPF do paciente"
+                style="width: 450px; padding: 18px; border-radius: 30px; border: 3px solid #4d97e4; font-size: 1.1rem; margin: 40px 0 60px 0; outline: none; color: #4d97e4; text-align: center; font-weight: 500;"
+            />
+            <a href="/prontuario" class="iniciar-consulta" style="width: 600px; display: block; text-align: center; margin: 0 auto; font-size: 1.2rem;">
+                Iniciar consulta
+            </a>
+        </div>
+        <a href="/medico"><button class="logout" style="position: fixed; left: 40px; bottom: 40px;">voltar</button></a>
+    </main>
+    
+</body>
+</html>

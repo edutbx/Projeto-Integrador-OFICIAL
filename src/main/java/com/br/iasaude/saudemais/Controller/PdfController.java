@@ -25,7 +25,8 @@ public class PdfController {
     @PostMapping(value = "/interpretar-pdf", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, Object>> interpretarPdf(@RequestParam("file") MultipartFile file) throws IOException {
         Map<String, Object> result = new HashMap<>();
-        if (file.isEmpty() || !StringUtils.getFilenameExtension(file.getOriginalFilename()).equalsIgnoreCase("pdf")) {
+        String filename = file.getOriginalFilename();
+        if (file.isEmpty() || filename == null || !"pdf".equalsIgnoreCase(StringUtils.getFilenameExtension(filename))) {
             result.put("error", "Arquivo inválido");
             return ResponseEntity.badRequest().body(result);
         }

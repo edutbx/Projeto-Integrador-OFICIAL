@@ -32,13 +32,16 @@ public class appController {
         return "medicoAntigo";
     }
 
-    @GetMapping("/medicoSemHoraMarcada")
-    public String medicoSemHoraMarcada() {
-        return "medicoSemHoraMarcada";
-    }
+    // Redirecionamento antigo removido
 
     @GetMapping("/prontuario")
     public String prontuario() {
         return "prontuario";
     }
+
+    @GetMapping("/novaConsulta")
+    public String novaConsulta() {
+        return "novaConsulta";
+    }
+
 }

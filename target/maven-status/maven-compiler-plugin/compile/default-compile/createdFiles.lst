@@ -1,0 +1,4 @@
+com\br\iasaude\saudemais\controller\PdfController.class
+com\br\iasaude\saudemais\controller\appController.class
+com\br\iasaude\saudemais\config\SecurityConfig.class
+com\br\iasaude\saudemais\SaudeApplication.class
