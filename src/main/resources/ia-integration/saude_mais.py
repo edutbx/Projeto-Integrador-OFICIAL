@@ -35,13 +35,21 @@ def get_jwt():
 
 @app.post("/chat")
 async def chat(request: Request):
+	import datetime
 	body_raw = await request.body()
-	print("Corpo recebido:", body_raw)
 	try:
 		body = json.loads(body_raw)
 	except Exception as e:
 		print("Erro ao fazer parsing do JSON:", e)
 		return {"erro": "JSON inválido", "corpo": body_raw.decode('utf-8', errors='replace')}
+	# Extrai nome do paciente do JSON recebido
+	nome_paciente = None
+	if isinstance(body.get("user_prompt"), dict):
+		nome_paciente = body["user_prompt"].get("nome")
+	if not nome_paciente:
+		nome_paciente = body.get("nome", "Desconhecido")
+	horario = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+	print(f"Mensagem recebida de {nome_paciente} às {horario}")
 	user_prompt = body.get("user_prompt")
 	if isinstance(user_prompt, dict):
 		user_prompt = "\n".join([f"{k}: {v}" for k, v in user_prompt.items()])
@@ -57,17 +65,15 @@ async def chat(request: Request):
 		"return_ks_in_response": True
 	}
 	response = requests.post(AGENT_URL, json=data, headers=headers)
-	print("Resposta bruta da Stackspot:", response.text)
-	result = []
-	for line in response.text.splitlines():
-		if line.strip():
-			try:
-				# Remove prefixo 'data: ' se existir
-				if line.startswith('data: '):
-					line = line[len('data: '):]
-				json_line = json.loads(line)
-				if 'message' in json_line:
-					result.append(json_line['message'])
-			except Exception:
-				continue
-	return {"resposta": "".join(result)}
+	# Monta o texto formatado igual ao terminal
+	texto_formatado = "Mensagem enviada ao agente:\n"
+	for k, v in data.items():
+		if isinstance(v, str) and '\n' in v:
+			texto_formatado += f"{k}:\n"
+			for linha in v.splitlines():
+				texto_formatado += f"  {linha}\n"
+		else:
+			texto_formatado += f"{k}: {v}\n"
+	print(texto_formatado.rstrip())
+	# Retorna o mesmo texto para o frontend
+	return {"resposta": texto_formatado.rstrip()}

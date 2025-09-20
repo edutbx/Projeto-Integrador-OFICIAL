@@ -1,22 +1,71 @@
-main{
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
+main {
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start; /* empurra o conteúdo para a esquerda */
+  gap: 40px;
 }
 
 .prontuarioPaciente {
   width: 40%;
+  min-width: 320px;
   min-height: 45vh;
   background: #e0e0e0;
   border-radius: 10px;
   padding: 20px;
-
 }
 
-.botoes{
-    display: flex;
-    height: auto;
-    gap: 100px;
-    flex-direction: column;
+/* Agrupa botões e resposta da IA em uma coluna */
+.botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 320px;
+  align-items: stretch;
+  margin-left: 300px; /* desloca ainda mais à direita */
+}
+
+/* Botão voltar fixo no canto inferior esquerdo */
+.voltar-fixo {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 100;
+}
+
+/* Ajuste visual para o botão logout */
+.logout {
+  padding: 10px 24px;
+  border-radius: 8px;
+  background: #232946;
+  color: #f4faff;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.logout:hover {
+  background: #1a1a2e;
+}
+
+/* Estilo para o campo de resposta da IA */
+.resposta-ia {
+  background: #232946;
+  color: #f4faff;
+  padding: 24px 32px;
+  border-radius: 14px;
+  min-height: 60px;
+  font-size: 1.1em;
+  margin-top: 24px;
+  white-space: pre-line; /* Mantém quebras de linha do texto */
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10), 0 1.5px 4px 0 rgba(0,0,0,0.10);
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: auto;
 }

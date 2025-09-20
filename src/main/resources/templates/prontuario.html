@@ -57,49 +57,57 @@ fetch('/api/profile')
         </div>
 
         <div class="botoes">
-            <a href="#" class="consultar iniciar-consulta">Consultar prontuários antigos</a>
-            <form id="pdfForm" enctype="multipart/form-data">
+            <!-- Botão consultar prontuários antigos (agora acima) -->
+            <button type="button" id="consultarBtn" class="consultar iniciar-consulta">Consultar prontuários antigos</button>
+            <!-- Botão interpretar prontuário -->
+            <button type="button" id="interpretarBtn" class="interpretar iniciar-consulta">Interpretar prontuário</button>
+            <!-- Campo para escolher o arquivo, agora abaixo do interpretar -->
+            <form id="pdfForm" enctype="multipart/form-data" style="margin:0;">
                 <input type="file" id="pdfFile" name="file" accept="application/pdf" required>
-                <button type="button" id="interpretarBtn" class="interpretar iniciar-consulta">Interpretar prontuário</button>
             </form>
+            <!-- Campo para exibir apenas o texto editado pela IA (como texto comum) -->
+            <div id="respostaIA" class="resposta-ia"></div>
         </div>
-    <div id="respostaIA" style="background:#232946;color:#f4faff;padding:16px;border-radius:10px;min-height:120px;font-size:1.1em;"></div>
 
-    </main>
-    <a href="/medico"><button class="logout">voltar</button></a>
+        <!-- Botão voltar fixo no canto inferior esquerdo -->
+        <a href="/medico" class="voltar-fixo"><button class="logout">voltar</button></a>
 
-
-     <script>
-document.getElementById('interpretarBtn').onclick = async function() {
-    const form = document.getElementById('pdfForm');
-    const fileInput = document.getElementById('pdfFile');
-    if (!fileInput.files.length) {
-        alert('Selecione um arquivo PDF!');
-        return;
-    }
-    const formData = new FormData(form);
-    const response = await fetch('/api/interpretar-pdf', {
-        method: 'POST',
-        body: formData
-    });
-    const result = await response.json();
-    let resposta = '';
-    if (result.respostaIA) {
-        try {
-            // Tenta extrair o campo 'resposta' do JSON retornado pela IA
-            const iaObj = JSON.parse(result.respostaIA);
-            resposta = iaObj.resposta || result.respostaIA;
-        } catch (e) {
-            resposta = result.respostaIA;
+    <!-- Script responsável por exibir a mensagem original e a interpretada pela IA -->
+    <script>
+    // Função para exibir apenas o texto editado pela IA (como texto comum)
+    document.getElementById('interpretarBtn').onclick = async function() {
+        const form = document.getElementById('pdfForm');
+        const fileInput = document.getElementById('pdfFile');
+        if (!fileInput.files.length) {
+            alert('Selecione um arquivo PDF!');
+            return;
         }
-    } else if (result.erroIA) {
-        resposta = result.erroIA;
-    } else {
-        resposta = 'Nenhuma resposta da IA.';
-    }
-    document.getElementById('respostaIA').textContent = resposta;
-};
-</script>
+        const formData = new FormData(form);
+        // Envia o PDF para o backend
+        const response = await fetch('/api/interpretar-pdf', {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+
+        // Exibe apenas a resposta interpretada pela IA, como texto comum
+        let resposta = '';
+        if (result.respostaIA) {
+            try {
+                // Tenta extrair o campo 'resposta' do JSON retornado pela IA
+                const iaObj = JSON.parse(result.respostaIA);
+                resposta = iaObj.resposta || result.respostaIA;
+            } catch (e) {
+                resposta = result.respostaIA;
+            }
+        } else if (result.erroIA) {
+            resposta = result.erroIA;
+        } else {
+            resposta = 'Nenhuma resposta da IA.';
+        }
+        document.getElementById('respostaIA').textContent = resposta;
+    };
+    </script>
 
 </body>
 
