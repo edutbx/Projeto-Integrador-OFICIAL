@@ -17,9 +17,35 @@ A pasta `auth` implementa toda a lógica de autenticação e autorização do si
   - `CustomUserDetailsService.java`: Implementação de UserDetailsService para autenticação Spring Security.
   - `DatabaseSeeder.java`: Classe utilitária para popular o banco de dados com usuários iniciais.
 
+
 ## O que faz
 - Permite login, registro, troca e reset de senha, deleção de usuários e geração/validação de JWT.
 - Garante autenticação segura via Spring Security.
+
+---
+
+## Guia rápido: Banco de Dados de Usuários
+
+O sistema utiliza um banco de dados (MongoDB) para armazenar os dados dos usuários, incluindo nome, CRM, email, senha (criptografada) e permissões (roles).
+
+### Como funciona
+- O repositório `UserRepository.java` faz a ponte entre a aplicação e o banco de dados.
+- As operações de login, registro, deleção e alteração de senha interagem com o banco via este repositório.
+- O modelo `Usuario.java` representa a estrutura dos dados salvos.
+
+### Como usar
+1. **Cadastro de usuário**: Ao registrar um novo usuário pelo endpoint de registro, os dados são salvos automaticamente no banco.
+2. **Login**: O sistema busca o usuário pelo CRM/email e valida a senha criptografada.
+3. **Alteração/Reset de senha**: Atualiza o campo de senha no banco, sempre de forma criptografada.
+4. **Deleção de usuário**: Remove o registro do usuário do banco.
+
+### Dicas para desenvolvedores
+- Para visualizar ou manipular os dados, use uma ferramenta como MongoDB Compass ou comandos do Mongo Shell.
+- O banco é configurado via a string de conexão em `application.properties`:
+  ```
+  spring.data.mongodb.uri=mongodb://localhost:27017/saude
+  ```
+- Para popular o banco com usuários iniciais, utilize a classe `DatabaseSeeder.java`.
 
 ---
 

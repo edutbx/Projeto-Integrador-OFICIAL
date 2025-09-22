@@ -1,15 +1,37 @@
-# Pasta config
 
-A pasta `config` contém as classes de configuração do Spring Boot para segurança e autenticação do sistema.
+# Configuração de Segurança e Autenticação (config)
 
-## Arquivos
-- `SecurityConfig.java`: Configura as regras de segurança da aplicação, define endpoints públicos/protegidos, integra o filtro JWT e configura o encoder de senhas.
-- `JwtAuthenticationFilter.java`: Filtro que intercepta requisições, valida o token JWT e autentica o usuário no contexto do Spring Security.
+A pasta `config` centraliza as classes responsáveis pela configuração de segurança do sistema usando Spring Boot e Spring Security.
 
-## O que faz
-- Define quais endpoints exigem autenticação e quais são públicos.
-- Aplica o filtro JWT para autenticação baseada em token.
-- Permite configuração diferenciada para ambiente de desenvolvimento (`dev`).
+## Como funciona a configuração
+
+1. **Definição de regras de segurança**
+	- A classe `SecurityConfig.java` define quais endpoints da API são públicos (ex: login, registro) e quais exigem autenticação.
+	- Permite customizar regras para diferentes ambientes (ex: liberar tudo em `dev`).
+
+2. **Filtro de autenticação JWT**
+	- O `JwtAuthenticationFilter.java` intercepta todas as requisições HTTP.
+	- Ele extrai o token JWT do header Authorization, valida o token e, se válido, autentica o usuário no contexto do Spring Security.
+
+3. **Encoder de senhas**
+	- O encoder de senhas garante que as senhas sejam armazenadas e comparadas de forma segura (ex: BCrypt).
+
+4. **Integração com frontend**
+	- O frontend envia o token JWT em cada requisição protegida.
+	- O backend valida o token e libera ou bloqueia o acesso conforme as regras.
+
+## Fluxo resumido
+
+Usuário → (login) → Backend → (JWT) → Frontend → (requisição autenticada) → Backend (valida JWT) → acesso liberado/bloqueado
+
+## Arquivos principais
+
+- `SecurityConfig.java`: Define regras de segurança, endpoints públicos/protegidos, encoder de senhas e integra o filtro JWT.
+- `JwtAuthenticationFilter.java`: Filtro que valida o token JWT em cada requisição.
+
+## Observações
+- O sistema utiliza autenticação baseada em token JWT, garantindo segurança e escalabilidade.
+- Permite fácil customização de regras de acesso e integração com outros módulos.
 
 ---
 
