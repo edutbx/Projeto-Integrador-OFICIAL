@@ -1,3 +1,20 @@
+## Dependências do Backend (pom.xml)
+
+| Dependência | Função |
+|------------|--------|
+| spring-boot-starter-security | Autenticação, autorização e proteção de endpoints com Spring Security |
+| spring-boot-starter-thymeleaf | Templates HTML dinâmicos com Thymeleaf |
+| spring-boot-starter-web | Criação de APIs REST e aplicações web |
+| spring-boot-devtools | Ferramentas de desenvolvimento, reload automático |
+| thymeleaf-extras-springsecurity6 | Integração Thymeleaf + Spring Security |
+| spring-boot-starter-data-mongodb | Integração e persistência de dados com MongoDB |
+| lombok | Geração automática de getters/setters/construtores |
+| jakarta.validation-api | Validação de dados (ex: @NotNull, @Email) |
+| spring-boot-starter-test | Ferramentas para testes unitários e de integração |
+| spring-security-test | Utilitários para testar autenticação/autorização |
+| pdfbox | Leitura e manipulação de arquivos PDF em Java |
+| jjwt-api, jjwt-impl, jjwt-jackson | Criação, assinatura e validação de tokens JWT |
+
 # Saúde ++ - Plataforma Médica
 
 ## Descrição do Projeto
