@@ -16,15 +16,9 @@ O sistema permite:
 - **Banco de Dados:** Estrutura pensada para armazenamento seguro de informações clínicas
 - **Design:** Interface moderna e acessível, com foco em eficiência para o médico
 
-## Documentação das Pastas
 
 Veja a descrição detalhada dos arquivos em cada pasta:
 
-- [src/main/java/com/br/iasaude/saudemais/auth](src/main/java/com/br/iasaude/saudemais/auth/README.md)
-- [src/main/java/com/br/iasaude/saudemais/config](src/main/java/com/br/iasaude/saudemais/config/README.md)
-- [src/main/java/com/br/iasaude/saudemais/controller](src/main/java/com/br/iasaude/saudemais/controller/README.md)
-- [src/main/resources/ia-integration](src/main/resources/ia-integration/README.md)
-- [src/main/resources/static](src/main/resources/static/README.md)
 	- [CSS](src/main/resources/static/CSS/README.md)
 		- [styleGestor](src/main/resources/static/CSS/styleGestor/README.md)
 		- [styleHome](src/main/resources/static/CSS/styleHome/README.md)
@@ -33,4 +27,27 @@ Veja a descrição detalhada dos arquivos em cada pasta:
 		- [styleMedicoAntigo](src/main/resources/static/CSS/styleMedicoAntigo/README.md)
 	- [img](src/main/resources/static/img/README.md)
 	- [js](src/main/resources/static/js/README.md)
-- [src/main/resources/templates](src/main/resources/templates/README.md)
+
+## Como funciona o login e a proteção de páginas
+
+O sistema utiliza autenticação baseada em JWT (JSON Web Token) via cookie para proteger páginas restritas.
+
+### Fluxo de login
+1. O usuário acessa a tela de login e informa CRM e senha.
+2. O frontend faz um POST para `/api/auth/login`.
+3. Se as credenciais estiverem corretas, o backend retorna um JWT e o envia como cookie.
+4. O navegador armazena o cookie JWT automaticamente.
+5. Ao acessar páginas protegidas, o JS verifica se o cookie JWT existe. Se não existir, redireciona para `/login`.
+6. O backend valida o JWT em cada requisição protegida.
+
+### Proteção de páginas
+- As páginas protegidas (ex: /medico, /gestor, /prontuario, /novaconsulta) usam a função `protegerPagina()` do JS para garantir que só usuários autenticados acessem o conteúdo.
+- O backend também exige JWT válido para acessar endpoints REST protegidos.
+
+### Logout
+- O logout remove o cookie JWT e redireciona para a tela de login.
+
+### Observação
+- O cookie JWT não é HttpOnly para permitir que o JS do frontend verifique a autenticação.
+
+Veja detalhes técnicos nos READMEs das pastas `auth`, `config` e `static/js`.

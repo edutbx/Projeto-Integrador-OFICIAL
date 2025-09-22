@@ -34,10 +34,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        logger.info("JwtAuthenticationFilter executado para: " + request.getRequestURI());
+        String token = null;
         String authHeader = request.getHeader("Authorization");
         logger.info("Authorization header: " + authHeader);
         if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
+            token = authHeader.substring(7);
+        } else if (request.getCookies() != null) {
+            for (jakarta.servlet.http.Cookie cookie : request.getCookies()) {
+                if ("jwt".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    logger.info("Token JWT encontrado no cookie.");
+                    break;
+                }
+            }
+        }
+        if (token != null) {
             logger.info("Token recebido: " + token);
             try {
                 Claims claims = jwtService.parseToken(token);
@@ -63,7 +75,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 logger.warning("Falha ao validar token JWT: " + e.getMessage());
             }
         } else {
-            logger.info("Authorization header ausente ou mal formatado.");
+            logger.info("Authorization header e cookie JWT ausentes ou mal formatados.");
         }
         filterChain.doFilter(request, response);
     }

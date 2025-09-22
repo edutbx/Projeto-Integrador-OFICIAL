@@ -13,8 +13,7 @@ async function login(crm, senha) {
             throw new Error(data.error || 'Erro ao fazer login');
         }
         const data = await response.json();
-        // Salva o token JWT no localStorage
-        localStorage.setItem('jwt', data.token);
+        // Salva apenas dados não sensíveis (nome, crm) se quiser
         localStorage.setItem('userCrm', data.crm);
         localStorage.setItem('userName', data.nome);
         return data;
@@ -23,9 +22,10 @@ async function login(crm, senha) {
     }
 }
 
-// Função para verificar se o usuário está autenticado
+// Função para verificar se o usuário está autenticado (apenas se o cookie JWT existir)
 function isAuthenticated() {
-    return !!localStorage.getItem('jwt');
+    // Checa se o cookie "jwt" existe
+    return document.cookie.split(';').some((c) => c.trim().startsWith('jwt='));
 }
 
 // Função para proteger páginas restritas
@@ -39,18 +39,23 @@ function protegerPagina() {
 
 // Função para logout
 function logout() {
-    localStorage.removeItem('jwt');
+    // Remove dados do usuário
     localStorage.removeItem('userCrm');
     localStorage.removeItem('userName');
+    // Expira o cookie JWT
+    document.cookie = 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location.href = '/login';
 }
 
-// Função para obter o token JWT
+// Função para obter o token JWT (caso precise em AJAX)
 function getToken() {
-    return localStorage.getItem('jwt');
+    const match = document.cookie.match(/(^| )jwt=([^;]+)/);
+    return match ? match[2] : null;
 }
 
 // Exemplo de uso:
 // Chame protegerPagina() no início das páginas protegidas (medico, gestor, etc)
+// ATENÇÃO: Linha comentada para debug temporário
+// protegerPagina();
 // Chame login(crm, senha) ao submeter o formulário de login
 // Chame logout() ao clicar no botão de sair

@@ -18,13 +18,17 @@ A pasta `auth` implementa toda a lógica de autenticação e autorização do si
   - `DatabaseSeeder.java`: Classe utilitária para popular o banco de dados com usuários iniciais.
 
 
-## O que faz
-- Permite login, registro, troca e reset de senha, deleção de usuários e geração/validação de JWT.
-- Garante autenticação segura via Spring Security.
 
----
 
 ## Guia rápido: Banco de Dados de Usuários
+
+## Como funciona o login JWT
+
+- O endpoint `/api/auth/login` recebe CRM e senha, valida o usuário e gera um JWT.
+- O JWT é enviado como cookie (não HttpOnly) para o navegador.
+- O frontend usa esse cookie para autenticar o usuário em páginas protegidas.
+- O backend valida o JWT em cada requisição protegida.
+- O logout remove o cookie JWT.
 
 O sistema utiliza um banco de dados (MongoDB) para armazenar os dados dos usuários, incluindo nome, CRM, email, senha (criptografada) e permissões (roles).
 

@@ -5,33 +5,35 @@ Este módulo implementa a lógica de autenticação do usuário médico via CRM 
 
 ## Como funciona a autenticação
 
+
 1. **Login**
 	- O usuário informa CRM e senha no formulário de login.
 	- A função `login(crm, senha)` faz uma requisição POST para `/api/auth/login`.
 	- Se o login for bem-sucedido, o backend retorna um token JWT, CRM e nome do usuário.
-	- Esses dados são salvos no `localStorage` do navegador.
+	- O JWT é enviado como cookie pelo backend e armazenado automaticamente pelo navegador.
+	- O JS salva apenas dados não sensíveis (nome, CRM) no localStorage.
 
 2. **Proteção de páginas**
-	- A função `protegerPagina()` verifica se há um token JWT salvo.
+	- A função `protegerPagina()` verifica se o cookie JWT existe (lendo via `document.cookie`).
 	- Se não houver, redireciona o usuário para a página de login.
-	- Pode ser chamada no início de páginas restritas (ex: médico, gestor).
+	- Pode ser chamada no início de páginas restritas (ex: médico, gestor, prontuário, nova consulta).
 
 3. **Verificação de autenticação**
-	- A função `isAuthenticated()` retorna `true` se houver um token JWT salvo.
+	- A função `isAuthenticated()` retorna `true` se o cookie JWT existir.
 
 4. **Logout**
-	- A função `logout()` remove o token e dados do usuário do `localStorage` e redireciona para o login.
+	- A função `logout()` remove o cookie JWT e dados do usuário do `localStorage` e redireciona para o login.
 
 5. **Obtenção do token**
-	- A função `getToken()` retorna o token JWT salvo, útil para requisições autenticadas.
+	- A função `getToken()` lê o valor do cookie JWT, útil para requisições autenticadas.
 
 ## Fluxo resumido
 
-Usuário → (login) → Frontend → (POST /api/auth/login) → Backend → (JWT) → Frontend → (acesso liberado)
+Usuário → (login) → Frontend → (POST /api/auth/login) → Backend → (JWT em cookie) → Frontend → (acesso liberado)
 
 ## Arquivo principal
 
-- `auth.js`: Lógica de autenticação, proteção de páginas e gerenciamento do token JWT no frontend.
+- `auth.js`: Lógica de autenticação, proteção de páginas e gerenciamento do token JWT via cookie no frontend.
 
 ## Exemplo de uso
 

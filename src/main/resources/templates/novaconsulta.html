@@ -5,7 +5,7 @@ fetch('/api/profile')
     .then(r => r.json())
     .then(profile => {
         window.perfilDevAtivo = !!profile.dev;
-        protegerPagina();
+    protegerPagina();
         // Exemplo: carregar dados protegidos se necessário
         // const token = getToken();
         // if (token || window.perfilDevAtivo) { ... }

@@ -11,6 +11,9 @@ Esta pasta contém os arquivos HTML usados como templates para as páginas do si
 - `prontuario.html`: Tela de visualização e interpretação de prontuário do paciente, com upload de PDF e integração com IA.
 - `register.html`: Tela de cadastro de novos usuários (médicos).
 
----
+
+## Proteção de páginas e login
+
+As páginas protegidas (ex: médico, gestor, prontuário, nova consulta) usam o JS (`auth.js`) para garantir que só usuários autenticados (com cookie JWT válido) possam acessar o conteúdo. O login é feito via CRM e senha, e o backend envia o JWT como cookie após autenticação.
 
 [Voltar ao README principal](../../../../README.md)

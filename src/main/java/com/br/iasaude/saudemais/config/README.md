@@ -16,13 +16,17 @@ A pasta `config` centraliza as classes responsáveis pela configuração de segu
 3. **Encoder de senhas**
 	- O encoder de senhas garante que as senhas sejam armazenadas e comparadas de forma segura (ex: BCrypt).
 
-4. **Integração com frontend**
 	- O frontend envia o token JWT em cada requisição protegida.
 	- O backend valida o token e libera ou bloqueia o acesso conforme as regras.
 
 ## Fluxo resumido
 
 Usuário → (login) → Backend → (JWT) → Frontend → (requisição autenticada) → Backend (valida JWT) → acesso liberado/bloqueado
+
+### Detalhes do fluxo JWT
+- O backend envia o JWT como cookie após login.
+- O filtro `JwtAuthenticationFilter` aceita o token tanto no header Authorization quanto no cookie.
+- O frontend JS verifica o cookie JWT para proteger páginas.
 
 ## Arquivos principais
 

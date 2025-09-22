@@ -7,6 +7,7 @@ import com.br.iasaude.saudemais.auth.service.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,10 +52,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req) {
-    authManager.authenticate(new UsernamePasswordAuthenticationToken(req.getCrm(), req.getSenha()));
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req, HttpServletResponse response) {
+        authManager.authenticate(new UsernamePasswordAuthenticationToken(req.getCrm(), req.getSenha()));
         var user = userRepository.findByCrm(req.getCrm()).orElseThrow();
         String token = jwtService.generateToken(user.getCrm(), Map.of("name", user.getNome(), "roles", user.getRoles()));
+    // Adiciona o JWT como cookie (não HttpOnly para JS ler)
+    jakarta.servlet.http.Cookie cookie = new jakarta.servlet.http.Cookie("jwt", token);
+    // cookie.setHttpOnly(true); // Removido para JS acessar
+    cookie.setPath("/");
+    cookie.setMaxAge(60 * 60 * 24); // 1 dia
+    response.addCookie(cookie);
         return ResponseEntity.ok(new AuthResponse(token, user.getNome(), user.getCrm()));
     }
 

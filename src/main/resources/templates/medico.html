@@ -43,7 +43,7 @@ fetch('/api/profile')
     .then(r => r.json())
     .then(profile => {
         window.perfilDevAtivo = !!profile.dev;
-        protegerPagina();
+    protegerPagina();
         // Carrega dados protegidos do endpoint REST usando JWT
         const token = getToken();
         if (token || window.perfilDevAtivo) {
