@@ -17,16 +17,52 @@ O sistema permite:
 - **Design:** Interface moderna e acessível, com foco em eficiência para o médico
 
 
-Veja a descrição detalhada dos arquivos em cada pasta:
 
-	- [CSS](src/main/resources/static/CSS/README.md)
-		- [styleGestor](src/main/resources/static/CSS/styleGestor/README.md)
-		- [styleHome](src/main/resources/static/CSS/styleHome/README.md)
-		- [styleLogin](src/main/resources/static/CSS/styleLogin/README.md)
-		- [styleMedico](src/main/resources/static/CSS/styleMedico/README.md)
-		- [styleMedicoAntigo](src/main/resources/static/CSS/styleMedicoAntigo/README.md)
-	- [img](src/main/resources/static/img/README.md)
-	- [js](src/main/resources/static/js/README.md)
+## Estrutura de Pastas
+
+```
+Projeto-Integrador-OFICIAL/
+├── README.md
+├── frontend/
+│   └── README.md
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/br/iasaude/saudemais/
+│       │       ├── auth/README.md
+│       │       ├── config/README.md
+│       │       └── controller/README.md
+│       └── resources/
+│           ├── ia-integration/README.md
+│           ├── static/
+│           │   ├── README.md
+│           │   ├── js/README.md
+│           │   ├── img/README.md
+│           │   └── CSS/
+│           │       ├── README.md
+│           │       ├── styleGestor/README.md
+│           │       ├── styleHome/README.md
+│           │       ├── styleLogin/README.md
+│           │       ├── styleMedico/README.md
+│           │       └── styleMedicoAntigo/README.md
+│           └── templates/README.md
+```
+
+## Documentação Detalhada
+
+| Módulo / Pasta | Descrição | Link |
+|----------------|-----------|------|
+| Backend - Auth | Lógica de autenticação, JWT, login | [src/main/java/com/br/iasaude/saudemais/auth/README.md](src/main/java/com/br/iasaude/saudemais/auth/README.md) |
+| Backend - Config | Configuração de segurança, filtros | [src/main/java/com/br/iasaude/saudemais/config/README.md](src/main/java/com/br/iasaude/saudemais/config/README.md) |
+| Backend - Controllers | Endpoints REST principais | [src/main/java/com/br/iasaude/saudemais/controller/README.md](src/main/java/com/br/iasaude/saudemais/controller/README.md) |
+| Integração IA | Scripts e docs de integração IA | [src/main/resources/ia-integration/README.md](src/main/resources/ia-integration/README.md) |
+| Frontend (React) | Documentação do frontend React | [frontend/README.md](frontend/README.md) |
+| Static - JS | Lógica de autenticação JS | [src/main/resources/static/js/README.md](src/main/resources/static/js/README.md) |
+| Static - CSS | Estilos customizados | [src/main/resources/static/CSS/README.md](src/main/resources/static/CSS/README.md) |
+| Static - Imagens | Organização de imagens | [src/main/resources/static/img/README.md](src/main/resources/static/img/README.md) |
+| Templates HTML | Templates das páginas do sistema | [src/main/resources/templates/README.md](src/main/resources/templates/README.md) |
+
+Todos os links acima funcionam diretamente no GitHub.
 
 ## Como funciona o login e a proteção de páginas
 
