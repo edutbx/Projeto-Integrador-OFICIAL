@@ -1,3 +1,70 @@
+## Como rodar o projeto (Pré-requisitos e Passo a Passo)
+
+### 1. Java, Maven e Spring Boot
+- **Java:** Versão **21** (confirme com `java -version`)
+- **Maven:** Recomendado Maven **3.8+** (confirme com `mvn -v`)
+- **Spring Boot:** O projeto já usa Spring Boot **3.5.5** (gerenciado pelo Maven)
+
+### 2. MongoDB
+- **Versão recomendada:** MongoDB **6.x** ou superior
+- **Como instalar:**  
+	- [Download MongoDB Community](https://www.mongodb.com/try/download/community)
+	- Após instalar, inicie o serviço (`mongod`) e certifique-se de que está rodando em `localhost:27017`
+	- O banco usado será `saude` (configurado em `application.properties`)
+
+### 3. Python e FastAPI (Integração IA)
+- **Python:** Versão **3.10+** recomendada (confirme com `python --version`)
+- **Instale o FastAPI e dependências:**
+	- No terminal, navegue até `src/main/resources/ia-integration/`
+	- Instale FastAPI e Uvicorn:
+		```
+		pip install fastapi uvicorn requests
+		```
+	- (Não há `requirements.txt`, mas as dependências usadas são: `fastapi`, `uvicorn`, `requests`)
+
+- **Como rodar o serviço IA:**
+	```
+	python -m uvicorn saude_mais:app --host 0.0.0.0 --port 8000
+	```
+
+
+### 4. Frontend (React)
+- **ATENÇÃO:** O frontend em React **ainda não está implementado e está em desenvolvimento**. Por enquanto, utilize **exclusivamente o backend Spring Boot** para acessar o sistema.
+- As instruções abaixo são apenas para referência futura:
+	- **Node.js:** Versão **18+** recomendada (confirme com `node -v` e `npm -v`)
+	- Para instalar dependências do frontend:
+		- No terminal, navegue até a pasta `frontend/`
+		- Execute:
+			```
+			npm install
+			```
+		- Para rodar o frontend:
+			```
+			npm start
+			```
+
+### 5. Como rodar o backend (Spring Boot)
+- No terminal, na raiz do projeto:
+	```
+	./mvnw spring-boot:run
+	```
+	ou, se preferir:
+	```
+	mvn spring-boot:run
+	```
+
+---
+
+## Resumo dos passos
+
+1. **Instale Java 21 e Maven**
+2. **Instale e inicie o MongoDB**
+3. **Instale Python 3.10+ e as libs FastAPI, Uvicorn, Requests**
+4. **Rode o serviço IA (FastAPI)**
+5. **Instale Node.js, rode `npm install` e `npm start` no frontend**
+6. **Rode o backend com Maven**
+
+---
 ## Dependências do Backend (pom.xml)
 
 | Dependência | Função |
