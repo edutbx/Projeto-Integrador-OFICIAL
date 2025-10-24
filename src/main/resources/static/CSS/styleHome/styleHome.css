@@ -114,7 +114,7 @@ main {
 
 .pContainerDiv2 {
   color: white;
-  font-size: 17pt;
+  font-size: 1.3rem;
   padding: 10px;
 }
 
@@ -174,9 +174,6 @@ main {
 }
 
 .card {
-  width: 15vw; 
-  min-width: 250px;
-  min-height: 30%;
   background-color: #FFEAC3;
   border-radius: 15px; 
   transition: transform 0.3s, box-shadow 0.3s;
@@ -189,7 +186,6 @@ main {
 }
 
 .card:hover {
-  cursor: pointer;
   transform: translateY(-10px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
@@ -205,6 +201,7 @@ main {
 
 .pCard{
   color: #E86424;
+  max-width: 30ch;
 }
 
 /*footer css*/
@@ -264,7 +261,53 @@ footer {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*RESPONSIVIDADE*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -372,16 +415,12 @@ footer {
     padding: 40px 0;  
   }
 
-  .card {
-    width: 70vw;
-    height: 200px;
-    transition: none;
-  }
+ 
 
   .card:hover {
-    width: 70vw;
-    height: 200px;
     cursor: default;
+    transform: translateY(0);
+     box-shadow: 0 0 0 rgba(0,0,0,0);
   }
 
   /* Responsividade Footer */

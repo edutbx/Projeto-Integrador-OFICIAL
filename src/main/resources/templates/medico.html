@@ -1,70 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Médico</title>
-    <!-- Importa os estilos do painel médico -->
-    <link rel="stylesheet" href="/CSS/styleMedico/styleMedicoGenerico.css">
-    <link rel="stylesheet" href="/CSS/styleMedico/styleHomeMedico.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Médico</title>
+  <!-- Importa os estilos do painel médico -->
+  <link rel="stylesheet" href="/CSS/styleMedico/styleMedicoGenerico.css">
+  <link rel="stylesheet" href="/CSS/styleMedico/styleHomeMedico.css">
 </head>
+
 <body>
 
-<!-- Cabeçalho com informações do médico -->
-<header>
+  <!-- =========================
+       Cabeçalho
+  ========================== -->
+  <header>
     <img src="/img/Logo.png" alt="Logo Saúde++" class="logo">
     <div class="perfil">
-        <div class="perfil-info">
-            <p>Guilerme Celho Pix</p>
-            <p>CRM:345678987654</p>
-            <p>Especialidade</p>
-            <a href="/logout"><button class="logout">LOGOUT</button></a>
-        </div>
-        <img src="/img/icon.png" alt="" class="perfil-foto" style="height: 50px;">
+      <div class="perfil-info">
+        <p>Nome do médico</p>
+        <p>CRM: 345678987654</p>
+        <p>Especialidade</p>
+      </div>
+      <img src="/img/iconMedico.png" alt="Foto do médico" class="perfil-foto" style="height: 50px;">
+      <a href="/logout"><button class="logout">LOGOUT</button></a>
     </div>
-</header>
+  </header>
 
-<!-- Agenda de consultas do médico -->
+  <!-- =========================
+       Conteúdo principal
+  ========================== -->
+  <main>
+    <div class="container">
+      <!-- Seção: Iniciar Consulta -->
+      <section class="iniciarConsulta">
+        <button class="iniciar-consulta">Iniciar consulta</button>
+        <img src="/img/bonecosLogo.png" alt="Bonecos logo"
+          style="width: auto; height: 30px; margin-left: 20px;">
+      </section>
 
-<main>
-    <div class="agenda">
-        <h2>Consulta hora marcada</h2>
-        <div id="dados-protegidos">
-            Carregando dados do médico...
+      <!-- Seção: Ações -->
+      <section class="acoes">
+        <div class="acoesDiv">
+          <img src="/img/íconeCalendario.png" alt="Ícone calendário" style="width: 50px;">
+          <h1>Agenda</h1>
         </div>
-    </div>
-    <a href="/novaConsulta" class="iniciar-consulta">Iniciar consulta</a>
-</main>
+        <div class="acoesDiv">Prontuários</div>
+        <div class="acoesDiv">Configurações</div>
+      </section>
 
-<script src="/js/auth.js"></script>
-<script>
-// Detecta perfil dev automaticamente via endpoint
-fetch('/api/profile')
-    .then(r => r.json())
-    .then(profile => {
-        window.perfilDevAtivo = !!profile.dev;
-    protegerPagina();
-        // Carrega dados protegidos do endpoint REST usando JWT
-        const token = getToken();
-        if (token || window.perfilDevAtivo) {
-            fetch('/api/medico', {
-                headers: token ? { 'Authorization': 'Bearer ' + token } : {}
-            })
-            .then(r => {
-                if (r.ok) return r.text();
-                throw new Error('Acesso negado');
-            })
-            .then(texto => {
-                document.getElementById('dados-protegidos').innerText = texto;
-            })
-            .catch(err => {
-                document.getElementById('dados-protegidos').innerText = err.message;
-            });
-        } else {
-            document.getElementById('dados-protegidos').innerText = 'Você não está autenticado!';
-        }
+      <!-- Seção: Consultas -->
+      <section class="consultas">
+        <p class="tituloConsultas">Consultas agendadas:</p>
+        <div class="consultasAgendadas">
+
+          <div class="cardConsultas">
+            <img src="/img/icon.png" alt="Avatar" class="fotoCard">
+            <div>
+              <h4 class="h4Card">Paciente A</h4>
+              <p class="escritaCard">Horário: 08:30</p>
+              <p class="escritaCard">Observações não informadas.</p>
+            </div>
+          </div>
+
+          <div class="cardConsultas">
+            <img src="/img/icon.png" alt="Avatar" class="fotoCard">
+            <div>
+              <h4 class="h4Card">Paciente B</h4>
+              <p class="escritaCard">Horário: 10:20</p>
+              <p class="escritaCard">Observações não informadas.</p>
+            </div>
+          </div>
+
+          <div class="cardConsultas">
+            <img src="/img/icon.png" alt="Avatar" class="fotoCard">
+            <div>
+              <h4 class="h4Card">Paciente C</h4>
+              <p class="escritaCard">Horário: 11:10</p>
+              <p class="escritaCard">Observações não informadas.</p>
+            </div>
+          </div>
+
+          <div class="cardConsultas">
+            <img src="/img/icon.png" alt="Avatar" class="fotoCard">
+            <div>
+              <h4 class="h4Card">Paciente D</h4>
+              <p class="escritaCard">Horário: 13:40</p>
+              <p class="escritaCard">Observações não informadas.</p>
+            </div>
+          </div>
+
+          <div class="cardConsultas">
+            <img src="/img/icon.png" alt="Avatar" class="fotoCard">
+            <div>
+              <h4 class="h4Card">Paciente E</h4>
+              <p class="escritaCard">Horário: 15:10</p>
+              <p class="escritaCard">Observações não informadas.</p>
+            </div>
+          </div>
+
+          <div class="cardConsultas">
+            <img src="/img/icon.png" alt="Avatar" class="fotoCard">
+            <div>
+              <h4 class="h4Card">Paciente F</h4>
+              <p class="escritaCard">Horário: 16:30</p>
+              <p class="escritaCard">Observações não informadas.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- =========================
+       Modal: Procurar Paciente
+  ========================== -->
+  <div class="procurarPaciente">
+    <h4>Digite o CPF do paciente:</h4>
+    <input type="text" name="procurarPaciente" class="inputProcurapaciente" placeholder="000.000.000-00">
+    <button class="buscar">Buscar</button>
+    <button class="voltar">Voltar</button>
+  </div>
+
+  <!-- =========================
+       Scripts
+  ========================== -->
+  <script src="/js/auth.js"></script>
+  <script>
+    //Evento de clicar no botão Iniciar Consulta
+    const container = document.querySelector('.container');
+    const modal = document.querySelector('.procurarPaciente');
+    const botaoAbrir = document.querySelector('.iniciar-consulta');
+    const botaoFechar = document.querySelector('.voltar');
+
+    botaoAbrir.addEventListener('click', () => {
+      container.classList.add('blur');  // aplica blur no resto
+      modal.style.display = 'flex';     // mostra a div
     });
-</script>
-</body>
 
+    botaoFechar.addEventListener('click', () => {
+      container.classList.remove('blur'); // tira o blur
+      modal.style.display = 'none';       // esconde a div
+    });
+  </script>
+
+</body>
 </html>

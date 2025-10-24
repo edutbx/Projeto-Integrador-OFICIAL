@@ -1,5 +1,5 @@
 // Controller responsável pelas rotas principais da aplicação web
-package com.br.iasaude.saudemais.controller;
+package com.br.iasaude.saudemais.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

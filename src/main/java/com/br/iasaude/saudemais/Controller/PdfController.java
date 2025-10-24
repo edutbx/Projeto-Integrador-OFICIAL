@@ -1,5 +1,5 @@
 // Controller responsável por interpretar arquivos PDF enviados via API
-package com.br.iasaude.saudemais.controller;
+package com.br.iasaude.saudemais.Controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

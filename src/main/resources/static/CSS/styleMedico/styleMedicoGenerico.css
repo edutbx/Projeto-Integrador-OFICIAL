@@ -73,7 +73,7 @@
   }
 
   .logout {
-  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+  background: #4D97E4;
   color: #fff;
   border: none;
   border-radius: 30px;
@@ -87,7 +87,7 @@
 }
 
 .logout:hover {
-  background: linear-gradient(90deg, #ff4e4e, #ff7043);
+  background: linear-gradient(90deg, #4D97E4, #3B6FE0, #2B4FD1);
   transform: scale(1.05);
 }
 

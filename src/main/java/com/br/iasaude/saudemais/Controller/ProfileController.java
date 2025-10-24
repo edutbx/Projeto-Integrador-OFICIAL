@@ -1,4 +1,4 @@
-package com.br.iasaude.saudemais.controller;
+package com.br.iasaude.saudemais.Controller;
 
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;

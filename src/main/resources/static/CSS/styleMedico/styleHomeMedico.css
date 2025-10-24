@@ -1,35 +1,199 @@
-  main {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-start;
-      width: 100%;
-      height: 50vh;
-      padding-top: 100px;
-  }
+/* =========================
+   Estrutura Principal
+========================= */
+main {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 
-  .agenda {
-      background-color: #F5F5F5;
-      width: 300px;
-      padding: 20px;
-      border-radius: 15px;
-  }
+.container {
+  height: 100%;
+  background-color: #3C58A2;
+  padding: 30px;
+  transition: filter 0.3s ease;
+}
 
-  .agenda h2 {
-      color: #4D97E4;
-      font-size: 18px;
-      margin-bottom: 15px;
-  }
+.container.blur {
+  filter: blur(6px);
+}
 
-  .hora {
-      border: 1px solid black;
-      min-height: 30%;
-      margin: 10px 0;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      cursor: pointer;
-  }
+header,
+.procurarPaciente {
+  position: relative;
+  z-index: 999;
+}
 
-  
+/* =========================
+   Iniciar Consulta
+========================= */
+.iniciarConsulta {
+  display: flex;
+  justify-content: center;
+  gap: 5px; 
+}
+
+/* =========================
+   Modal: Procurar Paciente
+========================= */
+.procurarPaciente {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 1);
+  backdrop-filter: none;
+  min-width: 40%;
+  padding: 40px 60px;
+  border: 4px solid #FECC72;
+  border-radius: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  gap: 10px;
+  display: none; /* começa oculta */
+}
+
+.inputProcurapaciente {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e7ecff;
+  width: 200px;
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.buscar, .voltar {
+  background: #4D97E4;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.buscar:hover, .voltar:hover {
+  background: linear-gradient(90deg, #4D97E4, #3B6FE0, #2B4FD1);
+  transform: scale(1.05);
+}
+
+.buscar:active, .voltar:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   Blocos de Ações
+========================= */
+.acoes {
+  display: flex;
+  justify-content: space-around;
+  padding: 80px 0;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.acoesDiv {
+  color: #3C58A2;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e7ecff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  width: 240px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.acoesDiv:hover {
+  cursor: pointer;
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================
+   Consultas Agendadas
+========================= */
+.consultas {
+  padding: 30px 0 60px;
+}
+
+.tituloConsultas {
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* Grid responsivo */
+.consultasAgendadas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .consultasAgendadas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .consultasAgendadas {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   Card de Consulta
+========================= */
+.cardConsultas {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: flex-start;
+  gap: 14px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e7ecff;
+  padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardConsultas:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* Avatar */
+.fotoCard {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Conteúdo do card */
+.h4Card {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.escritaCard {
+  margin: 0;
+  color: #3C58A2;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4rem;
+}
