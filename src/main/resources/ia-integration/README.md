@@ -1,7 +1,8 @@
 
-# API de Integração de IA para o Projeto Integrador
+# API de Integração de IA para o Projeto Integrador utilizando Adapter
+Este módulo implementa o **padrão de projeto Adapter**, responsável por integrar o sistema principal com o serviço de Inteligência Artificial, garantindo o desacoplamento entre as camadas e a compatibilidade entre diferentes interfaces.
 
-Este módulo implementa uma API em Python usando FastAPI para integrar o Projeto Integrador com um modelo de IA fornecido pela Stackspot.
+API é feita em Python usando FastAPI para integrar o Projeto Integrador com um modelo de IA fornecido pela Stackspot.
 
 ## Como funciona a integração
 
