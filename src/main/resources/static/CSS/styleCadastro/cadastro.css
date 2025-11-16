@@ -1,0 +1,187 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+img {
+  width: 216px;
+  height: 48px;
+}
+
+body {
+  background: #f5f5f5;
+}
+
+/* Títulos */
+h1 {
+  color: #FFF;
+  padding-bottom: 50px;
+  height: 10px;
+}
+
+
+/* Cabeçalho */
+header {
+  background: #FFF;
+  width: auto;
+  height: 100px;
+  padding: 15px 30px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Container principal */
+.container {
+  background: #3C58A2;
+  width: auto;
+  height: auto;
+  padding: 100px;
+  border-radius: 5px;
+}
+
+/* Caixa do formulário */
+.form-box {
+  background: #fff;
+  width: auto;
+  height: 500px;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.form-box h2 {
+  text-align: center;
+  font-weight: 600;
+  color: #4D97E4;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+.form-step {
+  display: none;
+  background: #fff;
+  width: auto;
+  height: 550px;
+  border-radius: 5px;
+  padding: 20px;
+  position: relative;
+}
+
+.form-step.active {
+  display: block;
+}
+
+.form-step h2 {
+  text-align: center;
+  color: #4D97E4;
+  padding-bottom: 20px;
+}
+
+/* Barra de etapas */
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+/* Bolinhas da barra */
+.progress-step {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #FFEAC3;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  z-index: 2;
+}
+
+.progress-step.active {
+  background-color: #FFC966;
+}
+
+/* Linhas da barra */
+.progress-line {
+  height: 10px;
+  background-color: #FFEAC3;
+  flex-grow: 1;
+  margin: 0 -1px; /* Ajuste para sobrepor ligeiramente os steps */
+  z-index: 1;
+}
+
+.progress-line.active {
+  background-color: #FFC966;
+}
+
+/* GRID DO FORMULÁRIO */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px 50px; 
+  margin-bottom: 40px; 
+  width: 100%; 
+  height: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 100px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #FFEAC3;
+  border-radius: 3px;
+}
+
+/* BOTÕES */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  width: calc(100% - 40px);
+}
+
+button {
+  padding: 10px 20px;
+  width: 200px;
+  height: 47px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-back {
+  background: #4D97E4;
+  color: #fff;
+}
+
+.btn-next {
+  background: #4D97E4;
+  color: #fff;
+  
+}
+
+button:hover {
+  background-color: #E86424;
+  opacity: 0.9;
+}

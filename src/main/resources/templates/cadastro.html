@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Médico</title>
+  <link rel="stylesheet" href="/src/main/resources/static/CSS/styleCadastro/cadastro.css" />
+
+  <style>
+    /* Necessário para esconder/mostrar etapas */
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="/src/main/resources/static/img/Logo.png" alt="Logo Saúde++" class="imgLogo">
+</header>
+
+<div class="container">
+
+  <h1>Cadastro - Médico</h1>
+
+  <!-- BARRA DE ETAPAS -->
+  <div class="progress-bar">
+    <div class="progress-step" id="step1">1</div>
+    <div class="progress-line" id="line1"></div>
+    <div class="progress-step" id="step2">2</div>
+    <div class="progress-line" id="line2"></div>
+    <div class="progress-step" id="step3">3</div>
+  </div>
+
+
+  <div class="form-step active">
+    <h2>Dados Pessoais e de Login</h2>
+
+    <form>
+      <div class="form-grid">
+        <div>
+          <label for="nome">Nome:</label>
+          <input type="text" id="nome" name="nome">
+        </div>
+        <div>
+          <label for="sobrenome">Sobrenome:</label>
+          <input type="text" id="sobrenome" name="sobrenome">
+        </div>
+        <div>
+          <label for="cpf_medico">CPF do Médico:</label>
+          <input type="text" id="cpf_medico" name="cpf_medico">
+        </div>
+        <div>
+          <label for="rg">RG:</label>
+          <input type="text" id="rg" name="rg">
+        </div>
+        <div>
+          <label for="data_nascimento">Data de Nascimento:</label>
+          <input type="date" id="data_nascimento" name="data_nascimento">
+        </div>
+        <div>
+          <label for="sexo">Sexo:</label>
+          <select id="sexo" name="sexo">
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="O">Outro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="btn-back" href="index.html">Voltar</button>
+        <button type="button" class="btn-next">Continuar</button>
+      </div>
+
+    </form>
+  </div>
+
+
+  <div class="form-step">
+    <h2>Dados Profissionais</h2>
+
+    <form>
+      <div class="form-grid">
+        <div>
+          <label for="crm">CRM:</label>
+          <input type="text" id="crm" name="crm">
+        </div>
+        <div>
+          <label for="especializacao">Especialização:</label>
+          <input type="text" id="especializacao" name="especializacao">
+        </div>
+        <div>
+          <label for="id_gestor">ID do Gestor:</label>
+          <input type="text" id="id_gestor" name="id_gestor">
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="btn-back">Voltar</button>
+        <button type="button" class="btn-next">Continuar</button>
+      </div>
+
+    </form>
+  </div>
+
+
+  <div class="form-step">
+    <h2>Endereço Profissional</h2>
+
+    <form>
+      <div class="form-grid">
+        <div>
+          <label for="cep">CEP:</label>
+          <input type="text" id="cep" name="cep">
+        </div>
+        <div>
+          <label for="logradouro">Logradouro:</label>
+          <input type="text" id="logradouro" name="logradouro">
+        </div>
+        <div>
+          <label for="numero">Número:</label>
+          <input type="text" id="numero" name="numero">
+        </div>
+        <div>
+          <label for="complemento">Complemento:</label>
+          <input type="text" id="complemento" name="complemento">
+        </div>
+        <div>
+          <label for="cidade">Cidade:</label>
+          <input type="text" id="cidade" name="cidade">
+        </div>
+        <div>
+          <label for="estado">Estado:</label>
+          <input type="text" id="estado" name="estado">
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="btn-back">Voltar</button>
+        <button type="submit" class="btn-next">Finalizar</button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div> <!-- container -->
+
+
+<script src="/src/main/resources/static/CSS/styleCadastro/cadastro.js">
+
+</script>
+
+</body>
+</html>
