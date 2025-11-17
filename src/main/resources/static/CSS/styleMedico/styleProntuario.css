@@ -1,71 +1,221 @@
-
-main {
-  padding: 20px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start; /* empurra o conteúdo para a esquerda */
-  gap: 40px;
-}
-
-.prontuarioPaciente {
-  width: 40%;
-  min-width: 320px;
-  min-height: 45vh;
-  background: #e0e0e0;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-/* Agrupa botões e resposta da IA em uma coluna */
-.botoes {
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fb;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  width: 320px;
-  align-items: stretch;
-  margin-left: 300px; /* desloca ainda mais à direita */
+  min-height: 100vh;
 }
 
-/* Botão voltar fixo no canto inferior esquerdo */
+/* Cabeçalho: estilos genéricos aplicados via styleMedicoGenerico.css */
+/* Removido: regras específicas de header para evitar conflitos com estilos globais */
+
+/* Estrutura principal */
+main {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-height: calc(100vh - 90px);
+  overflow-x: hidden;
+}
+
+/* Coluna azul: paciente */
+.prontuarioPaciente {
+  width: 35%;
+  background: #3066BE;
+  color: #fff;
+  padding: 30px 25px;
+  display: flex;
+  flex-direction: column;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.prontuarioPaciente h2 {
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.prontuarioPaciente p {
+  margin: 8px 0;
+  font-size: 0.95em;
+}
+
+.prontuarioPaciente strong {
+  color: #FFD365;
+}
+
+/* Lado direito: botões e resultado */
+.botoes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px;
+  gap: 20px;
+}
+
+/* Botões principais */
+.botoes button {
+  width: 80%;
+  max-width: 400px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  background-color: #3066BE;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.botoes button:hover {
+  background-color: #254c8c;
+}
+
+input[type="file"] {
+  margin-top: 8px;
+  padding: 8px;
+  background: #FFD365;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Caixa da resposta da IA */
+.resposta-ia {
+  background: #232946;
+  color: #f4faff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 800px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95em;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  word-break: break-word;
+}
+
+/* Botão voltar */
 .voltar-fixo {
   position: fixed;
   left: 24px;
   bottom: 24px;
-  z-index: 100;
+  z-index: 10;
 }
 
-/* Ajuste visual para o botão logout */
-.logout {
-  padding: 10px 24px;
-  border-radius: 8px;
-  background: #232946;
-  color: #f4faff;
+/* Estilo adaptado do botão .buscar/.voltar para a página de prontuário */
+.voltar-fixo .logout {
+  background: #4D97E4;
+  color: #fff;
   border: none;
-  font-size: 1em;
+  border-radius: 30px;
+  padding: 10px 25px;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
-}
-.logout:hover {
-  background: #1a1a2e;
+  transition: transform 0.18s ease, background 0.18s ease;
+  text-decoration: none;
+  display: inline-block;
 }
 
-/* Estilo para o campo de resposta da IA */
-.resposta-ia {
-  background: #232946;
-  color: #f4faff;
-  padding: 24px 32px;
-  border-radius: 14px;
-  min-height: 60px;
-  font-size: 1.1em;
-  margin-top: 24px;
-  white-space: pre-line; /* Mantém quebras de linha do texto */
-  max-width: 900px;
+.voltar-fixo .logout:hover {
+  background: linear-gradient(90deg, #4D97E4, #3B6FE0, #2B4FD1);
+  transform: scale(1.05);
+}
+
+.voltar-fixo .logout:active {
+  transform: scale(0.95);
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  main {
+    flex-direction: column;
+  }
+
+  .prontuarioPaciente {
+    width: 100%;
+    border-radius: 0;
+    text-align: center;
+  }
+
+  .botoes {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .botoes button {
+    width: 100%;
+  }
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10), 0 1.5px 4px 0 rgba(0,0,0,0.10);
-  align-self: center;
+  height: 100%;
+  background: rgba(30, 60, 110, 0.4); /* Azul translúcido Saúde++ */
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
-  overflow-x: auto;
+  gap: 18px;
+  text-align: center;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: fadeInScale 0.3s ease-in-out;
+  min-width: 260px;
+  min-height: 260px;
+}
+
+.loading-content video {
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+  object-fit: contain;
+  background-color: transparent;
+  display: block;
+}
+
+.loading-content p {
+  font-weight: 600;
+  color: #1e1e1e;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  margin-top: 10px;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

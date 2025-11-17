@@ -1,17 +1,3 @@
-<script src="/js/auth.js"></script>
-<script>
-// Detecta perfil dev automaticamente via endpoint
-fetch('/api/profile')
-    .then(r => r.json())
-    .then(profile => {
-        window.perfilDevAtivo = !!profile.dev;
-    protegerPagina();
-        // Exemplo: carregar dados protegidos se necessário
-        // const token = getToken();
-        // if (token || window.perfilDevAtivo) { ... }
-    });
-</script>
-</html>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -19,82 +5,102 @@ fetch('/api/profile')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Médico</title>
-    <!-- Importa os estilos do prontuário -->
     <link rel="stylesheet" href="/CSS/styleMedico/styleMedicoGenerico.css">
     <link rel="stylesheet" href="/CSS/styleMedico/styleProntuario.css">
 </head>
 
 <body>
 
-    <!-- Cabeçalho com informações do médico -->
-    <header>
-        <img src="/img/Logo.png" alt="Logo Saúde++" class="logo">
-        <div class="perfil">
-            <div class="perfil-info">
-                 <p>NOME DO MEDICO</p> 
-                <p>CRM:345678987654</p>
-                <p>Especialidade</p>
-            </div>
-            <img src="/img/icon.png" alt="" class="perfil-foto" style="height: 50px;">
+<header style="box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);">
+    <img src="/img/Logo.png" alt="Logo Saúde++" class="logo">
+    <div class="perfil">
+        <div class="perfil-info">
+            <p>Nome do médico</p>
+            <p>CRM: 345678987654</p>
+            <p>Especialidade</p>
         </div>
-    </header>
+        <img src="/img/iconMedico.png" alt="Foto do médico" class="perfil-foto" style="height: 50px;">
+        <a href="/logout"><button class="logout">LOGOUT</button></a>
+    </div>
+</header>
 
-    <!-- Área principal do prontuário do paciente -->
-    <main>
-        <div class="prontuarioPaciente">
-            <h2>Prontuário do Paciente</h2>
-            <p><strong>Nome:</strong> João Silva</p>
-            <p><strong>Idade:</strong> 34 anos</p>
-            <p><strong>Sexo:</strong> Masculino</p>
-            <p><strong>CPF:</strong> 123.456.789-00</p>
-            <p><strong>Endereço:</strong> Rua das Flores, 123 - São Paulo/SP</p>
-            <p><strong>Telefone:</strong> (11) 98765-4321</p>
-            <hr>
-            <p><strong>Histórico Médico:</strong> Hipertensão, Alergia a dipirona</p>
-            <p><strong>Medicamentos em uso:</strong> Losartana 50mg/dia</p>
-            <p><strong>Última consulta:</strong> 10/08/2025</p>
-            <p><strong>Observações:</strong> Recomendado acompanhamento trimestral</p>
+<main>
+    <div class="prontuarioPaciente">
+        <h2>Prontuário do Paciente</h2>
+        <p><strong>Nome:</strong> João Silva</p>
+        <p><strong>Idade:</strong> 34 anos</p>
+        <p><strong>Sexo:</strong> Masculino</p>
+        <p><strong>CPF:</strong> 123.456.789-00</p>
+        <p><strong>Endereço:</strong> Rua das Flores, 123 - São Paulo/SP</p>
+        <p><strong>Telefone:</strong> (11) 98765-4321</p>
+        <hr>
+        <p><strong>Histórico Médico:</strong> Hipertensão, Alergia a dipirona</p>
+        <p><strong>Medicamentos em uso:</strong> Losartana 50mg/dia</p>
+        <p><strong>Última consulta:</strong> 10/08/2025</p>
+        <p><strong>Observações:</strong> Recomendado acompanhamento trimestral</p>
+    </div>
+
+    <div class="botoes">
+        <button type="button" id="consultarBtn" class="consultar iniciar-consulta">
+            Consultar prontuários antigos
+        </button>
+        <button type="button" id="interpretarBtn" class="interpretar iniciar-consulta">
+            Interpretar prontuário
+        </button>
+
+        <form id="pdfForm" enctype="multipart/form-data" style="margin:0;">
+            <input type="file" id="pdfFile" name="file" accept="application/pdf" required>
+        </form>
+
+        <div id="respostaIA" class="resposta-ia"></div>
+    </div>
+
+    <!-- Overlay de loading -->
+    <div id="loading" class="loading-overlay">
+        <div class="loading-content">
+            <!-- path corrected to /video (static resources are served from /video/*)
+                 added id and preload to improve autoplay behavior and allow JS control -->
+            <video id="loadingVideo" autoplay loop muted playsinline preload="auto">
+                <source src="/video/icone_loading.mp4" type="video/mp4">
+                Seu navegador não suporta vídeo.
+            </video>
+            <p>Gerando prontuário...</p>
         </div>
+    </div>
 
-        <div class="botoes">
-            <!-- Botão consultar prontuários antigos (agora acima) -->
-            <button type="button" id="consultarBtn" class="consultar iniciar-consulta">Consultar prontuários antigos</button>
-            <!-- Botão interpretar prontuário -->
-            <button type="button" id="interpretarBtn" class="interpretar iniciar-consulta">Interpretar prontuário</button>
-            <!-- Campo para escolher o arquivo, agora abaixo do interpretar -->
-            <form id="pdfForm" enctype="multipart/form-data" style="margin:0;">
-                <input type="file" id="pdfFile" name="file" accept="application/pdf" required>
-            </form>
-            <!-- Campo para exibir apenas o texto editado pela IA (como texto comum) -->
-            <div id="respostaIA" class="resposta-ia"></div>
-        </div>
+    <a href="/medico" class="voltar-fixo"><button class="logout">voltar</button></a>
+</main>
 
-        <!-- Botão voltar fixo no canto inferior esquerdo -->
-        <a href="/medico" class="voltar-fixo"><button class="logout">voltar</button></a>
+<!-- Script -->
+<script>
+document.getElementById('interpretarBtn').addEventListener('click', async function () {
+    const form = document.getElementById('pdfForm');
+    const fileInput = document.getElementById('pdfFile');
+    const loading = document.getElementById('loading');
+    const respostaDiv = document.getElementById('respostaIA');
 
-    <!-- Script responsável por exibir a mensagem original e a interpretada pela IA -->
-    <script>
-    // Função para exibir apenas o texto editado pela IA (como texto comum)
-    document.getElementById('interpretarBtn').onclick = async function() {
-        const form = document.getElementById('pdfForm');
-        const fileInput = document.getElementById('pdfFile');
-        if (!fileInput.files.length) {
-            alert('Selecione um arquivo PDF!');
-            return;
-        }
-        const formData = new FormData(form);
-        // Envia o PDF para o backend
-        const response = await fetch('/api/interpretar-pdf', {
-            method: 'POST',
-            body: formData
-        });
+    if (!fileInput.files.length) {
+        alert('Selecione um arquivo PDF!');
+        return;
+    }
+
+    loading.classList.add('active'); // ativa o overlay
+    // Tenta garantir que o vídeo comece a tocar (autoplay funciona quando muted)
+    const vid = document.getElementById('loadingVideo');
+    if (vid) {
+        vid.muted = true;
+        vid.play().catch(() => {});
+    }
+
+    respostaDiv.textContent = '';
+    const formData = new FormData(form);
+    try {
+        const response = await fetch('/api/interpretar-pdf', { method: 'POST', body: formData });
         const result = await response.json();
 
-        // Exibe apenas a resposta interpretada pela IA, como texto comum
         let resposta = '';
         if (result.respostaIA) {
             try {
-                // Tenta extrair o campo 'resposta' do JSON retornado pela IA
                 const iaObj = JSON.parse(result.respostaIA);
                 resposta = iaObj.resposta || result.respostaIA;
             } catch (e) {
@@ -105,10 +111,18 @@ fetch('/api/profile')
         } else {
             resposta = 'Nenhuma resposta da IA.';
         }
-        document.getElementById('respostaIA').textContent = resposta;
-    };
-    </script>
+
+        respostaDiv.textContent = resposta;
+    } catch (err) {
+        respostaDiv.textContent = 'Erro ao processar o arquivo.';
+    } finally {
+        // pausa/reset do vídeo quando fechar o overlay
+        const vidClose = document.getElementById('loadingVideo');
+        if (vidClose) { vidClose.pause(); vidClose.currentTime = 0; }
+        loading.classList.remove('active'); // desativa o overlay
+    }
+});
+</script>
 
 </body>
-
 </html>

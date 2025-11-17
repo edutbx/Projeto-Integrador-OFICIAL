@@ -56,4 +56,10 @@ public class appController {
         return "register";
     }
 
+    // Rota para a página "Sobre Nós"
+    @GetMapping("/sobreNos")
+    public String sobreNos() {
+        return "sobreNos";
+    }
+
 }
