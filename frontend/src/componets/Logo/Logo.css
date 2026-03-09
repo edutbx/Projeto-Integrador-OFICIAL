@@ -1,0 +1,16 @@
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo--sm  { font-size: 1.4rem; }
+.logo--md  { font-size: 1.8rem; }
+.logo--lg  { font-size: 2.6rem; }
+
+.logo__saude      { color: #3b6bc8; }
+.logo__plus       { display: inline-flex; align-items: baseline; margin-left: 1px; }
+.logo__plus-red   { color: #e05c35; font-size: 1.1em; line-height: 1; }
+.logo__plus-orange{ color: #f4a623; font-size: 1.1em; line-height: 1; }

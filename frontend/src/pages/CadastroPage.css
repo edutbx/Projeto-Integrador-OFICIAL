@@ -1,0 +1,154 @@
+.cad-page { display: flex; flex-direction: column; min-height: 100vh; font-family: 'Poppins', sans-serif; }
+
+.cad-page__header {
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  height: 80px;
+  border-bottom: 1px solid #eee;
+}
+
+.cad-page__body {
+  flex: 1;
+  background: #3b6bc8;
+  padding: 48px 40px;
+  display: flex; flex-direction: column; align-items: flex-start;
+}
+
+.cad-page__titulo {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 28px 0;
+  letter-spacing: .5px;
+}
+
+.cad-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 48px 32px;
+  width: 100%;
+  max-width: 900px;
+  align-self: center;
+  position: relative;
+  min-height: 480px;
+}
+
+/* Progress bar */
+.cad-progress {
+  display: flex; align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 32px;
+}
+.cad-progress__dot {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: #ffe7b5;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #c8861a;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: background .3s, color .3s;
+}
+.cad-progress__dot--active { background: #f4a623; color: #fff; }
+
+.cad-progress__line {
+  flex: 1; height: 6px; max-width: 280px;
+  background: #ffe7b5;
+  transition: background .3s;
+}
+.cad-progress__line--active { background: #f4a623; }
+
+/* Step */
+.cad-step h2 {
+  text-align: center;
+  color: #3b6bc8;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 28px;
+}
+
+.cad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 40px;
+  margin-bottom: 24px;
+}
+
+.cad-grid label {
+  display: block;
+  font-weight: 600;
+  font-size: .88rem;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.cad-grid input,
+.cad-grid select {
+  width: 100%;
+  padding: 11px 14px;
+  background: #fff8e8;
+  border: none;
+  border-radius: 8px;
+  font-size: .92rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: box-shadow .2s;
+}
+.cad-grid input:focus,
+.cad-grid select:focus { box-shadow: 0 0 0 2px #4d97e4; }
+
+.cad-erro {
+  color: #e05c35; font-size: .85rem;
+  text-align: center; margin: -8px 0 12px;
+}
+
+.cad-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.cad-btn {
+  padding: 12px 40px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: .95rem;
+  cursor: pointer;
+  border: none;
+  transition: .2s;
+  min-width: 140px;
+  text-align: center;
+}
+.cad-btn--primary { background: #3b6bc8; color: #fff; }
+.cad-btn--primary:hover:not(:disabled) { background: #2f58ad; }
+.cad-btn--primary:disabled { opacity: .65; cursor: not-allowed; }
+.cad-btn--outline { background: #4d97e4; color: #fff; }
+.cad-btn--outline:hover { background: #3b80cc; }
+
+/* Success overlay */
+.cad-sucesso-overlay {
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,.92);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+}
+.cad-sucesso-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 48px 40px;
+  max-width: 460px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.cad-sucesso-box h3 { color: #3b6bc8; font-size: 1.25rem; font-weight: 700; margin: 0; }
+.cad-sucesso-box p  { color: #3b6bc8; font-size: .95rem; margin: 0; }
+
+@media (max-width: 680px) {
+  .cad-card { padding: 24px 16px; }
+  .cad-grid { grid-template-columns: 1fr; gap: 16px; }
+  .cad-page__body { padding: 32px 16px; }
+}

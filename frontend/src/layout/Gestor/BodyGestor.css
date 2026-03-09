@@ -1,0 +1,33 @@
+.gestor-page { display: flex; flex-direction: column; min-height: 100vh; font-family: 'Poppins', sans-serif; }
+.gestor-main { display: flex; flex: 1; }
+.gestor-sidebar {
+  width: 220px; background: #3b6bc8; padding: 32px 0; flex-shrink: 0;
+}
+.gestor-nav { display: flex; flex-direction: column; }
+.gestor-nav__item {
+  padding: 14px 28px; color: rgba(255,255,255,.8); text-decoration: none;
+  font-weight: 500; transition: .2s;
+}
+.gestor-nav__item:hover,
+.gestor-nav__item--active { background: rgba(255,255,255,.15); color: #fff; }
+
+.gestor-content { flex: 1; padding: 48px; background: #f4f8ff; }
+.gestor-content h1 { color: #3b6bc8; font-size: 1.5rem; margin: 0 0 32px; }
+
+.gestor-cards {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+}
+.gestor-card {
+  background: #fff; border-radius: 12px; padding: 28px 20px;
+  text-align: center; border-top: 4px solid #f4a623;
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+}
+.gestor-card__num { font-size: 2.4rem; font-weight: 800; color: #3b6bc8; margin: 0; }
+.gestor-card__label { font-size: .85rem; color: #666; margin: 8px 0 0; }
+
+@media (max-width: 900px) {
+  .gestor-main { flex-direction: column; }
+  .gestor-sidebar { width: 100%; }
+  .gestor-nav { flex-direction: row; flex-wrap: wrap; }
+  .gestor-cards { grid-template-columns: repeat(2, 1fr); }
+}
