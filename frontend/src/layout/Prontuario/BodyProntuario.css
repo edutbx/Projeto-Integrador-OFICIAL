@@ -42,7 +42,7 @@
 /* ── Conteúdo ── */
 .pront-conteudo {
   flex: 1;
-  background: #fff;
+  background: #f4f8ff;
   padding: 40px 48px;
   display: flex;
   flex-direction: column;

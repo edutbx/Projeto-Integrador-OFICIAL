@@ -71,18 +71,15 @@ export async function register(payload: {
 // ─── Verificação de sessão ───────────────────────────────────────────────────
 
 /**
- * Verifica com o BACKEND se o token ainda é válido.
- * Chama GET /api/medico — rota autenticada que já existe no backend
- * (MedicoRestController). Retorna 200 se autenticado, 401 se não.
- *
- * Usamos /api/medico porque não há /api/auth/me no backend original.
- * O JwtAuthenticationFilter valida o token enviado no header Authorization.
+ * Verifica com o BACKEND se o token do médico ainda é válido.
+ * Chama GET /api/auth/me — rota autenticada do AuthController.
+ * Retorna 200 se autenticado, 401 se não.
  */
 export async function checkAuth(): Promise<boolean> {
   const token = getToken();
   if (!token) return false;
   try {
-    const res = await fetch('/api/medico', {
+    const res = await fetch('/api/auth/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
     return res.ok; // 200 = token válido; 401/403 = inválido ou expirado
@@ -104,7 +101,7 @@ export function logout(): void {
   localStorage.removeItem('userName');
   localStorage.removeItem('userSobrenome');
   localStorage.removeItem('userEspecializacao');
-  window.location.href = '/login';
+  window.location.href = '/entrar';
 }
 
 export function getUsuario(): { nome: string; sobrenome: string; crm: string; especializacao: string } | null {
@@ -114,4 +111,95 @@ export function getUsuario(): { nome: string; sobrenome: string; crm: string; es
   const especializacao= localStorage.getItem('userEspecializacao')
   if (!nome || !crm) return null;
   return { nome, sobrenome, crm, especializacao };
+}
+
+// ─── Cadastro sem salvar sessão (para uso pelo gestor) ───────────────────────
+
+/**
+ * Registra um médico sem sobrescrever a sessão atual do gestor.
+ * Usado quando o cadastro é iniciado a partir da área do gestor.
+ */
+export async function registerSemSessao(payload: {
+  nome: string; sobrenome: string; cpf: string; rg: string; dataNascimento: string; sexo: string;
+  crm: string; especializacao: string; idGestor: string; email: string; senha: string;
+  cep: string; logradouro: string; numero: string; complemento: string; cidade: string; estado: string;
+}): Promise<void> {
+  const res = await fetch(`${API}/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d.error || 'Erro ao cadastrar');
+  }
+  // Descarta a resposta — não salva a sessão do médico recém-criado
+}
+
+// ─── Gestor: autenticação separada ───────────────────────────────────────────
+
+export function getGestorToken(): string | null {
+  return localStorage.getItem('gestor_jwt');
+}
+
+function saveGestorSession(data: import('../types').AuthResponse): void {
+  localStorage.setItem('gestor_jwt',       data.token);
+  localStorage.setItem('gestor_email',     data.email);
+  localStorage.setItem('gestor_nome',      data.nome);
+  localStorage.setItem('gestor_sobrenome', data.sobrenome);
+}
+
+export function gestorAuthHeaders(): HeadersInit {
+  const token = getGestorToken();
+  return token
+    ? { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
+    : { 'Content-Type': 'application/json' };
+}
+
+export async function loginGestor(email: string, senha: string): Promise<import('../types').AuthResponse> {
+  const res = await fetch(`${API}/login-gestor`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, senha }),
+  });
+  if (!res.ok) {
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d.error || 'Credenciais inválidas');
+  }
+  const data: import('../types').AuthResponse = await res.json();
+  saveGestorSession(data);
+  return data;
+}
+
+/**
+ * Verifica com o backend se o token do gestor ainda é válido.
+ * Chama GET /api/auth/admin/medicos — rota que exige ROLE_ADMIN.
+ */
+export async function checkAuthGestor(): Promise<boolean> {
+  const token = getGestorToken();
+  if (!token) return false;
+  try {
+    const res = await fetch('/api/auth/admin/medicos', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+export function logoutGestor(): void {
+  localStorage.removeItem('gestor_jwt');
+  localStorage.removeItem('gestor_email');
+  localStorage.removeItem('gestor_nome');
+  localStorage.removeItem('gestor_sobrenome');
+  window.location.href = '/login-gestor';
+}
+
+export function getGestor(): { nome: string; sobrenome: string; email: string } | null {
+  const nome      = localStorage.getItem('gestor_nome');
+  const sobrenome = localStorage.getItem('gestor_sobrenome');
+  const email     = localStorage.getItem('gestor_email');
+  if (!nome || !email) return null;
+  return { nome, sobrenome: sobrenome ?? '', email };
 }

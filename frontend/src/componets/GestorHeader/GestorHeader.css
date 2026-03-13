@@ -1,0 +1,55 @@
+.gestor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 80px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.gestor-header__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.gestor-header__info { text-align: right; }
+
+.gestor-header__name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.gestor-header__role {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #3b6bc8;
+  font-weight: 500;
+}
+
+.gestor-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.gestor-header__sair {
+  background: #4d97e4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.gestor-header__sair:hover { background: #3b80cc; }

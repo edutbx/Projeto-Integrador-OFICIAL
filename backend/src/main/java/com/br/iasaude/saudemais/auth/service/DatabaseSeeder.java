@@ -25,7 +25,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             admin.setNome("Admin");
             admin.setEmail("admin@example.com");
             admin.setSenhaHash(encoder.encode("admin123"));
-            admin.setRoles(Set.of("ROLE_ADMIN","ROLE_USER"));
+            admin.setRoles(Set.of("ROLE_ADMIN"));
             userRepository.save(admin);
         }
     }

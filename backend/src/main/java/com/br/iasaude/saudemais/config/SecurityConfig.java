@@ -4,6 +4,7 @@ package com.br.iasaude.saudemais.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 // Classe de configuração de segurança do Spring
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
     /**
      * Retorna 401 JSON para requisições de API não autenticadas.
@@ -64,17 +66,44 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable());
         } else {
             http.authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                        "/medico.html", "/medico",
-                        "/novaconsulta.html", "/prontuario.html", "/gestor.html",
-                        "/novaconsulta", "/prontuario", "/gestor"
-                    ).authenticated()
-                    .requestMatchers("/api/medico").authenticated()
-                    .requestMatchers("/api/auth/me").authenticated()
-                    .anyRequest().permitAll()
-                )
-                .csrf(csrf -> csrf.disable())
-                .exceptionHandling(e -> e.authenticationEntryPoint(customAuthenticationEntryPoint()));
+                            // Rotas públicas
+                            .requestMatchers(
+                                    "/",
+                                    "/index.html",
+                                    "/login",
+                                    "/login-gestor",
+                                    "/cadastro",
+                                    "/entrar",
+                                    "/servicos",
+                                    "/contato",
+                                    "/api/auth/login",
+                                    "/api/auth/login-gestor",
+                                    "/api/auth/register"
+                            ).permitAll()
+
+                            // Sessão autenticada para qualquer usuário logado
+                            .requestMatchers("/api/auth/me").authenticated()
+
+                            // Área médica
+                            .requestMatchers(
+                                    "/medico", "/medico.html",
+                                    "/novaconsulta", "/novaconsulta.html",
+                                    "/prontuario", "/prontuario.html"
+                            ).hasRole("USER")
+
+                            // Área gestor
+                            .requestMatchers(
+                                    "/gestor", "/gestor.html"
+                            ).hasRole("ADMIN")
+
+                            // APIs administrativas
+                            .requestMatchers("/api/auth/admin/**").hasRole("ADMIN")
+
+                            // Qualquer outra requisição
+                            .anyRequest().permitAll()
+                    )
+                    .csrf(csrf -> csrf.disable())
+                    .exceptionHandling(e -> e.authenticationEntryPoint(customAuthenticationEntryPoint()));
         }
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

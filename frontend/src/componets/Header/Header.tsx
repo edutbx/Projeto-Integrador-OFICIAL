@@ -15,9 +15,9 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       <nav className={`pub-header__nav ${open ? 'pub-header__nav--open' : ''}`}>
         <a href="/" className="pub-header__link">Início</a>
         <a href="/sobreNos" className="pub-header__link">Sobre</a>
-        <a href="/" className="pub-header__link">Serviços</a>
-        <a href="/" className="pub-header__link">Contato</a>
-        <a href="/login" className="pub-header__btn">Entrar</a>
+        <a href="/servicos" className="pub-header__link">Serviços</a>
+        <a href="/contato" className="pub-header__link">Contato</a>
+        <a href="/entrar" className="pub-header__btn">Entrar</a>
       </nav>
     </header>
   );

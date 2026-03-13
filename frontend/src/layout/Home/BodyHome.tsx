@@ -65,7 +65,7 @@ const BodyHome: React.FC = () => {
           <h1 className="home__hero-title">O FUTURO DA SAÚDE É AGORA</h1>
           <p>Mais clareza, padronização e segurança na comunicação médica.</p>
           <p>Com ajuda de inteligência artificial, os prontuários são adaptados à especialidade de cada profissional, <strong>reduzindo erros e otimizando o atendimento.</strong></p>
-          <a href="/cadastro" className="home__hero-btn">Cadastre-se</a>
+          <a href="/entrar" className="home__hero-btn">Acessar Plataforma</a>
         </div>
       </section>
 

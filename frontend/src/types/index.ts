@@ -50,3 +50,22 @@ export interface Consulta {
   informacoes: string;
   foto?: string;
 }
+
+export interface GestorLoginRequest {
+  email: string;
+  senha: string;
+}
+
+export interface MedicoResumo {
+  id: string;
+  nome: string;
+  sobrenome: string;
+  crm: string;
+  especializacao: string;
+  email: string;
+}
+
+export interface MedicosResponse {
+  totalMedicosAtivos: number;
+  medicos: MedicoResumo[];
+}

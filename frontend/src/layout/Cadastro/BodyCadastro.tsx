@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { register } from '../../services/authService';
+import { register, registerSemSessao } from '../../services/authService';
 import './BodyCadastro.css';
 
 interface FormData {
@@ -15,6 +15,9 @@ const INITIAL: FormData = {
   crm:'', especializacao:'', idGestor:'', email:'', senha:'',
   cep:'', logradouro:'', numero:'', complemento:'', cidade:'', estado:'',
 };
+
+// Detecta se o cadastro foi iniciado a partir da área do gestor
+const sourceGestor = window.location.search.includes('source=gestor');
 
 const BodyCadastro: React.FC = () => {
   const [step, setStep] = useState(0);
@@ -33,12 +36,29 @@ const BodyCadastro: React.FC = () => {
     e.preventDefault();
     setErro(''); setLoading(true);
     try {
-      await register({ nome: form.nome, sobrenome: form.sobrenome, cpf: form.cpf, rg: form.rg, dataNascimento: form.dataNascimento, sexo: form.sexo, crm: form.crm, especializacao: form.especializacao, idGestor: form.idGestor,
-          email: form.email, senha: form.senha, cep: form.cep, logradouro: form.logradouro, numero: form.numero, complemento: form.complemento, cidade: form.cidade, estado: form.estado});
+      const payload = {
+        nome: form.nome, sobrenome: form.sobrenome, cpf: form.cpf, rg: form.rg,
+        dataNascimento: form.dataNascimento, sexo: form.sexo, crm: form.crm,
+        especializacao: form.especializacao, idGestor: form.idGestor, email: form.email,
+        senha: form.senha, cep: form.cep, logradouro: form.logradouro, numero: form.numero,
+        complemento: form.complemento, cidade: form.cidade, estado: form.estado,
+      };
+
+      if (sourceGestor) {
+        // Modo gestor: registra sem sobrescrever a sessão do gestor
+        await registerSemSessao(payload);
+      } else {
+        await register(payload);
+      }
       setSucesso(true);
     } catch (err: any) { setErro(err.message || 'Erro ao cadastrar'); }
     finally { setLoading(false); }
   };
+
+  const voltarDestino = sourceGestor ? '/gestor' : '/';
+  const sucessoDestino = sourceGestor ? '/gestor' : '/login';
+  const sucessoMensagem = sourceGestor ? 'Médico cadastrado com sucesso!' : 'Cadastro realizado com sucesso!';
+  const sucessoSub = sourceGestor ? 'O médico já pode acessar a plataforma.' : 'Agora você pode acessar sua conta';
 
   return (
     <div className="cad-page__body">
@@ -72,7 +92,7 @@ const BodyCadastro: React.FC = () => {
               </div>
             </div>
             <div className="cad-btns">
-              <button className="cad-btn cad-btn--outline" onClick={() => window.location.href = '/'}>Voltar</button>
+              <button className="cad-btn cad-btn--outline" onClick={() => window.location.href = voltarDestino}>Voltar</button>
               <button className="cad-btn cad-btn--primary" onClick={next}>Continuar</button>
             </div>
           </div>
@@ -154,9 +174,9 @@ const BodyCadastro: React.FC = () => {
                   <polyline points="14,24 21,32 35,16" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <h3>Cadastro realizado com sucesso!</h3>
-              <p>Agora você pode acessar sua conta</p>
-              <button className="cad-btn cad-btn--primary" style={{width:'60%'}} onClick={() => window.location.href = '/login'}>OK</button>
+              <h3>{sucessoMensagem}</h3>
+              <p>{sucessoSub}</p>
+              <button className="cad-btn cad-btn--primary" style={{width:'60%'}} onClick={() => window.location.href = sucessoDestino}>OK</button>
             </div>
           </div>
         )}
