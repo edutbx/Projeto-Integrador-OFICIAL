@@ -1,0 +1,16 @@
+.cad-page { display: flex; flex-direction: column; min-height: 100vh; font-family: 'Poppins', sans-serif; }
+
+.cad-page__header {
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  height: 80px;
+  box-shadow: 0 2px 16px rgba(13, 33, 87, 0.09);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 991px) {
+  .cad-page__header { height: 72px; }
+}
+@media (max-width: 575px) {
+  .cad-page__header { height: 64px; }
+}

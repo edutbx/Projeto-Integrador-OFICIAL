@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { register, registerSemSessao } from '../../services/authService';
-import './BodyCadastro.css';
+import '../../styles/layout/BodyCadastro.css';
 
 interface FormData {
   nome: string; sobrenome: string; cpf: string;

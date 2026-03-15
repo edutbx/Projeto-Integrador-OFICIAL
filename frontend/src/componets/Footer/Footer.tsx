@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo from '../Logo/Logo';
-import './Footer.css';
+import '../../styles/components/Footer.css';
 
 type FooterProps = { className?: string }
 
@@ -10,18 +10,15 @@ const Footer: React.FC<FooterProps> = ({ className }) => (
       <Logo size="md" />
       <div className="footer__cols">
         <div className="footer__col">
-          <p className="footer__title">Sobre</p>
-          <a href="/">Sobre o Saúde++</a>
-          <a href="/">Termos de Uso e Políticas de Privacidade</a>
-          <a href="/">Trabalhe conosco</a>
-          <a href="/">Dúvidas Frequentes</a>
+          <p className="footer__title">Links rápidos</p>
+          <a href="/">Início</a>
+          <a href="/sobreNos">Sobre o Saúde++</a>
+          <a href="/servicos">Serviços</a>
         </div>
         <div className="footer__col">
-          <p className="footer__title">Serviços</p>
-          <a href="/">Exames</a>
-          <a href="/">Testes</a>
-          <a href="/">Check-up</a>
-          <a href="/">Prontuário online</a>
+          <p className="footer__title">Plataforma</p>
+          <a href="/login">Login Médico</a>
+          <a href="/login-gestor">Login Gestor</a>
         </div>
         <div className="footer__col">
           <p className="footer__title">Contato</p>
@@ -31,7 +28,7 @@ const Footer: React.FC<FooterProps> = ({ className }) => (
       </div>
     </div>
     <div className="footer__bottom">
-      <p>© 2025 Saúde ++. Todos os direitos reservados.</p>
+      <p>© 2026 Saúde ++. Todos os direitos reservados.</p>
     </div>
   </footer>
 );

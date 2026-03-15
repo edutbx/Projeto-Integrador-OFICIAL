@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LoadingOverlay from '../../componets/LoadingOverlay/LoadingOverlay';
 import { interpretarPdf } from '../../services/apiService';
-import './BodyProntuario.css';
+import '../../styles/layout/BodyProntuario.css';
 
 const PatientPhoto: React.FC = () => (
   <div className="pront-avatar"><img src="/img/icon.png" alt="paciente" /></div>

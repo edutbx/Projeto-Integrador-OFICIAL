@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './BodyContato.css';
+import '../../styles/layout/BodyContato.css';
 
 const BodyContato: React.FC = () => {
   const [form, setForm] = useState({ nome: '', email: '', assunto: '', mensagem: '' });

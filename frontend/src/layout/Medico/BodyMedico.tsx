@@ -1,5 +1,5 @@
 import React from 'react';
-import './BodyMedico.css';
+import '../../styles/layout/BodyMedico.css';
 
 const IcMicroscopio = () => (
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none">

@@ -78,7 +78,8 @@ public class SecurityConfig {
                                     "/contato",
                                     "/api/auth/login",
                                     "/api/auth/login-gestor",
-                                    "/api/auth/register"
+                                    "/api/auth/register",
+                                    "/api/notificacoes"
                             ).permitAll()
 
                             // Sessão autenticada para qualquer usuário logado

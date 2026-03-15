@@ -1,7 +1,7 @@
 import React from 'react';
 import { logout } from '../../services/authService';
 import Logo from '../Logo/Logo';
-import './DoctorHeader.css';
+import '../../styles/components/DoctorHeader.css';
 
 interface DoctorHeaderProps { nome?: string; sobrenome?: string, crm?: string; especializacao?: string; }
 
@@ -19,7 +19,7 @@ const DoctorIcon: React.FC = () => (
 
 const DoctorHeader: React.FC<DoctorHeaderProps> = ({ nome = 'Médico', sobrenome = 'Médico', crm = 'Crm', especializacao = 'Especialidade' }) => (
   <header className="doc-header">
-    <Logo />
+    <Logo size="sm" />
     <div className="doc-header__right">
       <div className="doc-header__info">
         <p className="doc-header__name"><span className="doc-header__dr">Dr: </span>{nome} {sobrenome}</p>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getGestorToken } from '../../services/authService';
 import { MedicoResumo } from '../../types';
-import '../Gestor/BodyGestor.css'; // classes compartilhadas: gestor-main, gestor-sidebar, gestor-nav
-import './BodyGestorMedicos.css';
+import '../../styles/layout/BodyGestor.css'; // classes compartilhadas: gestor-main, gestor-sidebar, gestor-nav
+import '../../styles/layout/BodyGestorMedicos.css';
 
 const path = window.location.pathname;
 

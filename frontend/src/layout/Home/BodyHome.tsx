@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './BodyHome.css';
+import React, { useEffect, useState } from 'react';
+import '../../styles/layout/BodyHome.css';
 
 const IconeProntuario = () => (
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
@@ -25,13 +25,18 @@ const IconeComunicacao = () => (
 
 const SERVICOS = [
   { Icon: IconeProntuario, titulo: 'Padronização Inteligente', desc: 'A IA padroniza os prontuários, garantindo clareza e redução de erros nos registros médicos.' },
-  { Icon: IconeCoracao, titulo: 'Adaptação Personalizada', desc: 'Cada especialidade médica recebe a versão do prontuário mais relevante para sua atuação.' },
-  { Icon: IconeComunicacao, titulo: 'Comunicação Segura', desc: 'Histórico de alterações acessível e confiável, promovendo integração entre diferentes profissionais.' },
+  { Icon: IconeCoracao,    titulo: 'Adaptação Personalizada',  desc: 'Cada especialidade médica recebe a versão do prontuário mais relevante para sua atuação.' },
+  { Icon: IconeComunicacao,titulo: 'Comunicação Segura',       desc: 'Histórico de alterações acessível e confiável, promovendo integração entre diferentes profissionais.' },
+];
+
+const PASSOS = [
+  { num: '01', titulo: 'Cadastro Médico',      desc: 'O gestor cadastra o profissional na plataforma com suas especialidades e dados de acesso.' },
+  { num: '02', titulo: 'Envio do Prontuário',  desc: 'O médico envia o prontuário em PDF para análise pela inteligência artificial.' },
+  { num: '03', titulo: 'Resultado Adaptado',   desc: 'A IA processa e retorna uma versão padronizada, adaptada à especialidade do profissional.' },
 ];
 
 const BodyHome: React.FC = () => {
   const [mostrarTopo, setMostrarTopo] = useState(false);
-  const [contato, setContato] = useState({ nome: '', email: '', mensagem: '' });
 
   useEffect(() => {
     const onScroll = () => setMostrarTopo(window.scrollY > 400);
@@ -47,12 +52,6 @@ const BodyHome: React.FC = () => {
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     return () => obs.disconnect();
   }, []);
-
-  const handleContato = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert('Mensagem enviada! Entraremos em contato em breve.');
-    setContato({ nome: '', email: '', mensagem: '' });
-  };
 
   return (
     <>
@@ -89,40 +88,31 @@ const BodyHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── ENTRE EM CONTATO ── */}
-      <section className="home__contato">
-        <h2 className="home__contato-title reveal">
-          ENTRE EM CONTATO
+      {/* ── COMO FUNCIONA ── */}
+      <section className="home__como">
+        <h2 className="home__como-title reveal">
+          COMO FUNCIONA
           <span className="home__servicos-plus">
             <span style={{ color: '#e05c35' }}>+</span>
             <span style={{ color: '#f4a623' }}>+</span>
           </span>
         </h2>
-        <div className="home__contato-inner">
-          <form className="home__contato-form reveal" onSubmit={handleContato}>
-            <div className="home__field">
-              <label>Nome:</label>
-              <input value={contato.nome} onChange={e => setContato({...contato, nome: e.target.value})} placeholder="Seu nome" required />
+        <div className="home__steps">
+          {PASSOS.map(({ num, titulo, desc }) => (
+            <div key={num} className="home__step reveal">
+              <span className="home__step-num">{num}</span>
+              <h3 className="home__step-titulo">{titulo}</h3>
+              <p className="home__step-desc">{desc}</p>
             </div>
-            <div className="home__field">
-              <label>E-mail:</label>
-              <input type="email" value={contato.email} onChange={e => setContato({...contato, email: e.target.value})} placeholder="seu@email.com" required />
-            </div>
-            <div className="home__field">
-              <label>Mensagem:</label>
-              <textarea rows={5} value={contato.mensagem} onChange={e => setContato({...contato, mensagem: e.target.value})} placeholder="Sua mensagem..." required />
-            </div>
-            <button type="submit" className="home__contato-btn">Enviar</button>
-          </form>
-          <div className="home__contato-imgs reveal">
-            <div className="home__contato-circle home__contato-circle--1">
-              <img src="/img/Imagem card 1 Nossos Serviços.png" alt="médico" />
-            </div>
-            <div className="home__contato-circle home__contato-circle--2">
-              <img src="/img/estetoscopio.png" alt="saúde" />
-            </div>
-          </div>
+          ))}
         </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="home__cta reveal">
+        <h2 className="home__cta-title">Pronto para transformar sua gestão médica?</h2>
+        <p className="home__cta-sub">Fale com nosso time e descubra como o Saúde++ pode ajudar sua instituição.</p>
+        <a href="/contato" className="home__cta-btn">Fale Conosco</a>
       </section>
 
       {mostrarTopo && (

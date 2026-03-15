@@ -1,15 +1,13 @@
 import React from 'react';
-import './Logo.css';
+import '../../styles/components/Logo.css';
 
 interface LogoProps { size?: 'sm' | 'md' | 'lg'; }
 
+const HEIGHTS = { sm: 32, md: 48, lg: 72 };
+
 const Logo: React.FC<LogoProps> = ({ size = 'md' }) => (
-  <a href="/" className={`logo logo--${size}`}>
-    <span className="logo__saude">SAÚDE</span>
-    <span className="logo__plus">
-      <span className="logo__plus-red">+</span>
-      <span className="logo__plus-orange">+</span>
-    </span>
+  <a href="/" className="logo">
+    <img src="/img/Logo.png" alt="Saúde++" height={HEIGHTS[size]} />
   </a>
 );
 export default Logo;
