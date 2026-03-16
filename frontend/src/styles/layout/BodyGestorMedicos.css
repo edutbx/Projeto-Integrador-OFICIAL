@@ -91,6 +91,225 @@
   border-radius: 20px;
 }
 
+/* ── BUSCA ── */
+
+.gmed__search {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.gmed__search-input {
+  flex: 1;
+  padding: 11px 16px;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 8px;
+  font-size: .92rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color .2s;
+  background: #fff;
+  color: #333;
+}
+.gmed__search-input:focus { border-color: #3b6bc8; }
+.gmed__search-input::placeholder { color: #aab4c8; }
+
+.gmed__search-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: #3b6bc8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .88rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.gmed__search-btn:hover { background: #2f58ad; }
+
+.gmed__not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: #888;
+  font-size: .95rem;
+}
+
+.gmed__not-found-clear {
+  background: none;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: .85rem;
+  font-family: 'Poppins', sans-serif;
+  color: #3b6bc8;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.gmed__not-found-clear:hover { background: #f0f4fa; border-color: #3b6bc8; }
+
+/* ── AÇÕES ── */
+
+.gmed__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.gmed__btn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.gmed__btn-action--pause {
+  background: #fff7e6;
+  color: #f4a623;
+}
+.gmed__btn-action--pause:hover {
+  background: #f4a623;
+  color: #fff;
+}
+
+.gmed__btn-action--reativar {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.gmed__btn-action--reativar:hover {
+  background: #2e7d32;
+  color: #fff;
+}
+
+.gmed__btn-action--delete {
+  background: #fdecea;
+  color: #c0392b;
+}
+.gmed__btn-action--delete:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* ── LINHA INATIVA ── */
+
+.gmed__tr--inativo td { opacity: .55; }
+.gmed__tr--inativo .gmed__td-nome { text-decoration: line-through; }
+
+.gmed__badge--inativo {
+  background: #fdecea;
+  color: #c0392b;
+}
+
+/* ── MODAL ── */
+
+.gmed__modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.gmed__modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 36px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.18);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gmed__modal-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.gmed__modal-desc {
+  color: #555;
+  font-size: .92rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.gmed__modal-label {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.gmed__modal-input {
+  width: 100%;
+  padding: 11px 16px;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 8px;
+  font-size: .92rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color .2s;
+  box-sizing: border-box;
+}
+.gmed__modal-input:focus { border-color: #3b6bc8; }
+
+.gmed__modal-erro {
+  color: #c0392b;
+  font-size: .82rem;
+  margin: 0;
+  padding: 8px 12px;
+  background: #fdecea;
+  border-radius: 6px;
+}
+
+.gmed__modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.gmed__modal-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  font-size: .88rem;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: background .2s;
+}
+.gmed__modal-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.gmed__modal-btn--cancel {
+  background: #f0f4fa;
+  color: #555;
+}
+.gmed__modal-btn--cancel:hover:not(:disabled) { background: #e0e8f5; }
+
+.gmed__modal-btn--confirm {
+  background: #c0392b;
+  color: #fff;
+}
+.gmed__modal-btn--confirm:hover:not(:disabled) { background: #a93226; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 991px) {
   .gmed__table th,
@@ -106,4 +325,9 @@
   .gmed__table th,
   .gmed__table td { padding: 8px 10px; font-size: .8rem; }
   .gmed__btn-novo { width: 100%; text-align: center; }
+  .gmed__search { flex-direction: column; }
+  .gmed__search-btn { width: 100%; justify-content: center; }
+  .gmed__modal { padding: 24px 20px; }
+  .gmed__modal-actions { flex-direction: column-reverse; }
+  .gmed__modal-btn { width: 100%; text-align: center; }
 }
