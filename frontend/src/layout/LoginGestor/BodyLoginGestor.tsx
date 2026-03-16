@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { loginGestor } from '../../services/authService';
-import './BodyLoginGestor.css';
+import '../../styles/layout/BodyLoginGestor.css';
 
 const BodyLoginGestor: React.FC = () => {
   const [email, setEmail]   = useState('');

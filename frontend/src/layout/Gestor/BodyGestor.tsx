@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getGestorToken } from '../../services/authService';
-import './BodyGestor.css';
+import '../../styles/layout/BodyGestor.css';
 
 const path = window.location.pathname;
 

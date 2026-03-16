@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './BodyNovaConsulta.css';
+import '../../styles/layout/BodyNovaConsulta.css';
 
 const BodyNovaConsulta: React.FC = () => {
   const [cpf, setCpf] = useState('');

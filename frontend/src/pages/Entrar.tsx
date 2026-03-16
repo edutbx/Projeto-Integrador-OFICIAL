@@ -6,7 +6,7 @@ export default function Entrar() {
   return (
     <div className="entrar-page">
       <header className="entrar-page__header">
-        <Logo />
+        <Logo size="sm" />
         <nav className="entrar-page__nav">
           <a href="/">Início</a>
           <a href="/sobreNos">Sobre</a>

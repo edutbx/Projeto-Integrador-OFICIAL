@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './BodyServicos.css';
+import '../../styles/layout/BodyServicos.css';
 
 const IconeProntuario = () => (
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none">

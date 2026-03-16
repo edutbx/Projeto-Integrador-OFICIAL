@@ -1,0 +1,157 @@
+================================================================
+  SISTEMA DE NOTIFICAÇÕES — SOLICITAÇÃO DE CADASTRO
+  Projeto: Saúde++
+  Data: 14/03/2026
+================================================================
+
+VISÃO GERAL
+-----------
+Foi implementado um sistema de notificações para que médicos possam
+solicitar cadastro diretamente pela tela de login, e o gestor do
+sistema seja alertado em tempo real no painel administrativo.
+
+Fluxo resumido:
+  1. Médico acessa /login e clica em "Solicitar cadastro"
+  2. Um modal abre pedindo nome, e-mail, CRM e mensagem
+  3. Ao confirmar, uma notificação é salva no banco de dados (MongoDB)
+  4. O gestor vê o sino no header com badge vermelho indicando novas notificações
+  5. Ao clicar no sino, um painel exibe todas as solicitações com os dados do médico
+  6. O gestor marca como lida e realiza o cadastro manualmente
+
+
+================================================================
+  BACKEND
+================================================================
+
+ARQUIVOS CRIADOS
+----------------
+
+1. backend/.../auth/model/Notificacao.java
+   - Entidade MongoDB mapeada para a collection "notificacoes"
+   - Campos:
+       id            → ID gerado pelo MongoDB
+       tipo          → sempre "SOLICITACAO_CADASTRO"
+       nomeRemetente → nome do médico que solicitou
+       emailRemetente→ e-mail de contato
+       crm           → CRM do médico (opcional)
+       mensagem      → observação adicional (opcional)
+       dataHora      → data e hora do envio (LocalDateTime)
+       lida          → false por padrão, true quando o gestor marca
+
+2. backend/.../auth/repository/NotificacaoRepository.java
+   - Interface que estende MongoRepository
+   - Métodos:
+       findAllByOrderByDataHoraDesc() → lista todas ordenadas pela mais recente
+       countByLidaFalse()            → conta quantas ainda não foram lidas
+
+3. backend/.../auth/dto/NotificacaoRequest.java
+   - DTO (objeto de transferência) que recebe os dados do frontend
+   - Campos: nomeRemetente, emailRemetente, crm, mensagem
+
+4. backend/.../auth/controller/NotificacaoController.java
+   - Controller REST com 4 endpoints:
+
+       POST   /api/notificacoes              → público, cria a notificação
+       GET    /api/notificacoes/admin        → admin, lista todas
+       GET    /api/notificacoes/admin/count  → admin, retorna { naoLidas: N }
+       PUT    /api/notificacoes/admin/{id}/lida → admin, marca como lida
+
+   - Os endpoints /admin/* exigem ROLE_ADMIN via @PreAuthorize
+
+ARQUIVOS MODIFICADOS
+--------------------
+
+5. backend/.../config/SecurityConfig.java
+   - Adicionado "/api/notificacoes" na lista de rotas públicas (permitAll)
+   - Isso permite que qualquer pessoa (sem login) envie uma solicitação
+
+
+================================================================
+  FRONTEND
+================================================================
+
+ARQUIVOS CRIADOS
+----------------
+
+6. frontend/src/services/notificacaoService.ts
+   - Serviço TypeScript com 4 funções:
+
+       enviarSolicitacao(dados)       → POST /api/notificacoes (público)
+       listarNotificacoes(token)      → GET  /api/notificacoes/admin
+       contarNaoLidas(token)          → GET  /api/notificacoes/admin/count
+       marcarComoLida(id, token)      → PUT  /api/notificacoes/admin/{id}/lida
+
+   - Também exporta a interface Notificacao (tipagem TypeScript)
+
+ARQUIVOS MODIFICADOS
+--------------------
+
+7. frontend/src/componets/GestorHeader/GestorHeader.tsx
+   - Convertido para componente com estado (useState + useEffect)
+   - Adicionado sino de notificações no header do gestor:
+       → Badge vermelho com contagem de não lidas
+       → Animação de pulso quando há notificações novas
+       → Polling automático a cada 30 segundos para verificar novas notificações
+       → Painel dropdown ao clicar no sino com lista de solicitações
+       → Cada item mostra: nome, e-mail, CRM, mensagem e horário
+       → Botão "Marcar como lida" em cada notificação não lida
+       → Fecha ao clicar fora do painel
+
+8. frontend/src/styles/components/GestorHeader.css
+   - Adicionados estilos para:
+       .gestor-bell           → botão do sino
+       .gestor-bell--active   → pulso animado quando há notificações
+       .gestor-bell__badge    → badge vermelho com número
+       .gestor-notif-panel    → painel dropdown
+       .gestor-notif-item     → cada notificação na lista
+       .gestor-notif-item--lida → estilo desbotado para lidas
+
+9. frontend/src/layout/Login/BodyLogin.tsx
+   - Botão "Solicitar cadastro" agora abre um modal (antes redirecionava para /cadastro)
+   - Modal contém:
+       → Campos: Nome completo*, E-mail*, CRM (opcional), Mensagem (opcional)
+       → Botões: Cancelar / Enviar solicitação
+       → Estado de loading durante o envio
+       → Tela de sucesso com ícone verde após envio confirmado
+       → Fecha clicando fora do modal ou no X
+
+10. frontend/src/styles/layout/BodyLogin.css
+    - Adicionados estilos para o modal:
+        .solicit-overlay       → fundo escurecido com blur
+        .solicit-modal         → caixa do modal
+        .solicit-modal__sucesso→ tela de confirmação verde
+        .solicit-modal__actions→ botões cancelar/enviar
+
+
+================================================================
+  SEGURANÇA
+================================================================
+
+- O endpoint POST /api/notificacoes é PÚBLICO (não exige login)
+  → Qualquer pessoa pode enviar uma solicitação de cadastro
+  → Isso é intencional: o médico ainda não tem conta para se autenticar
+
+- Os endpoints GET e PUT /admin/* exigem ROLE_ADMIN
+  → Protegidos por @PreAuthorize("hasRole('ADMIN')")
+  → Apenas o gestor autenticado pode ver e gerenciar as notificações
+
+
+================================================================
+  ARQUIVOS ALTERADOS — RESUMO
+================================================================
+
+  CRIADOS:
+    backend/auth/model/Notificacao.java
+    backend/auth/repository/NotificacaoRepository.java
+    backend/auth/dto/NotificacaoRequest.java
+    backend/auth/controller/NotificacaoController.java
+    frontend/src/services/notificacaoService.ts
+
+  MODIFICADOS:
+    backend/config/SecurityConfig.java
+    frontend/src/componets/GestorHeader/GestorHeader.tsx
+    frontend/src/styles/components/GestorHeader.css
+    frontend/src/layout/Login/BodyLogin.tsx
+    frontend/src/styles/layout/BodyLogin.css
+
+================================================================

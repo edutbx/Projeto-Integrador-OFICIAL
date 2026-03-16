@@ -1,0 +1,109 @@
+.gmed__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.gmed__btn-novo {
+  background: #3b6bc8;
+  color: #fff;
+  text-decoration: none;
+  padding: 11px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: .92rem;
+  transition: background .2s;
+  white-space: nowrap;
+}
+
+.gmed__btn-novo:hover { background: #2f58ad; }
+
+.gmed__loading {
+  color: #3b6bc8;
+  font-size: 1rem;
+  padding: 24px 0;
+}
+
+.gmed__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 0;
+  color: #888;
+}
+
+.gmed__table-wrap {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  overflow-x: auto;
+}
+
+.gmed__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+
+.gmed__table thead {
+  background: #3b6bc8;
+  color: #fff;
+}
+
+.gmed__table th {
+  padding: 14px 20px;
+  text-align: left;
+  font-weight: 600;
+  font-size: .85rem;
+  letter-spacing: .3px;
+}
+
+.gmed__table tbody tr {
+  border-bottom: 1px solid #f0f4fa;
+  transition: background .15s;
+}
+
+.gmed__table tbody tr:hover { background: #f4f8ff; }
+
+.gmed__table td {
+  padding: 14px 20px;
+  color: #333;
+  vertical-align: middle;
+}
+
+.gmed__td-nome {
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.gmed__badge {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: .78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 991px) {
+  .gmed__table th,
+  .gmed__table td { padding: 12px 16px; }
+}
+@media (max-width: 767px) {
+  .gmed__header { flex-direction: column; align-items: flex-start; }
+  .gmed__table { font-size: .85rem; }
+  .gmed__table th,
+  .gmed__table td { padding: 10px 12px; }
+}
+@media (max-width: 575px) {
+  .gmed__table th,
+  .gmed__table td { padding: 8px 10px; font-size: .8rem; }
+  .gmed__btn-novo { width: 100%; text-align: center; }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import './BodyEntrar.css';
+import '../../styles/layout/BodyEntrar.css';
 
 const IconeMedico = () => (
   <svg width="64" height="64" viewBox="0 0 64 64" fill="none">

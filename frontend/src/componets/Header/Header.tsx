@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Logo from '../Logo/Logo';
-import './Header.css';
+import '../../styles/components/Header.css';
 
 type HeaderProps = { className?: string }
 
@@ -8,7 +8,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   const [open, setOpen] = useState(false);
   return (
     <header className={`pub-header ${className ?? ''}`}>
-      <Logo />
+      <Logo size='sm' />
       <button className="pub-header__ham" onClick={() => setOpen(!open)} aria-label="Menu">
         <span /><span /><span />
       </button>

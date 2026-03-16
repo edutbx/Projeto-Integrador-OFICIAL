@@ -6,7 +6,7 @@ export default function LoginGestor() {
   return (
     <div className="lg-page">
       <header className="lg-page__header">
-        <Logo />
+        <Logo size="sm" />
         <nav className="lg-page__nav">
           <a href="/">Início</a>
           <a href="/sobreNos">Sobre</a>

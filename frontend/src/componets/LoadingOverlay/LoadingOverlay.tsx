@@ -1,5 +1,5 @@
 import React from 'react';
-import './LoadingOverlay.css';
+import '../../styles/components/LoadingOverlay.css';
 
 interface Props { ativo: boolean; }
 

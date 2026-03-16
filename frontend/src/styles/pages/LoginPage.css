@@ -1,0 +1,23 @@
+.login-page { display: flex; flex-direction: column; min-height: 100vh; font-family: 'Poppins', sans-serif; }
+
+.login-page__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 72px; background: #fff;
+  box-shadow: 0 2px 16px rgba(13, 33, 87, 0.09);
+}
+.login-page__nav { display: flex; gap: 36px; }
+.login-page__nav a { color: #3b6bc8; text-decoration: none; font-size: .95rem; font-weight: 500; }
+.login-page__nav a:hover { color: #f4a623; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 991px) {
+  .login-page__header { padding: 0 32px; }
+}
+@media (max-width: 767px) {
+  .login-page__header { padding: 0 20px; }
+  .login-page__nav { gap: 16px; }
+}
+@media (max-width: 575px) {
+  .login-page__header { padding: 0 16px; }
+  .login-page__nav { gap: 10px; font-size: .88rem; }
+}
