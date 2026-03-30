@@ -98,10 +98,19 @@
 }
 .cad-grid input:focus,
 .cad-grid select:focus { box-shadow: 0 0 0 2px #3b6bc8; }
+.cad-grid input:disabled,
+.cad-grid select:disabled { background: #e8edf5; color: #7a8aaa; cursor: not-allowed; }
 
 .cad-erro {
   color: #e05c35; font-size: .85rem;
   text-align: center; margin: -8px 0 12px;
+}
+
+.cad-cep-erro {
+  display: block;
+  color: #e05c35;
+  font-size: .78rem;
+  margin-top: 4px;
 }
 
 .cad-btns {
