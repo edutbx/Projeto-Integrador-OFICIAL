@@ -1,3 +1,35 @@
+export interface Patient {
+  id: string;
+  name: string;
+  age: number;
+  gender: string;
+  bloodType: string;
+  allergies: string[];
+  conditions: string[];
+  medications: string[];
+  recentVisits: Visit[];
+  labResults: LabResult[];
+  notes: string;
+}
+
+export interface Visit {
+  id: string;
+  date: string;
+  reason: string;
+  notes: string;
+  doctor: string;
+}
+
+export interface LabResult {
+  id: string;
+  date: string;
+  test: string;
+  result: string;
+  unit: string;
+  referenceRange: string;
+  status: 'normal' | 'abnormal' | 'critical';
+}
+
 export interface AuthResponse {
   token: string;
   nome: string;

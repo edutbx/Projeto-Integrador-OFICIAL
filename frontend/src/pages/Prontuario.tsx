@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from '../hooks/useAuth';
 import DoctorHeader from '../componets/DoctorHeader/DoctorHeader';
 import BodyProntuario from '../layout/Prontuario/BodyProntuario';
@@ -11,9 +10,11 @@ export default function Prontuario() {
     </div>
   );
   return (
-    <div className="pront-page">
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
       <DoctorHeader nome={usuario?.nome} crm={usuario?.crm} especializacao={usuario?.especializacao} />
-      <BodyProntuario />
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        <BodyProntuario />
+      </div>
     </div>
   );
 }
