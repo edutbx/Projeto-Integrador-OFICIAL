@@ -25,9 +25,40 @@ const BodyCadastro: React.FC = () => {
   const [erro, setErro] = useState('');
   const [loading, setLoading] = useState(false);
   const [sucesso, setSucesso] = useState(false);
+  const [cepErro, setCepErro] = useState('');
+  const [cepPreenchido, setCepPreenchido] = useState(false);
 
   const set = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const buscarCep = async (cep: string) => {
+    const cepNumerico = cep.replace(/\D/g, '');
+    if (cepNumerico.length !== 8) return;
+    setCepErro('');
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${cepNumerico}/json/`);
+      if (!res.ok) { setCepErro('CEP não encontrado'); return; }
+      const data = await res.json();
+      if (data.erro) { setCepErro('CEP não encontrado'); return; }
+      setForm(prev => ({
+        ...prev,
+        logradouro: data.logradouro || prev.logradouro,
+        cidade: data.localidade || prev.cidade,
+        estado: data.uf || prev.estado,
+      }));
+      setCepPreenchido(true);
+    } catch {
+      // não quebrar o formulário em caso de falha na requisição
+    }
+  };
+
+  const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    set(e);
+    setCepErro('');
+    setCepPreenchido(false);
+    const cepNumerico = e.target.value.replace(/\D/g, '');
+    if (cepNumerico.length === 8) buscarCep(e.target.value);
+  };
 
   const next = () => setStep(s => Math.min(s + 1, 2));
   const prev = () => setStep(s => Math.max(s - 1, 0));
@@ -119,13 +150,17 @@ const BodyCadastro: React.FC = () => {
           <form className="cad-step" onSubmit={handleFinalizar}>
             <h2>Endereço Profissional</h2>
             <div className="cad-grid">
-              <div><label>CEP:</label><input name="cep" value={form.cep} onChange={set} /></div>
-              <div><label>Logradouro:</label><input name="logradouro" value={form.logradouro} onChange={set} /></div>
+              <div>
+                <label>CEP:</label>
+                <input name="cep" value={form.cep} onChange={handleCepChange} onBlur={(e) => buscarCep(e.target.value)} />
+                {cepErro && <span className="cad-cep-erro">{cepErro}</span>}
+              </div>
+              <div><label>Logradouro:</label><input name="logradouro" value={form.logradouro} onChange={set} disabled={cepPreenchido} /></div>
               <div><label>Número:</label><input name="numero" value={form.numero} onChange={set} /></div>
               <div><label>Complemento:</label><input name="complemento" value={form.complemento} onChange={set} /></div>
-              <div><label>Cidade:</label><input name="cidade" value={form.cidade} onChange={set} /></div>
+              <div><label>Cidade:</label><input name="cidade" value={form.cidade} onChange={set} disabled={cepPreenchido} /></div>
               <div><label>Estado:</label>
-                  <select name="estado" value={form.estado} onChange={set}>
+                  <select name="estado" value={form.estado} onChange={set} disabled={cepPreenchido}>
                   <option value=""></option>
                   <option value="AC">AC</option>
                   <option value="AL">AL</option>
