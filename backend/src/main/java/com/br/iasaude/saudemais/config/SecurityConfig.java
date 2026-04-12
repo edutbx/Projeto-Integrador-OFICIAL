@@ -97,7 +97,8 @@ public class SecurityConfig {
                             .requestMatchers(
                                     "/gestor", "/gestor.html",
                                     "/gestor/medicos",
-                                    "/gestor/pacientes"
+                                    "/gestor/pacientes",
+                                    "/gestor/pacientes/prontuario"
                             ).hasRole("ADMIN")
 
                             // APIs administrativas

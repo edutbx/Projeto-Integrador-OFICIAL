@@ -35,6 +35,14 @@ export async function listarPacientesComoMedico(busca = ''): Promise<PacientesRe
   return processarResposta<PacientesResponse>(res, 'Erro ao listar pacientes');
 }
 
+export async function buscarPacienteComoGestor(id: string): Promise<Paciente> {
+  const token = getGestorToken();
+  const res = await fetch(`${API}/${id}`, {
+    headers: cabecalhosComToken(token),
+  });
+  return processarResposta<Paciente>(res, 'Erro ao buscar paciente');
+}
+
 export async function criarPaciente(payload: PacientePayload): Promise<Paciente> {
   const token = getGestorToken();
   const res = await fetch(API, {
