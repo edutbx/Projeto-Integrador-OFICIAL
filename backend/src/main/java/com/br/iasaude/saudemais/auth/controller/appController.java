@@ -74,6 +74,11 @@ public class appController {
         return "forward:/";
     }
 
+    @GetMapping("/gestor/pacientes/prontuario")
+    public String gestorPacienteProntuario() {
+        return "forward:/";
+    }
+
     @GetMapping("/medico/pacientes")
     public String medicoPacientes() {
         return "forward:/";

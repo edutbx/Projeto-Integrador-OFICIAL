@@ -14,6 +14,7 @@ import Contato from './pages/Contato';
 import Entrar from './pages/Entrar';
 import LoginGestor from './pages/LoginGestor';
 import MedicoPacientes from './pages/MedicoPacientes';
+import GestorPacienteProntuario from './pages/GestorPacienteProntuario';
 
 // Roteamento simples por pathname — mesma lógica anterior
 const ROUTES: Record<string, React.FC> = {
@@ -32,6 +33,7 @@ const ROUTES: Record<string, React.FC> = {
   '/gestor':          Gestor,
   '/gestor/medicos':  GestorMedicos,
   '/gestor/pacientes': GestorPacientes,
+  '/gestor/pacientes/prontuario': GestorPacienteProntuario,
 };
 
 const App: React.FC = () => {

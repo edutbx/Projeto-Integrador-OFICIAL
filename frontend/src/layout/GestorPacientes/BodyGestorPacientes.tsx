@@ -245,6 +245,13 @@ const BodyGestorPacientes: React.FC = () => {
                     <td>
                       <div className="gpac__row-actions">
                         <button type="button" onClick={() => preencherForm(p)}>Editar</button>
+                        <button
+                          type="button"
+                          className="gpac__btn-secondary"
+                          onClick={() => (window.location.href = `/gestor/pacientes/prontuario?pacienteId=${p.id}`)}
+                        >
+                          Prontuário
+                        </button>
                         <button type="button" className="gpac__btn-danger" onClick={() => remover(p.id)}>
                           Excluir
                         </button>

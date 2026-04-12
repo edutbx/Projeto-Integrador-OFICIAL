@@ -377,3 +377,224 @@ ARQUIVOS MODIFICADOS
     frontend/src/layout/Medico/BodyMedico.tsx
 
 ================================================================
+
+================================================================
+  SISTEMA DE PRONTUÁRIO — CRUD + IA (GESTOR + MÉDICO)
+  Projeto: Saúde++
+  Data: 12/04/2026
+================================================================
+
+VISÃO GERAL
+-----------
+Foi implementado o CRUD de prontuário com fluxo entre gestor e médico,
+incluindo integração com IA para interpretação do resumo clínico.
+
+Fluxo resumido:
+  1. Gestor acessa a tela de pacientes e entra no prontuário do paciente
+  2. Gestor cria o prontuário inicial no contexto do paciente selecionado
+  3. Médico acessa Nova Consulta, seleciona o paciente e abre o prontuário
+  4. Médico atualiza os campos clínicos durante o atendimento
+  5. Médico pode enviar o resumo para interpretação por IA
+
+
+================================================================
+  BACKEND
+================================================================
+
+ARQUIVOS CRIADOS
+----------------
+
+1. backend/.../auth/model/Prontuario.java
+   - Entidade MongoDB mapeada para a collection "prontuarios"
+   - Campos principais:
+       id, pacienteId, nomePaciente, idadePaciente, enderecoPaciente
+       alturaPaciente, pesoPaciente
+       resumoProblema, historico, diagnostico, tratamento, observacoes
+       criadoPor, criadoEm, atualizadoPor, atualizadoEm
+
+2. backend/.../auth/dto/ProntuarioRequest.java
+   - DTO de entrada para criação e atualização do prontuário
+
+3. backend/.../auth/dto/ProntuarioResponse.java
+   - DTO de saída para retorno completo do prontuário
+
+4. backend/.../auth/repository/ProntuarioRepository.java
+   - Repositório Mongo com busca por pacienteId
+
+5. backend/.../auth/service/ProntuarioService.java
+   - Regras de negócio do prontuário:
+       criarParaPaciente, buscarPorPacienteId, buscarPorId,
+       atualizar, interpretarComIa, deletar
+   - Atualiza referência no paciente:
+       prontuarioAtualId, ultimaAlteracaoProntuarioPorCrm, ultimaAlteracaoProntuarioEm
+
+6. backend/.../auth/controller/ProntuarioController.java
+   - Controller REST com endpoints:
+
+       POST   /api/prontuarios/paciente/{pacienteId}              → cria prontuário (admin)
+       GET    /api/prontuarios/paciente/{pacienteId}              → busca por paciente (admin e médico)
+       GET    /api/prontuarios/{id}                               → busca por ID (admin e médico)
+       PUT    /api/prontuarios/{id}                               → atualiza (admin e médico)
+       POST   /api/prontuarios/{id}/interpretar-ia                → interpretação por IA (admin e médico)
+       DELETE /api/prontuarios/{id}                               → remove prontuário (admin)
+
+ARQUIVOS MODIFICADOS
+--------------------
+
+7. backend/.../auth/controller/appController.java
+   - Forward de rota SPA adicionada:
+       GET /gestor/pacientes/prontuario
+
+8. backend/.../config/SecurityConfig.java
+   - Rota protegida adicionada:
+       /gestor/pacientes/prontuario (ROLE_ADMIN)
+
+
+================================================================
+  FRONTEND
+================================================================
+
+ARQUIVOS CRIADOS
+----------------
+
+9. frontend/src/services/prontuarioService.ts
+   - Serviço TypeScript para API de prontuário
+   - Funções:
+       criarProntuarioParaPaciente(pacienteId, payload)
+       buscarProntuarioPorPacienteId(pacienteId)
+       buscarProntuarioPorId(id)
+       atualizarProntuario(id, payload)
+       interpretarProntuarioComIa(id)
+       deletarProntuario(id)
+
+10. frontend/src/pages/GestorPacienteProntuario.tsx
+    - Página protegida do gestor para criação/edição de prontuário do paciente
+
+11. frontend/src/layout/GestorPacienteProntuario/BodyGestorPacienteProntuario.tsx
+    - Formulário de prontuário no contexto do paciente selecionado
+
+12. frontend/src/styles/layout/BodyGestorPacienteProntuario.css
+    - Estilos da tela de prontuário do gestor
+
+ARQUIVOS MODIFICADOS
+--------------------
+
+13. frontend/src/App.tsx
+    - Nova rota registrada:
+        /gestor/pacientes/prontuario
+
+14. frontend/src/types/index.ts
+    - Novas interfaces:
+        Prontuario
+        ProntuarioPayload
+
+15. frontend/src/services/pacienteService.ts
+    - Adicionado método de busca por ID para fluxo do prontuário do gestor
+
+16. frontend/src/layout/GestorPacientes/BodyGestorPacientes.tsx
+    - Botão/ação para abrir prontuário do paciente
+
+17. frontend/src/layout/NovaConsulta/BodyNovaConsulta.tsx
+    - Fluxo alterado para seleção de paciente antes de abrir prontuário
+
+18. frontend/src/layout/Prontuario/BodyProntuario.tsx
+    - Tela refatorada para consumo real da API de prontuário:
+      edição, salvamento e interpretação por IA
+
+19. frontend/src/styles/layout/BodyNovaConsulta.css
+    - Estilos da listagem/seleção de pacientes na consulta
+
+20. frontend/src/styles/layout/BodyProntuario.css
+    - Estilos para novo formulário, estado de erro e retorno da IA
+
+
+================================================================
+  SEGURANÇA
+================================================================
+
+- Endpoints de leitura/edição clínica do prontuário acessíveis para:
+  → ROLE_ADMIN e ROLE_USER
+
+- Endpoints de criação e exclusão de prontuário restritos para:
+  → ROLE_ADMIN
+
+
+================================================================
+  VALIDAÇÃO
+================================================================
+
+- Backend compilado com sucesso (mvn compile)
+- Frontend buildado com sucesso (npm run build)
+- Integração de IA mantida via endpoint local de Python (/chat)
+
+
+================================================================
+  ARQUIVOS ALTERADOS — RESUMO
+================================================================
+
+  CRIADOS:
+    backend/auth/model/Prontuario.java
+    backend/auth/dto/ProntuarioRequest.java
+    backend/auth/dto/ProntuarioResponse.java
+    backend/auth/repository/ProntuarioRepository.java
+    backend/auth/service/ProntuarioService.java
+    backend/auth/controller/ProntuarioController.java
+    frontend/src/services/prontuarioService.ts
+    frontend/src/pages/GestorPacienteProntuario.tsx
+    frontend/src/layout/GestorPacienteProntuario/BodyGestorPacienteProntuario.tsx
+    frontend/src/styles/layout/BodyGestorPacienteProntuario.css
+
+  MODIFICADOS:
+    backend/auth/controller/appController.java
+    backend/config/SecurityConfig.java
+    frontend/src/App.tsx
+    frontend/src/types/index.ts
+    frontend/src/services/pacienteService.ts
+    frontend/src/layout/GestorPacientes/BodyGestorPacientes.tsx
+    frontend/src/layout/NovaConsulta/BodyNovaConsulta.tsx
+    frontend/src/layout/Prontuario/BodyProntuario.tsx
+    frontend/src/styles/layout/BodyNovaConsulta.css
+    frontend/src/styles/layout/BodyProntuario.css
+
+================================================================
+================================================================
+  TESTES AUTOMATIZADOS — PACIENTE E PRONTUÁRIO
+  Projeto: Saúde++
+  Data: 12/04/2026
+================================================================
+
+VISÃO GERAL
+-----------
+Foram implementados e executados testes automatizados para os módulos
+de paciente e prontuário, cobrindo regras de negócio e controle de acesso.
+
+
+================================================================
+  BACKEND — TESTES CRIADOS
+================================================================
+
+1. backend/src/test/java/com/br/iasaude/saudemais/auth/service/PacienteServiceTest.java
+   - Testes unitários do serviço de paciente
+   - Cobertura de cenários de criação, busca, atualização e remoção
+
+2. backend/src/test/java/com/br/iasaude/saudemais/auth/service/ProntuarioServiceTest.java
+   - Testes unitários do serviço de prontuário
+   - Cobertura de cenários de criação, busca, atualização, IA e remoção
+
+3. backend/src/test/java/com/br/iasaude/saudemais/auth/controller/ProntuarioControllerTest.java
+   - Testes de controller com MockMvc
+   - Validação de autorização por perfil (ADMIN/USER), respostas 200/403/404
+
+
+================================================================
+  RESULTADO DA EXECUÇÃO
+================================================================
+
+- Comando executado: mvn test
+- Resultado final:
+  → Tests run: 28
+  → Failures: 0
+  → Errors: 0
+  → BUILD SUCCESS
+
+================================================================

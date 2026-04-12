@@ -98,3 +98,38 @@ export interface PacientesResponse {
   total: number;
   pacientes: Paciente[];
 }
+
+export interface Prontuario {
+  id: string;
+  pacienteId: string;
+  pacienteNome: string;
+  pacienteIdade: number;
+  pacienteEndereco: string;
+  pacienteAltura: number;
+  pacientePeso: number;
+  medicoCrmReferencia: string;
+  resumoProblema: string;
+  historicoDoencaAtual: string;
+  sintomasRelatados: string;
+  alergias: string;
+  medicamentosEmUso: string;
+  hipoteseDiagnostica: string;
+  condutaMedica: string;
+  examesSolicitados: string;
+  observacoesGerais: string;
+  interpretacaoIa: string;
+  atualizadoPor: string;
+  atualizadoEm: string;
+}
+
+export interface ProntuarioPayload {
+  resumoProblema: string;
+  historicoDoencaAtual?: string;
+  sintomasRelatados?: string;
+  alergias?: string;
+  medicamentosEmUso?: string;
+  hipoteseDiagnostica?: string;
+  condutaMedica?: string;
+  examesSolicitados?: string;
+  observacoesGerais?: string;
+}
