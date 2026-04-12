@@ -54,6 +54,7 @@ const BodyMedico: React.FC<BodyMedicoProps> = ({ nome, crm }) => (
       {[
         { Icon: IcMicroscopio, label: 'Solicitar Exame', href: '/' },
         { Icon: IcProntuario,  label: 'Consultar\nProntuário', href: '/prontuario' },
+        { Icon: IcProntuario,  label: 'Consultar\nPacientes', href: '/medico/pacientes' },
         { Icon: IcAgenda,      label: 'Agenda', href: '/' },
       ].map(({ Icon, label, href }) => (
         <a key={label} href={href} className="med-acao-card">
