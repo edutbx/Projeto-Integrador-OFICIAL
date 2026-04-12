@@ -69,3 +69,32 @@ export interface MedicosResponse {
   totalMedicosAtivos: number;
   medicos: MedicoResumo[];
 }
+
+export interface Paciente {
+  id: string;
+  nome: string;
+  idade: number;
+  endereco: string;
+  altura: number;
+  peso: number;
+  medicoCrmReferencia: string;
+  medicoCrmsComAcesso: string[];
+  prontuarioAtualId?: string;
+  ultimaAlteracaoProntuarioPorCrm?: string;
+  ultimaAlteracaoProntuarioEm?: string;
+}
+
+export interface PacientePayload {
+  nome: string;
+  idade: number;
+  endereco: string;
+  altura: number;
+  peso: number;
+  medicoCrmReferencia?: string;
+  medicoCrmsComAcesso?: string[];
+}
+
+export interface PacientesResponse {
+  total: number;
+  pacientes: Paciente[];
+}

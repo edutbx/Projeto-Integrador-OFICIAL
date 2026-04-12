@@ -127,11 +127,9 @@ ARQUIVOS MODIFICADOS
   SEGURANÇA
 ================================================================
 
-- O endpoint POST /api/notificacoes é PÚBLICO (não exige login)
   → Qualquer pessoa pode enviar uma solicitação de cadastro
   → Isso é intencional: o médico ainda não tem conta para se autenticar
 
-- Os endpoints GET e PUT /admin/* exigem ROLE_ADMIN
   → Protegidos por @PreAuthorize("hasRole('ADMIN')")
   → Apenas o gestor autenticado pode ver e gerenciar as notificações
 
@@ -153,5 +151,229 @@ ARQUIVOS MODIFICADOS
     frontend/src/styles/components/GestorHeader.css
     frontend/src/layout/Login/BodyLogin.tsx
     frontend/src/styles/layout/BodyLogin.css
+
+================================================================
+================================================================
+  SISTEMA DE PACIENTES — CRUD (GESTOR + MÉDICO)
+  Projeto: Saúde++
+  Data: 11/04/2026
+================================================================
+
+VISÃO GERAL
+-----------
+Foi implementado o CRUD completo de pacientes com os campos:
+  - Nome
+  - Idade
+  - Endereço
+  - Altura
+  - Peso
+
+Também foi feita a integração para:
+  - Gestor cadastrar, buscar, editar e excluir pacientes
+  - Médico consultar/listar pacientes
+
+Preparação para próximos passos:
+  - Estrutura pronta para vínculo com prontuário
+  - Estrutura pronta para restringir visibilidade por médico/consulta no futuro
+
+Fluxo resumido:
+  1. Gestor acessa /gestor/pacientes
+  2. Gestor cadastra paciente com os dados básicos
+  3. Gestor pode buscar, editar e excluir paciente
+  4. Médico acessa /medico/pacientes e consulta os pacientes cadastrados
+  5. Atualmente todos os médicos visualizam todos os pacientes (regra temporária)
+
+
+================================================================
+  BACKEND
+================================================================
+
+ARQUIVOS CRIADOS
+----------------
+
+1. backend/.../auth/model/Paciente.java
+   - Entidade MongoDB mapeada para a collection "pacientes"
+   - Campos principais:
+       id, nome, idade, endereco, altura, peso
+   - Campos de preparação para evolução:
+       medicoCrmReferencia
+       medicoCrmsComAcesso (lista de médicos com potencial acesso)
+       prontuarioAtualId
+       ultimaAlteracaoProntuarioPorCrm
+       ultimaAlteracaoProntuarioEm
+   - Campos de auditoria:
+       criadoPor, criadoEm, atualizadoPor, atualizadoEm
+
+2. backend/.../auth/repository/PacienteRepository.java
+   - Interface que estende MongoRepository para persistência dos pacientes
+
+3. backend/.../auth/dto/PacienteRequest.java
+   - DTO de entrada para criação/atualização
+   - Validações:
+       nome/endereco obrigatórios
+       idade mínima 0
+       altura e peso positivos
+
+4. backend/.../auth/dto/PacienteResponse.java
+   - DTO de saída para retorno dos dados do paciente
+   - Inclui campos de preparo para prontuário e vínculo médico
+
+5. backend/.../auth/dto/PacienteVinculoMedicoRequest.java
+   - DTO para atualização direta do vínculo principal com médico (CRM)
+
+6. backend/.../auth/service/PacienteService.java
+   - Regras de negócio do módulo de pacientes:
+       criar, listar (com busca), buscarPorId, atualizar, deletar
+       atualizarVinculoMedico
+   - Busca textual por nome, endereço e CRM de referência
+
+7. backend/.../auth/controller/PacienteController.java
+   - Controller REST com endpoints:
+
+       GET    /api/pacientes                     → lista pacientes (admin e médico)
+       GET    /api/pacientes/{id}                → detalha paciente por ID (admin e médico)
+       POST   /api/pacientes                     → cria paciente (admin)
+       PUT    /api/pacientes/{id}                → atualiza paciente (admin)
+       PUT    /api/pacientes/{id}/vinculo-medico → atualiza vínculo com médico (admin)
+       DELETE /api/pacientes/{id}                → remove paciente (admin)
+
+ARQUIVOS MODIFICADOS
+--------------------
+
+8. backend/.../config/SecurityConfig.java
+   - Rotas de página protegidas adicionadas:
+       /gestor/pacientes (ROLE_ADMIN)
+       /medico/pacientes (ROLE_USER)
+
+9. backend/.../auth/controller/appController.java
+   - Forward de rotas SPA adicionadas:
+       GET /gestor/pacientes
+       GET /medico/pacientes
+
+
+================================================================
+  FRONTEND
+================================================================
+
+ARQUIVOS CRIADOS
+----------------
+
+10. frontend/src/services/pacienteService.ts
+    - Serviço TypeScript para consumir API de pacientes
+    - Funções:
+        listarPacientesComoGestor(busca)
+        listarPacientesComoMedico(busca)
+        criarPaciente(payload)
+        atualizarPaciente(id, payload)
+        deletarPaciente(id)
+
+11. frontend/src/layout/GestorPacientes/BodyGestorPacientes.tsx
+    - Tela principal do gestor para pacientes
+    - Recursos:
+        formulário de cadastro/edição
+        busca
+        listagem em tabela
+        exclusão com confirmação
+
+12. frontend/src/pages/GestorPacientes.tsx
+    - Página do gestor protegida por autenticação de gestor
+
+13. frontend/src/layout/MedicoPacientes/BodyMedicoPacientes.tsx
+    - Tela simples de consulta para médicos
+    - Recursos:
+        busca e listagem em tabela
+
+14. frontend/src/pages/MedicoPacientes.tsx
+    - Página do médico protegida por autenticação de médico
+
+15. frontend/src/styles/layout/BodyGestorPacientes.css
+    - Estilos da tela de pacientes do gestor
+
+16. frontend/src/styles/layout/BodyMedicoPacientes.css
+    - Estilos da tela de pacientes do médico
+
+ARQUIVOS MODIFICADOS
+--------------------
+
+17. frontend/src/App.tsx
+    - Novas rotas registradas:
+        /gestor/pacientes
+        /medico/pacientes
+
+18. frontend/src/types/index.ts
+    - Novas interfaces:
+        Paciente
+        PacientePayload
+        PacientesResponse
+
+19. frontend/src/layout/Gestor/BodyGestor.tsx
+    - Link "Pacientes" adicionado no menu lateral do gestor
+
+20. frontend/src/layout/GestorMedicos/BodyGestorMedicos.tsx
+    - Link "Pacientes" adicionado no menu lateral compartilhado
+
+21. frontend/src/layout/Medico/BodyMedico.tsx
+    - Atalho "Consultar Pacientes" adicionado no painel do médico
+
+
+================================================================
+  SEGURANÇA
+================================================================
+
+- Endpoints de leitura de pacientes (GET) acessíveis para:
+  → ROLE_ADMIN e ROLE_USER
+
+- Endpoints de escrita (POST/PUT/DELETE) restritos para:
+  → ROLE_ADMIN
+
+- Resultado prático atual:
+  → Gestor gerencia cadastro dos pacientes
+  → Médico somente consulta pacientes
+
+- Regra temporária de negócio mantida:
+  → Todos os médicos visualizam todos os pacientes
+
+- Preparado para regra futura:
+  → Restrição por consulta/médico pode ser implementada usando
+    medicoCrmReferencia e medicoCrmsComAcesso
+
+
+================================================================
+  VALIDAÇÃO
+================================================================
+
+- Backend compilado com sucesso via Maven local (mvn compile)
+- Frontend buildado com sucesso (npm run build)
+- Permanece 1 warning antigo de hook em GestorHeader.tsx (pré-existente)
+
+
+================================================================
+  ARQUIVOS ALTERADOS — RESUMO
+================================================================
+
+  CRIADOS:
+    backend/auth/model/Paciente.java
+    backend/auth/repository/PacienteRepository.java
+    backend/auth/dto/PacienteRequest.java
+    backend/auth/dto/PacienteResponse.java
+    backend/auth/dto/PacienteVinculoMedicoRequest.java
+    backend/auth/service/PacienteService.java
+    backend/auth/controller/PacienteController.java
+    frontend/src/services/pacienteService.ts
+    frontend/src/layout/GestorPacientes/BodyGestorPacientes.tsx
+    frontend/src/pages/GestorPacientes.tsx
+    frontend/src/layout/MedicoPacientes/BodyMedicoPacientes.tsx
+    frontend/src/pages/MedicoPacientes.tsx
+    frontend/src/styles/layout/BodyGestorPacientes.css
+    frontend/src/styles/layout/BodyMedicoPacientes.css
+
+  MODIFICADOS:
+    backend/config/SecurityConfig.java
+    backend/auth/controller/appController.java
+    frontend/src/App.tsx
+    frontend/src/types/index.ts
+    frontend/src/layout/Gestor/BodyGestor.tsx
+    frontend/src/layout/GestorMedicos/BodyGestorMedicos.tsx
+    frontend/src/layout/Medico/BodyMedico.tsx
 
 ================================================================
