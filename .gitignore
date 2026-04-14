@@ -24,6 +24,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+node_modules/
+.cache/
 
 # =========================
 # Python artifacts (IA integration cache)
