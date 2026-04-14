@@ -88,13 +88,17 @@ public class SecurityConfig {
                             // Área médica
                             .requestMatchers(
                                     "/medico", "/medico.html",
+                                    "/medico/pacientes",
                                     "/novaconsulta", "/novaconsulta.html",
                                     "/prontuario", "/prontuario.html"
                             ).hasRole("USER")
 
                             // Área gestor
                             .requestMatchers(
-                                    "/gestor", "/gestor.html"
+                                    "/gestor", "/gestor.html",
+                                    "/gestor/medicos",
+                                    "/gestor/pacientes",
+                                    "/gestor/pacientes/prontuario"
                             ).hasRole("ADMIN")
 
                             // APIs administrativas
