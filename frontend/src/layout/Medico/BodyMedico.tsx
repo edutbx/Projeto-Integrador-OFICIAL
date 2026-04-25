@@ -32,15 +32,9 @@ const IcAgenda = () => (
 );
 
 const CONSULTAS = [
-  { id:1, paciente:'João Almeida de Castro',  horario:'6:00h',  info:'Informações do Paciente: Relata tosse e secreção' },
-  { id:2, paciente:'Carolina Sato',           horario:'10:20h', info:'Informações do Paciente: Relata tosse e secreção' },
-  { id:3, paciente:'Vinicius Mauro Souza',    horario:'12:00h', info:'Informações do Paciente: Relata tosse e secreção' },
-  { id:4, paciente:'Vinicius Mauro Souza',    horario:'12:00h', info:'Informações do Paciente: Relata tosse e secreção' },
-  { id:5, paciente:'Vinicius Mauro Souza',    horario:'12:00h', info:'Informações do Paciente: Relata tosse e secreção' },
-  { id:6, paciente:'Vinicius Mauro Souza',    horario:'12:00h', info:'Informações do Paciente: Relata tosse e secreção' },
+  
 ];
 
-const hoje = new Date().toLocaleDateString('pt-BR');
 
 interface BodyMedicoProps { nome?: string; crm?: string; }
 
@@ -52,9 +46,7 @@ const BodyMedico: React.FC<BodyMedicoProps> = ({ nome, crm }) => (
     </div>
     <div className="med-acoes">
       {[
-        { Icon: IcMicroscopio, label: 'Solicitar Exame', href: '/' },
         { Icon: IcProntuario,  label: 'Consultar\nProntuário', href: '/prontuario' },
-        { Icon: IcProntuario,  label: 'Consultar\nPacientes', href: '/medico/pacientes' },
         { Icon: IcAgenda,      label: 'Agenda', href: '/' },
       ].map(({ Icon, label, href }) => (
         <a key={label} href={href} className="med-acao-card">
@@ -62,21 +54,6 @@ const BodyMedico: React.FC<BodyMedicoProps> = ({ nome, crm }) => (
           <span>{label}</span>
         </a>
       ))}
-    </div>
-    <div className="med-consultas">
-      <h2 className="med-consultas__titulo">Consultas de hoje - {hoje}</h2>
-      <div className="med-consultas__grid">
-        {CONSULTAS.map(c => (
-          <div key={c.id} className="med-card">
-            <div className="med-card__avatar"><img src="/img/icon.png" alt={c.paciente} /></div>
-            <div className="med-card__info">
-              <p className="med-card__nome">{c.paciente}</p>
-              <p className="med-card__horario">Horário: {c.horario}</p>
-              <p className="med-card__obs">{c.info}</p>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   </main>
 );
