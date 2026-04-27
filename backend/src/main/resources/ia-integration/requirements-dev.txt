@@ -1,0 +1,7 @@
+pytest
+pytest-cov
+ruff
+black
+mypy
+bandit
+pip-audit

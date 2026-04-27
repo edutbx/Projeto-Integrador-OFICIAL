@@ -71,6 +71,7 @@ async def chat(request: Request):
 	}
 	agent_url = _require_env("STACKSPOT_AGENT_URL")
 	response = requests.post(agent_url, json=data, headers=headers)
+	response.raise_for_status()
 	# Monta o texto formatado igual ao terminal
 	texto_formatado = "Mensagem enviada ao agente:\n"
 	for k, v in data.items():
