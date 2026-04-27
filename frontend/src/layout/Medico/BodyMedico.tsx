@@ -42,9 +42,7 @@ const CONSULTAS = [
 
 const hoje = new Date().toLocaleDateString('pt-BR');
 
-interface BodyMedicoProps { nome?: string; crm?: string; }
-
-const BodyMedico: React.FC<BodyMedicoProps> = ({ nome, crm }) => (
+const BodyMedico: React.FC = () => (
   <main className="med-main">
     <div className="med-top">
       <a href="/novaConsulta" className="med-iniciar-btn">INICIAR CONSULTA</a>

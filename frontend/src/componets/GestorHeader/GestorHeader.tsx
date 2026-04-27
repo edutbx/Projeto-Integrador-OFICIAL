@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { logoutGestor, getGestorToken } from '../../services/authService';
 import { listarNotificacoes, contarNaoLidas, marcarComoLida, Notificacao } from '../../services/notificacaoService';
 import Logo from '../Logo/Logo';
@@ -26,11 +26,11 @@ const GestorHeader: React.FC<GestorHeaderProps> = ({ nome = 'Gestor', sobrenome 
   const dropRef                   = useRef<HTMLDivElement>(null);
   const token                     = getGestorToken() ?? '';
 
-  const carregarCount = async () => {
+  const carregarCount = useCallback(async () => {
     if (!token) return;
     const count = await contarNaoLidas(token);
     setNaoLidas(count);
-  };
+  }, [token]);
 
   const abrirPanel = async () => {
     if (!aberto && token) {
@@ -50,7 +50,7 @@ const GestorHeader: React.FC<GestorHeaderProps> = ({ nome = 'Gestor', sobrenome 
     carregarCount();
     const interval = setInterval(carregarCount, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [carregarCount]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {

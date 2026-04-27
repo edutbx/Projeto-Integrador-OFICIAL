@@ -31,7 +31,7 @@ const BodyProntuario: React.FC = () => {
     }
     setIsAnalyzing(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.REACT_APP_GEMINI_API_KEY || '' });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
       const mergeInstruction = extractedData
         ? `ATENÇÃO: Este paciente já possui dados extraídos. Mescle as novas informações com os dados existentes abaixo. Não perca nenhuma informação anterior.\nDados Atuais: ${JSON.stringify(extractedData)}\n\nNovas informações:\n`
         : '';

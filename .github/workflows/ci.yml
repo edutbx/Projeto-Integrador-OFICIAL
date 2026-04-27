@@ -286,24 +286,24 @@ jobs:
         shell: bash
         run: |
           if [ -f tsconfig.json ]; then
-            npx tsc --noEmit
+            npm run typecheck --if-present
           else
             echo 'Skipping TypeScript check: tsconfig.json not found.'
           fi
 
-      - name: Lint (ESLint via react-scripts ecosystem)
+      - name: Lint (ESLint)
         shell: bash
         run: |
-          if node -e "const pkg=require('./package.json'); process.exit(pkg.eslintConfig ? 0 : 1)"; then
-            npx eslint "src/**/*.{js,jsx,ts,tsx}"
+          if [ -f eslint.config.js ] || [ -f .eslintrc.js ] || [ -f .eslintrc.cjs ] || [ -f .eslintrc.json ]; then
+            npm run lint --if-present
           else
-            echo 'Skipping ESLint: no eslintConfig found in package.json.'
+            echo 'Skipping ESLint: no ESLint config file found.'
           fi
 
-      - name: Unit tests (Jest via react-scripts)
+      - name: Unit tests (Vitest)
         env:
           CI: true
-        run: npm test -- --watch=false --passWithNoTests --coverage
+        run: npm run test:ci
 
       - name: Production build
         run: npm run build
@@ -315,7 +315,7 @@ jobs:
           name: frontend-reports-node-${{ matrix.node-version }}
           path: |
             frontend/coverage/**
-            frontend/build/**
+            frontend/dist/**
           if-no-files-found: ignore
 
       - name: SonarCloud Scan (Frontend, single matrix leg)

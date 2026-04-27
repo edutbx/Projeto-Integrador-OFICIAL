@@ -48,7 +48,7 @@ export function AIAssistant({ patient }: AIAssistantProps) {
     setIsLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.REACT_APP_GEMINI_API_KEY || '' });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
 
       const systemInstruction = `Você é um assistente médico de IA altamente qualificado integrado à plataforma "Saúde ++".
 Seu objetivo é auxiliar médicos na análise de prontuários, sugerir hipóteses diagnósticas, alertar sobre interações medicamentosas e resumir históricos clínicos.

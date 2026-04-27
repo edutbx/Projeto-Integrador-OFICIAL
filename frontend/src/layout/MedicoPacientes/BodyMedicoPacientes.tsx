@@ -15,8 +15,9 @@ const BodyMedicoPacientes: React.FC = () => {
     try {
       const data = await listarPacientesComoMedico(termo);
       setPacientes(data.pacientes ?? []);
-    } catch (e: any) {
-      setErro(e?.message || 'Não foi possível carregar os pacientes.');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Não foi possível carregar os pacientes.';
+      setErro(msg);
     } finally {
       setLoading(false);
     }
