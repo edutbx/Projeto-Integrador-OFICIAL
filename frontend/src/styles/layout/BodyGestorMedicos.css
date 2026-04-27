@@ -194,6 +194,15 @@
   color: #fff;
 }
 
+.gmed__btn-action--senha {
+  background: #e8f0fb;
+  color: #3b6bc8;
+}
+.gmed__btn-action--senha:hover {
+  background: #3b6bc8;
+  color: #fff;
+}
+
 .gmed__btn-action--delete {
   background: #fdecea;
   color: #c0392b;
@@ -309,6 +318,43 @@
   color: #fff;
 }
 .gmed__modal-btn--confirm:hover:not(:disabled) { background: #a93226; }
+
+.gmed__modal-btn--confirm-senha {
+  background: #3b6bc8;
+  color: #fff;
+}
+.gmed__modal-btn--confirm-senha:hover:not(:disabled) { background: #2f58ad; }
+
+.gmed__senha-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #f4f8ff;
+  border: 1.5px solid #c0d0ee;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: .08em;
+  word-break: break-all;
+}
+
+.gmed__senha-regenerar {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #3b6bc8;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color .2s;
+}
+.gmed__senha-regenerar:hover { color: #2f58ad; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 991px) {

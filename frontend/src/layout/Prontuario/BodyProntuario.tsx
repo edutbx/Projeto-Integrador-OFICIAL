@@ -119,7 +119,10 @@ ${fileContent}`;
             <p key={label} style={{ margin: 0, fontSize: '0.82rem', lineHeight: 1.5 }}>
               <span style={{ color: '#F5A623', fontWeight: 700 }}>{label}: </span>
               <span style={{ whiteSpace: 'pre-line' }}>{value}</span>
+               <button className="nc-voltar" onClick={() => window.location.href = '/medico'}>Voltar</button> 
+               {/* ESSE BOTAO SERÁ REMOVIDO! */}
             </p>
+            
           ))}
         </div>
       </aside>

@@ -5,14 +5,17 @@
   background: linear-gradient(145deg, #0e2a6e 0%, #2458b8 55%, #4d97e4 100%);
   padding: 32px 48px 60px;
   display: flex;
+  justify-content: space-around;
   flex-direction: column;
-  gap: 32px;
+  gap: 10px;
 }
 
 /* Iniciar consulta */
 .med-top {
-  display: flex; align-items: center;
-  justify-content: center; gap: 16px;
+  display: flex; 
+  align-items: center;
+  justify-content: center; 
+  gap: 16px;
 }
 
 .med-iniciar-btn {
@@ -22,7 +25,7 @@
   font-weight: 800;
   font-size: 1rem;
   letter-spacing: .5px;
-  padding: 16px 60px;
+  padding: 16px 150px;
   border-radius: 10px;
   transition: background .2s;
   text-align: center;
@@ -34,7 +37,7 @@
 /* Ações */
 .med-acoes {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   max-width: 900px;
   align-self: center;
@@ -55,44 +58,6 @@
   transition: transform .2s, box-shadow .2s;
 }
 .med-acao-card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
-
-/* Consultas */
-.med-consultas { width: 100%; }
-.med-consultas__titulo {
-  color: #fff;
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin: 0 0 20px;
-}
-.med-consultas__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.med-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  display: flex; align-items: flex-start; gap: 14px;
-  border: 2px solid #f4a623;
-  transition: transform .2s;
-}
-.med-card:hover { transform: translateY(-3px); }
-
-.med-card__avatar {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 3px solid #f4a623;
-  background: #fff8e8;
-}
-.med-card__avatar img { width: 100%; height: 100%; object-fit: cover; }
-
-.med-card__nome    { font-weight: 700; font-size: .92rem; color: #1a1a2e; margin: 0 0 3px; }
-.med-card__horario { font-size: .82rem; color: #f4a623; font-weight: 600; margin: 0 0 6px; }
-.med-card__obs     { font-size: .78rem; color: #3b6bc8; font-weight: 500; margin: 0; line-height: 1.4; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 991px) {
