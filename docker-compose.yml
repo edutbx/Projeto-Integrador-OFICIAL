@@ -1,0 +1,47 @@
+services:
+
+  # -----------------------------------------------------------
+  # MongoDB - banco de dados principal
+  # -----------------------------------------------------------
+  mongodb:
+    image: mongo:7
+    container_name: saudemais-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  # -----------------------------------------------------------
+  # Backend - Spring Boot (porta 5000) + FastAPI Python (porta 8000)
+  # Ambos no mesmo container porque o PdfController chama localhost:8000
+  # -----------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+    container_name: saudemais-backend
+    ports:
+      - "5000:5000"
+      - "8000:8000"
+    environment:
+      # Sobrescreve o localhost do application.properties pelo nome do serviço Docker
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/saude
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  # -----------------------------------------------------------
+  # Frontend - React servido pelo nginx na porta 80
+  # -----------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+    container_name: saudemais-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
