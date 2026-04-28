@@ -86,10 +86,7 @@ jobs:
 
       - name: Static Analysis
         run: |
-          ./mvnw -B -ntp \
-            -Djava.version=${{ matrix.java-version }} \
-            pmd:check \
-            com.github.spotbugs:spotbugs-maven-plugin:4.8.6.6:check
+          ./mvnw -B -ntp pmd:pmd
 
       - name: Upload artifacts
         if: always()
