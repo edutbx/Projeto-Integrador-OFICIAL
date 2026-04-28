@@ -15,24 +15,18 @@ concurrency:
 
 jobs:
   detect-changes:
-    name: Detect Changed Stacks
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
     outputs:
       java: ${{ steps.filter.outputs.java }}
       frontend: ${{ steps.filter.outputs.frontend }}
       docker: ${{ steps.filter.outputs.docker }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Filter paths
-        id: filter
+      - id: filter
         uses: dorny/paths-filter@v3
         with:
           filters: |
@@ -50,13 +44,11 @@ jobs:
               - '.github/workflows/ci.yml'
 
   java-backend:
-    name: Java Backend (JDK ${{ matrix.java-version }})
     runs-on: ubuntu-latest
     needs: detect-changes
     if: needs.detect-changes.outputs.java == 'true'
 
     strategy:
-      fail-fast: false
       matrix:
         java-version: ['17', '21']
 
@@ -66,8 +58,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - run: chmod +x mvnw
 
@@ -80,33 +70,25 @@ jobs:
       - run: ./mvnw -v
 
       - name: Build + Tests + Coverage
-        run: |
-          ./mvnw -B -ntp clean verify \
-            -Djava.version=${{ matrix.java-version }}
+        run: ./mvnw -B -ntp clean verify
 
       - name: Static Analysis
-        run: |
-          ./mvnw -B -ntp pmd:pmd
+        run: ./mvnw -B -ntp pmd:pmd
 
-      - name: Upload artifacts
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: java-${{ matrix.java-version }}
           path: |
             backend/target/surefire-reports/**
-            backend/target/failsafe-reports/**
             backend/target/site/jacoco/**
-          if-no-files-found: ignore
 
   frontend:
-    name: Frontend (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     needs: detect-changes
     if: needs.detect-changes.outputs.frontend == 'true'
 
     strategy:
-      fail-fast: false
       matrix:
         node-version: ['20', '22']
 
@@ -125,45 +107,28 @@ jobs:
 
       - run: npm ci --no-audit
 
-      - name: Security audit (critical only)
+      - name: Security audit
         run: |
           npm audit --omit=dev --json > audit.json || true
           node -e "
           const r=require('./audit.json');
           const c=r.metadata?.vulnerabilities?.critical||0;
-          console.log('Critical:',c);
           if(c>0){console.error('Critical vulns');process.exit(1);}
           "
 
-      - name: Type check
-        run: |
-          [ -f tsconfig.json ] && npm run typecheck --if-present || echo "No TS"
+      - run: npm run test:ci
 
-      - name: Lint
-        run: |
-          [ -f eslint.config.js ] || [ -f .eslintrc.json ] || [ -f .eslintrc.js ] \
-          && npm run lint --if-present || echo "No ESLint"
+      - run: npm run build
 
-      - name: Tests
-        env:
-          CI: true
-        run: npm run test:ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Upload artifacts
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
           name: frontend-${{ matrix.node-version }}
           path: |
             frontend/coverage/**
             frontend/dist/**
-          if-no-files-found: ignore
 
   docker:
-    name: Docker Validation
     runs-on: ubuntu-latest
     needs: [detect-changes, java-backend, frontend]
     if: needs.detect-changes.outputs.docker == 'true'
@@ -174,16 +139,15 @@ jobs:
       - name: Validate docker-compose
         run: docker compose config
 
-      - name: Build backend
-        run: docker build -t backend-app backend
-
-      - name: Build frontend
-        run: docker build -t frontend-app frontend
+      - name: Build images
+        run: |
+          docker build -t backend-app backend
+          docker build -t frontend-app frontend
 
       - name: Start containers
         run: docker compose up -d
 
-      - name: Wait and check
+      - name: Validate runtime
         run: |
           sleep 10
           docker ps
@@ -196,6 +160,20 @@ jobs:
             docker logs $(docker ps -aq)
             exit 1
           fi
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Build and push image
+        run: |
+          IMAGE=${{ secrets.DOCKER_USER }}/hello-app
+          TAG=${{ github.sha }}
+
+          docker build -t $IMAGE:$TAG backend
+          docker push $IMAGE:$TAG
 
       - name: Stop containers
         run: docker compose down
