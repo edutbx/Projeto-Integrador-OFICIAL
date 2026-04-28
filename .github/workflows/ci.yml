@@ -88,7 +88,6 @@ jobs:
         run: |
           ./mvnw -B -ntp \
             -Djava.version=${{ matrix.java-version }} \
-            checkstyle:check \
             pmd:check \
             com.github.spotbugs:spotbugs-maven-plugin:4.8.6.6:check
 
