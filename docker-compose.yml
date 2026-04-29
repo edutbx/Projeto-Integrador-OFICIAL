@@ -17,6 +17,7 @@ services:
   # Ambos no mesmo container porque o PdfController chama localhost:8000
   # -----------------------------------------------------------
   backend:
+    image: ${DOCKER_USER}/saude:backend-${TAG:-latest}
     build:
       context: ./backend
     container_name: saudemais-backend
@@ -34,6 +35,7 @@ services:
   # Frontend - React servido pelo nginx na porta 80
   # -----------------------------------------------------------
   frontend:
+    image: ${DOCKER_USER}/saude:frontend-${TAG:-latest}
     build:
       context: ./frontend
     container_name: saudemais-frontend

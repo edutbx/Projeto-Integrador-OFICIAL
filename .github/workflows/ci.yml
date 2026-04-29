@@ -136,13 +136,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
       - name: Validate docker-compose
         run: docker compose config
 
       - name: Build images
         run: |
-          docker build -t backend-app backend
-          docker build -t frontend-app frontend
+          export DOCKER_USER=${{ secrets.DOCKER_USER }}
+          export TAG=${{ github.sha }}
+          docker compose build
 
       - name: Start containers
         run: docker compose up -d
@@ -161,19 +168,13 @@ jobs:
             exit 1
           fi
 
-      - name: Login Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASS }}
-
-      - name: Build and push image
+      - name: Push images to Docker Hub (saude)
         run: |
-          IMAGE=${{ secrets.DOCKER_USER }}/hello-app
-          TAG=${{ github.sha }}
-
-          docker build -t $IMAGE:$TAG backend
-          docker push $IMAGE:$TAG
+          export DOCKER_USER=${{ secrets.DOCKER_USER }}
+          export TAG=${{ github.sha }}
+          
+          # Envia o backend e o frontend para o repo 'saude' com as tags específicas
+          docker compose push
 
       - name: Stop containers
         run: docker compose down
