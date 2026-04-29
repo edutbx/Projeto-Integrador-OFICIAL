@@ -133,6 +133,11 @@ jobs:
     needs: [detect-changes, java-backend, frontend]
     if: needs.detect-changes.outputs.docker == 'true'
 
+
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      TAG: ${{ github.sha }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -147,8 +152,6 @@ jobs:
 
       - name: Build images
         run: |
-          export DOCKER_USER=${{ secrets.DOCKER_USER }}
-          export TAG=${{ github.sha }}
           docker compose build
 
       - name: Start containers
@@ -170,10 +173,6 @@ jobs:
 
       - name: Push images to Docker Hub (saude)
         run: |
-          export DOCKER_USER=${{ secrets.DOCKER_USER }}
-          export TAG=${{ github.sha }}
-          
-          # Envia o backend e o frontend para o repo 'saude' com as tags específicas
           docker compose push
 
       - name: Stop containers
