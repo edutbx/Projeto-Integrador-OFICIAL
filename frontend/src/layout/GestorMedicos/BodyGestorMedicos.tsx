@@ -14,6 +14,15 @@ interface ModalDeleteState {
   erro: string | null;
 }
 
+interface ModalSenhaState {
+  open: boolean;
+  medico: MedicoResumo | null;
+  senha: string;
+  loading: boolean;
+  erro: string | null;
+  sucesso: boolean;
+}
+
 const MODAL_INICIAL: ModalDeleteState = {
   open: false,
   medico: null,
@@ -22,11 +31,26 @@ const MODAL_INICIAL: ModalDeleteState = {
   erro: null,
 };
 
+const MODAL_SENHA_INICIAL: ModalSenhaState = {
+  open: false,
+  medico: null,
+  senha: '',
+  loading: false,
+  erro: null,
+  sucesso: false,
+};
+
+function gerarSenhaAleatoria(): string {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#$!';
+  return Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+}
+
 const BodyGestorMedicos: React.FC = () => {
   const [medicos, setMedicos] = useState<MedicoResumo[]>([]);
   const [loading, setLoading] = useState(true);
   const [desativados, setDesativados] = useState<Set<string>>(new Set());
   const [modal, setModal] = useState<ModalDeleteState>(MODAL_INICIAL);
+  const [modalSenha, setModalSenha] = useState<ModalSenhaState>(MODAL_SENHA_INICIAL);
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
@@ -89,6 +113,38 @@ const BodyGestorMedicos: React.FC = () => {
       fecharModal();
     } catch {
       setModal(m => ({ ...m, loading: false, erro: 'Erro de conexão. Tente novamente.' }));
+    }
+  }
+
+  function abrirModalSenha(medico: MedicoResumo) {
+    setModalSenha({ ...MODAL_SENHA_INICIAL, open: true, medico, senha: gerarSenhaAleatoria() });
+  }
+
+  function fecharModalSenha() {
+    setModalSenha(MODAL_SENHA_INICIAL);
+  }
+
+  async function confirmarResetarSenha() {
+    if (!modalSenha.medico) return;
+    setModalSenha(m => ({ ...m, loading: true, erro: null }));
+    const token = getGestorToken();
+    try {
+      const res = await fetch('/api/auth/resetar-senha', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id: modalSenha.medico.id, novaSenha: modalSenha.senha }),
+      });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        setModalSenha(m => ({ ...m, loading: false, erro: d.error || 'Erro ao redefinir senha.' }));
+        return;
+      }
+      setModalSenha(m => ({ ...m, loading: false, sucesso: true }));
+    } catch {
+      setModalSenha(m => ({ ...m, loading: false, erro: 'Erro de conexão. Tente novamente.' }));
     }
   }
 
@@ -229,6 +285,15 @@ const BodyGestorMedicos: React.FC = () => {
                             )}
                           </button>
                           <button
+                            className="gmed__btn-action gmed__btn-action--senha"
+                            title="Redefinir senha"
+                            onClick={() => abrirModalSenha(m)}
+                          >
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+                              <path d="M18 8h-1V6A5 5 0 007 6v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zm-6 9a2 2 0 110-4 2 2 0 010 4zm3.1-9H8.9V6a3.1 3.1 0 016.2 0v2z"/>
+                            </svg>
+                          </button>
+                          <button
                             className="gmed__btn-action gmed__btn-action--delete"
                             title="Deletar médico"
                             onClick={() => abrirModalDelete(m)}
@@ -250,6 +315,68 @@ const BodyGestorMedicos: React.FC = () => {
           </>
         )}
       </section>
+
+      {modalSenha.open && modalSenha.medico && (
+        <div className="gmed__modal-overlay" onClick={fecharModalSenha}>
+          <div className="gmed__modal" onClick={e => e.stopPropagation()}>
+            {modalSenha.sucesso ? (
+              <>
+                <h2 className="gmed__modal-title">Senha redefinida!</h2>
+                <p className="gmed__modal-desc">
+                  A nova senha de <strong>{modalSenha.medico.nome} {modalSenha.medico.sobrenome}</strong> foi redefinida com sucesso. Repasse a senha abaixo ao médico:
+                </p>
+                <div className="gmed__senha-box">{modalSenha.senha}</div>
+                <div className="gmed__modal-actions">
+                  <button className="gmed__modal-btn gmed__modal-btn--cancel" onClick={fecharModalSenha}>
+                    Fechar
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="gmed__modal-title">Redefinir senha</h2>
+                <p className="gmed__modal-desc">
+                  Uma nova senha será gerada para <strong>{modalSenha.medico.nome} {modalSenha.medico.sobrenome}</strong>
+                  {modalSenha.medico.crm ? ` (CRM: ${modalSenha.medico.crm})` : ''}.
+                  <br />Repasse a senha ao médico após confirmar.
+                </p>
+                <label className="gmed__modal-label">Nova senha gerada</label>
+                <div className="gmed__senha-box">
+                  {modalSenha.senha}
+                  <button
+                    className="gmed__senha-regenerar"
+                    title="Gerar nova senha"
+                    onClick={() => setModalSenha(m => ({ ...m, senha: gerarSenhaAleatoria() }))}
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" aria-hidden="true">
+                      <path d="M17.65 6.35A7.96 7.96 0 0012 4a8 8 0 00-8 8 8 8 0 008 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18a6 6 0 01-6-6 6 6 0 016-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
+                  </button>
+                </div>
+
+                {modalSenha.erro && <p className="gmed__modal-erro">{modalSenha.erro}</p>}
+
+                <div className="gmed__modal-actions">
+                  <button
+                    className="gmed__modal-btn gmed__modal-btn--cancel"
+                    onClick={fecharModalSenha}
+                    disabled={modalSenha.loading}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="gmed__modal-btn gmed__modal-btn--confirm-senha"
+                    onClick={confirmarResetarSenha}
+                    disabled={modalSenha.loading}
+                  >
+                    {modalSenha.loading ? 'Salvando...' : 'Confirmar redefinição'}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {modal.open && modal.medico && (
         <div className="gmed__modal-overlay" onClick={fecharModal}>
