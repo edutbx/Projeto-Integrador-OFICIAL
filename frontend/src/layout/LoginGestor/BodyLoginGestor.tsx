@@ -16,8 +16,9 @@ const BodyLoginGestor: React.FC = () => {
     try {
       await loginGestor(email, senha);
       window.location.href = '/gestor';
-    } catch (err: any) {
-      setErro(err.message || 'Credenciais inválidas');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Credenciais inválidas';
+      setErro(msg);
     } finally {
       setLoading(false);
     }

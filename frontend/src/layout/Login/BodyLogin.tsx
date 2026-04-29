@@ -26,8 +26,9 @@ const BodyLogin: React.FC = () => {
     try {
       await login(crm, senha);
       window.location.href = '/medico';
-    } catch (err: any) {
-      setErro(err.message || 'Credenciais inválidas');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Credenciais inválidas';
+      setErro(msg);
     } finally { setLoading(false); }
   };
 

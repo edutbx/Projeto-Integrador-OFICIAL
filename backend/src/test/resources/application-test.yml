@@ -1,0 +1,16 @@
+spring:
+  main:
+    lazy-initialization: true
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
+
+logging:
+  level:
+    root: WARN

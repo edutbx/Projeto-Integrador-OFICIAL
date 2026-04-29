@@ -69,8 +69,9 @@ const BodyGestorPacienteProntuario: React.FC = () => {
           setProntuario(null);
           setForm(FORM_INICIAL);
         }
-      } catch (e: any) {
-        setErro(e?.message || 'Erro ao carregar dados do paciente.');
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : 'Erro ao carregar dados do paciente.';
+        setErro(msg);
       } finally {
         setLoading(false);
       }
@@ -104,8 +105,9 @@ const BodyGestorPacienteProntuario: React.FC = () => {
 
       setProntuario(salvo);
       alert('Prontuário salvo com sucesso.');
-    } catch (e: any) {
-      setErro(e?.message || 'Erro ao salvar prontuário.');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Erro ao salvar prontuário.';
+      setErro(msg);
     } finally {
       setSaving(false);
     }

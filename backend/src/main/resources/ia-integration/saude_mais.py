@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 import json
+import os
 
 app = FastAPI()
 
@@ -15,17 +16,21 @@ app.add_middleware(
 	allow_headers=["*"],
 )
 
-REALM = "stackspot-freemium"
-CLIENT_ID = "f56b6b65-6488-4401-9a94-c4c211654497"
-CLIENT_KEY = "y5Hlvve2jo2ci23HdzhafYpYni04l43BBY12MemAER5LqR5rdfy57ZA5g76CF93o"
-AGENT_URL = "https://genai-inference-app.stackspot.com/v1/agent/01K3GT29GMFY5HMCEM7F8HSNKN/chat"
+def _require_env(name: str) -> str:
+	value = os.getenv(name)
+	if not value:
+		raise HTTPException(status_code=500, detail=f"Configuração ausente: {name}")
+	return value
 
 def get_jwt():
-	url = f"https://idm.stackspot.com/{REALM}/oidc/oauth/token"
+	realm = _require_env("STACKSPOT_REALM")
+	client_id = _require_env("STACKSPOT_CLIENT_ID")
+	client_key = _require_env("STACKSPOT_CLIENT_KEY")
+	url = f"https://idm.stackspot.com/{realm}/oidc/oauth/token"
 	payload = {
 		"grant_type": "client_credentials",
-		"client_id": CLIENT_ID,
-		"client_secret": CLIENT_KEY
+		"client_id": client_id,
+		"client_secret": client_key
 	}
 	headers = {"Content-Type": "application/x-www-form-urlencoded"}
 	response = requests.post(url, data=payload, headers=headers)
@@ -64,7 +69,9 @@ async def chat(request: Request):
 		"stackspot_knowledge": False,
 		"return_ks_in_response": True
 	}
-	response = requests.post(AGENT_URL, json=data, headers=headers)
+	agent_url = _require_env("STACKSPOT_AGENT_URL")
+	response = requests.post(agent_url, json=data, headers=headers)
+	response.raise_for_status()
 	# Monta o texto formatado igual ao terminal
 	texto_formatado = "Mensagem enviada ao agente:\n"
 	for k, v in data.items():

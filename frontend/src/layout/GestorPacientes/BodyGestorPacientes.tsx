@@ -40,8 +40,9 @@ const BodyGestorPacientes: React.FC = () => {
     try {
       const data = await listarPacientesComoGestor(termo);
       setPacientes(data.pacientes ?? []);
-    } catch (e: any) {
-      setErro(e?.message || 'Não foi possível carregar os pacientes.');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Não foi possível carregar os pacientes.';
+      setErro(msg);
     } finally {
       setLoading(false);
     }
@@ -91,8 +92,9 @@ const BodyGestorPacientes: React.FC = () => {
 
       limparFormulario();
       await carregarPacientes('');
-    } catch (e: any) {
-      setErro(e?.message || 'Falha ao salvar paciente.');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Falha ao salvar paciente.';
+      setErro(msg);
     } finally {
       setSaving(false);
     }
@@ -107,8 +109,9 @@ const BodyGestorPacientes: React.FC = () => {
       await deletarPaciente(id);
       await carregarPacientes(busca);
       if (editandoId === id) limparFormulario();
-    } catch (e: any) {
-      setErro(e?.message || 'Falha ao remover paciente.');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Falha ao remover paciente.';
+      setErro(msg);
     }
   }
 
