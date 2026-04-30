@@ -11,7 +11,7 @@ export default function Prontuario() {
   );
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
-      <DoctorHeader nome={usuario?.nome} crm={usuario?.crm} especializacao={usuario?.especializacao} />
+      <DoctorHeader nome={usuario?.nome} sobrenome={usuario?.sobrenome} crm={usuario?.crm} especializacao={usuario?.especializacao} />
       <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         <BodyProntuario />
       </div>

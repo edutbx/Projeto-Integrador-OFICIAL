@@ -22,8 +22,8 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Permite o dev server do React na porta 3000
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        // Permite o dev server do React na porta 5173
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
 
         // Métodos HTTP permitidos
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
