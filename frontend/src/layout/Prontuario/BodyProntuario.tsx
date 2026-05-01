@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GoogleGenAI } from '@google/genai';
-import { User, Sparkles, Loader2, FileText, Activity, AlertCircle, Pill, Stethoscope, CheckCircle } from 'lucide-react';
+import { User, Loader2, FileText, Activity, AlertCircle, Pill, Stethoscope, CheckCircle } from 'lucide-react';
+import { interpretarPdf } from '../../services/apiService';
 import { Patient } from '../../types';
 import { AIAssistant } from '../../components/AIAssistant';
 import { mockPatients } from '../../data/mockPatients';
@@ -15,10 +16,28 @@ const BodyProntuario: React.FC = () => {
 
   const activePatient = extractedData || basePatient;
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setFileName(file.name);
+
+    if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+      setIsAnalyzing(true);
+      try {
+        const data = await interpretarPdf(file);
+        if (data.conteudoExtraido) {
+          setFileContent(data.conteudoExtraido);
+        } else {
+          alert(data.erroIA || 'Não foi possível extrair o texto do PDF.');
+        }
+      } catch {
+        alert('Erro ao processar o PDF. Verifique se o servidor está disponível.');
+      } finally {
+        setIsAnalyzing(false);
+      }
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (event) => setFileContent(event.target?.result as string);
     reader.readAsText(file);
@@ -150,14 +169,6 @@ ${fileContent}`;
             <span style={{ color: '#F5A623', fontSize: '1.1rem', fontWeight: 900, marginLeft: 10 }}>++</span>
           </button>
 
-          <button
-            onClick={handleInterpret}
-            disabled={isAnalyzing || !fileContent.trim()}
-            style={{ ...btnStyle('#F5A623', isAnalyzing || !fileContent.trim()), marginLeft: 'auto' }}
-          >
-            <Sparkles size={15} style={{ marginRight: 6 }} />
-            Gerar Resumo Inteligente
-          </button>
 
           {extractedData && (
             <button
@@ -183,7 +194,7 @@ ${fileContent}`;
                 cursor: 'pointer', transition: 'background .2s'
               }}>
                 Escolher Arquivo
-                <input type="file" accept=".txt,.md,.csv" onChange={handleFileUpload} style={{ display: 'none' }} />
+                <input type="file" accept=".pdf,.txt,.md,.csv" onChange={handleFileUpload} style={{ display: 'none' }} />
               </label>
               <span style={{ fontSize: '0.85rem', color: '#6b7280' }}>
                 {fileName || 'Nenhum arquivo escolhido'}
@@ -228,7 +239,7 @@ ${fileContent}`;
                 padding: '7px 16px', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer'
               }}>
                 Escolher Arquivo
-                <input type="file" accept=".txt,.md,.csv" onChange={handleFileUpload} style={{ display: 'none' }} />
+                <input type="file" accept=".pdf,.txt,.md,.csv" onChange={handleFileUpload} style={{ display: 'none' }} />
               </label>
               <span style={{ fontSize: '0.82rem', color: '#6b7280' }}>
                 {fileName || 'Nenhum arquivo escolhido'}

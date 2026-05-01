@@ -12,7 +12,7 @@ saudemais-completo/
 ### Backend
 ```bash
 cd backend
-./mvnw spring-boot:run
+./mvn spring-boot:run
 # Acesse: http://localhost:5000
 ```
 
