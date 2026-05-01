@@ -11,7 +11,31 @@ import '../../styles/layout/BodyGestorPacientes.css';
 
 const path = window.location.pathname;
 
+function formatarCpf(value: string): string {
+  const d = value.replace(/\D/g, '').slice(0, 11);
+  if (d.length <= 3) return d;
+  if (d.length <= 6) return `${d.slice(0, 3)}.${d.slice(3)}`;
+  if (d.length <= 9) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6)}`;
+  return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9, 11)}`;
+}
+
+function validarCpf(cpf: string): boolean {
+  const d = cpf.replace(/\D/g, '');
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  let sum = 0;
+  for (let i = 0; i < 9; i++) sum += parseInt(d[i]) * (10 - i);
+  let r = sum % 11;
+  const v1 = r < 2 ? 0 : 11 - r;
+  if (v1 !== parseInt(d[9])) return false;
+  sum = 0;
+  for (let i = 0; i < 10; i++) sum += parseInt(d[i]) * (11 - i);
+  r = sum % 11;
+  const v2 = r < 2 ? 0 : 11 - r;
+  return v2 === parseInt(d[10]);
+}
+
 const FORM_INICIAL: PacientePayload = {
+  cpf: '',
   nome: '',
   idade: 0,
   endereco: '',
@@ -26,6 +50,7 @@ const BodyGestorPacientes: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  const [cpfErro, setCpfErro] = useState<string | null>(null);
   const [editandoId, setEditandoId] = useState<string | null>(null);
   const [form, setForm] = useState<PacientePayload>(FORM_INICIAL);
 
@@ -54,7 +79,9 @@ const BodyGestorPacientes: React.FC = () => {
 
   function preencherForm(paciente: Paciente) {
     setEditandoId(paciente.id);
+    setCpfErro(null);
     setForm({
+      cpf: formatarCpf(paciente.cpf || ''),
       nome: paciente.nome,
       idade: paciente.idade,
       endereco: paciente.endereco,
@@ -66,16 +93,33 @@ const BodyGestorPacientes: React.FC = () => {
 
   function limparFormulario() {
     setEditandoId(null);
+    setCpfErro(null);
     setForm(FORM_INICIAL);
+  }
+
+  function handleCpfChange(value: string) {
+    const formatted = formatarCpf(value);
+    setForm(v => ({ ...v, cpf: formatted }));
+    if (formatted.replace(/\D/g, '').length === 11) {
+      setCpfErro(validarCpf(formatted) ? null : 'CPF inválido');
+    } else {
+      setCpfErro(null);
+    }
   }
 
   async function salvarPaciente(e: React.FormEvent) {
     e.preventDefault();
+    const cpfDigits = form.cpf.replace(/\D/g, '');
+    if (!validarCpf(cpfDigits)) {
+      setCpfErro('CPF inválido');
+      return;
+    }
     setSaving(true);
     setErro(null);
 
     try {
       const payload: PacientePayload = {
+        cpf: cpfDigits,
         nome: form.nome.trim(),
         idade: Number(form.idade),
         endereco: form.endereco.trim(),
@@ -146,6 +190,17 @@ const BodyGestorPacientes: React.FC = () => {
         <form className="gpac__form" onSubmit={salvarPaciente}>
           <h2>{tituloFormulario}</h2>
           <div className="gpac__form-grid">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <input
+                type="text"
+                placeholder="CPF (somente números)"
+                value={form.cpf}
+                onChange={e => handleCpfChange(e.target.value)}
+                maxLength={14}
+                required
+              />
+              {cpfErro && <span style={{ color: '#dc2626', fontSize: '0.78rem' }}>{cpfErro}</span>}
+            </div>
             <input
               type="text"
               placeholder="Nome"
@@ -195,7 +250,7 @@ const BodyGestorPacientes: React.FC = () => {
           </div>
 
           <div className="gpac__actions">
-            <button type="submit" disabled={saving}>
+            <button type="submit" disabled={saving || !!cpfErro}>
               {saving ? 'Salvando...' : editandoId ? 'Atualizar' : 'Cadastrar'}
             </button>
             {editandoId && (
@@ -209,7 +264,7 @@ const BodyGestorPacientes: React.FC = () => {
         <div className="gpac__search">
           <input
             type="text"
-            placeholder="Buscar por nome, endereço ou CRM referência"
+            placeholder="Buscar por nome, CPF, endereço ou CRM referência"
             value={busca}
             onChange={e => setBusca(e.target.value)}
           />
@@ -227,6 +282,7 @@ const BodyGestorPacientes: React.FC = () => {
             <table className="gpac__table">
               <thead>
                 <tr>
+                  <th>CPF</th>
                   <th>Nome</th>
                   <th>Idade</th>
                   <th>Endereço</th>
@@ -239,6 +295,7 @@ const BodyGestorPacientes: React.FC = () => {
               <tbody>
                 {pacientes.map(p => (
                   <tr key={p.id}>
+                    <td>{formatarCpf(p.cpf || '')}</td>
                     <td>{p.nome}</td>
                     <td>{p.idade}</td>
                     <td>{p.endereco}</td>

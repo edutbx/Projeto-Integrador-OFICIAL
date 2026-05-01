@@ -43,6 +43,16 @@ export async function criarProntuarioParaPaciente(pacienteId: string, payload: P
   return parseResponse<Prontuario>(res, 'Erro ao criar prontuário');
 }
 
+export async function criarProntuarioParaPacienteComoMedico(pacienteId: string, payload: ProntuarioPayload): Promise<Prontuario> {
+  const token = getToken();
+  const res = await fetch(`${API}/paciente/${pacienteId}`, {
+    method: 'POST',
+    headers: authHeaders(token),
+    body: JSON.stringify(payload),
+  });
+  return parseResponse<Prontuario>(res, 'Erro ao criar prontuário');
+}
+
 export async function atualizarProntuario(id: string, payload: ProntuarioPayload): Promise<Prontuario> {
   const token = getToken() || getGestorToken();
   const res = await fetch(`${API}/${id}`, {

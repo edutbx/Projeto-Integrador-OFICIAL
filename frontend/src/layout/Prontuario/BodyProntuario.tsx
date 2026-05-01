@@ -1,18 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoogleGenAI } from '@google/genai';
 import { User, Loader2, FileText, Activity, AlertCircle, Pill, Stethoscope, CheckCircle } from 'lucide-react';
 import { interpretarPdf } from '../../services/apiService';
-import { Patient } from '../../types';
+import { Patient, Paciente, Prontuario, ProntuarioPayload } from '../../types';
 import { AIAssistant } from '../../components/AIAssistant';
 import { mockPatients } from '../../data/mockPatients';
+import { buscarPacienteComoMedico } from '../../services/pacienteService';
+import { getUsuario } from '../../services/authService';
+import { atualizarProntuario, criarProntuarioParaPacienteComoMedico, obterProntuarioPorPacienteComoMedico } from '../../services/prontuarioService';
 
 const basePatient = mockPatients[0];
+
+function formatarCpf(cpf: string): string {
+  const d = (cpf || '').replace(/\D/g, '');
+  if (d.length !== 11) return cpf || '';
+  return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9, 11)}`;
+}
+
+const usuario = getUsuario();
+const doctorName = usuario ? `${usuario.nome} ${usuario.sobrenome ?? ''}`.trim() : undefined;
 
 const BodyProntuario: React.FC = () => {
   const [fileContent, setFileContent] = useState('');
   const [fileName, setFileName] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [extractedData, setExtractedData] = useState<Patient | null>(null);
+  const [paciente, setPaciente] = useState<Paciente | null>(null);
+  const [prontuarioSalvo, setProntuarioSalvo] = useState<Prontuario | null>(null);
+  const [isLoadingProntuario, setIsLoadingProntuario] = useState(false);
+  const [showModalProntuario, setShowModalProntuario] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const pacienteId = params.get('pacienteId');
+    if (pacienteId) {
+      buscarPacienteComoMedico(pacienteId)
+        .then(setPaciente)
+        .catch(() => { /* dados do paciente indisponíveis; usa mock */ });
+    }
+  }, []);
 
   const activePatient = extractedData || basePatient;
 
@@ -99,6 +126,73 @@ ${fileContent}`;
     }
   };
 
+  const handleConsultarProntuario = async () => {
+    if (!paciente) {
+      alert('Paciente não identificado. Acesse o prontuário via busca por CPF.');
+      return;
+    }
+    setIsLoadingProntuario(true);
+    try {
+      const dados = await obterProntuarioPorPacienteComoMedico(paciente.id);
+      setProntuarioSalvo(dados);
+      setShowModalProntuario(true);
+    } catch {
+      alert('Nenhum prontuário encontrado para este paciente.');
+    } finally {
+      setIsLoadingProntuario(false);
+    }
+  };
+
+  const handleFecharExame = async () => {
+    if (!extractedData) {
+      alert('Analise um prontuário antes de encerrar o exame.');
+      return;
+    }
+    if (!paciente) {
+      alert('Paciente não identificado. Acesse o prontuário via busca por CPF.');
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const labText = extractedData.labResults
+        .map(r => `${r.test}: ${r.result} ${r.unit} (Ref: ${r.referenceRange}) [${r.date}]`)
+        .join('\n');
+
+      const visitsText = extractedData.recentVisits
+        .map(v => `[${v.date}] Dr. ${v.doctor} - ${v.reason}: ${v.notes}`)
+        .join('\n');
+
+      const payload: ProntuarioPayload = {
+        resumoProblema: extractedData.conditions.length
+          ? extractedData.conditions.join(', ')
+          : extractedData.notes || 'Análise de prontuário via IA',
+        historicoDoencaAtual: visitsText || '',
+        sintomasRelatados: extractedData.conditions.join(', '),
+        alergias: extractedData.allergies.join(', '),
+        medicamentosEmUso: extractedData.medications.join(', '),
+        hipoteseDiagnostica: '',
+        condutaMedica: '',
+        examesSolicitados: labText,
+        observacoesGerais: extractedData.notes || '',
+      };
+
+      if (paciente.prontuarioAtualId) {
+        await atualizarProntuario(paciente.prontuarioAtualId, payload);
+      } else {
+        await criarProntuarioParaPacienteComoMedico(paciente.id, payload);
+      }
+
+      alert('Prontuário salvo com sucesso!');
+      window.location.href = '/medico';
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao salvar prontuário. Tente novamente.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div style={{ display: 'flex', flex: 1, overflow: 'hidden', height: '100%' }}>
 
@@ -126,22 +220,26 @@ ${fileContent}`;
 
         {/* Dados do paciente */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
-          {[
-            ['Paciente', activePatient.name],
-            ['Idade', `${activePatient.age} anos`],
-            ['Sexo', activePatient.gender],
-            ['CPF', '333.333.333-33'],
-            ['Endereço', 'Rua das Flores, 513\nCentro – São Paulo'],
-            ['Telefone', '(11) 970154684'],
-            ['Histórico Médico', activePatient.conditions.join(', ')],
-          ].map(([label, value]) => (
+          {(paciente
+            ? [
+                ['Paciente', paciente.nome],
+                ['Idade', `${paciente.idade} anos`],
+                ['CPF', formatarCpf(paciente.cpf)],
+                ['Endereço', paciente.endereco],
+                ['Altura', `${paciente.altura} m`],
+                ['Peso', `${paciente.peso} kg`],
+              ]
+            : [
+                ['Paciente', activePatient.name],
+                ['Idade', `${activePatient.age} anos`],
+                ['Sexo', activePatient.gender],
+                ['Histórico Médico', activePatient.conditions.join(', ')],
+              ]
+          ).map(([label, value]) => (
             <p key={label} style={{ margin: 0, fontSize: '0.82rem', lineHeight: 1.5 }}>
               <span style={{ color: '#F5A623', fontWeight: 700 }}>{label}: </span>
               <span style={{ whiteSpace: 'pre-line' }}>{value}</span>
-               <button className="nc-voltar" onClick={() => window.location.href = '/medico'}>Voltar</button> 
-               {/* ESSE BOTAO SERÁ REMOVIDO! */}
             </p>
-            
           ))}
         </div>
       </aside>
@@ -152,9 +250,13 @@ ${fileContent}`;
         {/* Botões de ação */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 24, alignItems: 'center' }}>
           <button
-            onClick={() => alert('Funcionalidade em desenvolvimento')}
-            style={btnStyle('#1E3A8A')}
+            onClick={handleConsultarProntuario}
+            disabled={isLoadingProntuario}
+            style={btnStyle('#1E3A8A', isLoadingProntuario)}
           >
+            {isLoadingProntuario
+              ? <Loader2 size={15} style={{ marginRight: 6, animation: 'spin 1s linear infinite' }} />
+              : null}
             CONSULTAR PRONTUÁRIOS ANTIGOS
             <span style={{ color: '#F5A623', fontSize: '1.1rem', fontWeight: 900, marginLeft: 10 }}>++</span>
           </button>
@@ -172,11 +274,14 @@ ${fileContent}`;
 
           {extractedData && (
             <button
-              onClick={() => { alert('Exame fechado e salvo com sucesso!'); window.location.href = '/medico'; }}
-              style={btnStyle('#059669')}
+              onClick={handleFecharExame}
+              disabled={isSaving}
+              style={btnStyle('#059669', isSaving)}
             >
-              <CheckCircle size={15} style={{ marginRight: 6 }} />
-              FECHAR EXAME
+              {isSaving
+                ? <Loader2 size={15} style={{ marginRight: 6, animation: 'spin 1s linear infinite' }} />
+                : <CheckCircle size={15} style={{ marginRight: 6 }} />}
+              {isSaving ? 'SALVANDO...' : 'FECHAR EXAME'}
             </button>
           )}
         </div>
@@ -364,8 +469,121 @@ ${fileContent}`;
 
       {/* ── Barra lateral direita: Copilot ── */}
       <div style={{ width: 380, flexShrink: 0, borderLeft: '1px solid #e5e7eb', background: '#fff', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <AIAssistant patient={activePatient} />
+        <AIAssistant
+          patient={activePatient}
+          patientDisplayName={paciente?.nome}
+          doctorName={doctorName}
+        />
       </div>
+
+      {/* ── Modal: Prontuário Armazenado ── */}
+      {showModalProntuario && prontuarioSalvo && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1000, padding: 24
+        }}>
+          <div style={{
+            background: '#fff', borderRadius: 16, width: '100%', maxWidth: 760,
+            maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
+            fontFamily: 'Poppins, sans-serif'
+          }}>
+            {/* Cabeçalho do modal */}
+            <div style={{
+              background: 'linear-gradient(135deg,#0e2a6e,#1e3a8a)', borderRadius: '16px 16px 0 0',
+              padding: '20px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'
+            }}>
+              <div>
+                <h2 style={{ margin: 0, color: '#fff', fontSize: '1.1rem', fontWeight: 700 }}>
+                  Prontuário Armazenado
+                </h2>
+                <p style={{ margin: '4px 0 0', color: '#93c5fd', fontSize: '0.78rem' }}>
+                  {prontuarioSalvo.pacienteNome}
+                  {prontuarioSalvo.pacienteIdade ? ` · ${prontuarioSalvo.pacienteIdade} anos` : ''}
+                </p>
+                {prontuarioSalvo.atualizadoEm && (
+                  <p style={{ margin: '2px 0 0', color: '#bfdbfe', fontSize: '0.72rem' }}>
+                    Última atualização: {new Date(prontuarioSalvo.atualizadoEm).toLocaleString('pt-BR')}
+                    {prontuarioSalvo.atualizadoPor ? ` · por ${prontuarioSalvo.atualizadoPor}` : ''}
+                  </p>
+                )}
+              </div>
+              <button
+                onClick={() => setShowModalProntuario(false)}
+                style={{
+                  background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: 8,
+                  color: '#fff', cursor: 'pointer', fontSize: '1.1rem', fontWeight: 700,
+                  padding: '4px 12px', lineHeight: 1.4
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Conteúdo dos campos clínicos */}
+            <div style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {[
+                { label: 'Resumo do Problema', value: prontuarioSalvo.resumoProblema },
+                { label: 'Histórico da Doença Atual', value: prontuarioSalvo.historicoDoencaAtual },
+                { label: 'Sintomas Relatados', value: prontuarioSalvo.sintomasRelatados },
+                { label: 'Alergias', value: prontuarioSalvo.alergias },
+                { label: 'Medicamentos em Uso', value: prontuarioSalvo.medicamentosEmUso },
+                { label: 'Hipótese Diagnóstica', value: prontuarioSalvo.hipoteseDiagnostica },
+                { label: 'Conduta Médica', value: prontuarioSalvo.condutaMedica },
+                { label: 'Exames Solicitados', value: prontuarioSalvo.examesSolicitados },
+                { label: 'Observações Gerais', value: prontuarioSalvo.observacoesGerais },
+              ].map(({ label, value }) => (
+                <div key={label}>
+                  <p style={{
+                    margin: '0 0 4px', fontSize: '0.7rem', fontWeight: 700,
+                    color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.07em'
+                  }}>
+                    {label}
+                  </p>
+                  <p style={{
+                    margin: 0, fontSize: '0.875rem', color: value ? '#111827' : '#9ca3af',
+                    background: '#f9fafb', borderRadius: 8, padding: '10px 14px',
+                    border: '1px solid #e5e7eb', lineHeight: 1.6, whiteSpace: 'pre-wrap'
+                  }}>
+                    {value || 'Não informado'}
+                  </p>
+                </div>
+              ))}
+
+              {prontuarioSalvo.interpretacaoIa && (
+                <div>
+                  <p style={{
+                    margin: '0 0 4px', fontSize: '0.7rem', fontWeight: 700,
+                    color: '#4f46e5', textTransform: 'uppercase', letterSpacing: '0.07em'
+                  }}>
+                    Interpretação da IA
+                  </p>
+                  <p style={{
+                    margin: 0, fontSize: '0.875rem', color: '#1e1b4b',
+                    background: '#eef2ff', borderRadius: 8, padding: '10px 14px',
+                    border: '1px solid #c7d2fe', lineHeight: 1.6, whiteSpace: 'pre-wrap'
+                  }}>
+                    {prontuarioSalvo.interpretacaoIa}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Rodapé do modal */}
+            <div style={{
+              padding: '16px 28px', borderTop: '1px solid #e5e7eb',
+              display: 'flex', justifyContent: 'flex-end'
+            }}>
+              <button
+                onClick={() => setShowModalProntuario(false)}
+                style={btnStyle('#1E3A8A')}
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Keyframe para o spinner */}
       <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>

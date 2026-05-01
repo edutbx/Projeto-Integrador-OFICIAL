@@ -23,7 +23,7 @@ public class ProntuarioController {
     }
 
     @PostMapping("/paciente/{pacienteId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<?> criarParaPaciente(
             @PathVariable String pacienteId,
             @Valid @RequestBody ProntuarioRequest request,

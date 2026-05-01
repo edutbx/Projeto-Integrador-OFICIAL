@@ -6,6 +6,8 @@ import Markdown from 'react-markdown';
 
 interface AIAssistantProps {
   patient: Patient;
+  patientDisplayName?: string;
+  doctorName?: string;
 }
 
 interface Message {
@@ -14,12 +16,15 @@ interface Message {
   content: string;
 }
 
-export function AIAssistant({ patient }: AIAssistantProps) {
+export function AIAssistant({ patient, patientDisplayName, doctorName }: AIAssistantProps) {
+  const nome = patientDisplayName || patient.name;
+  const medico = doctorName || 'Doutor(a)';
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       role: 'assistant',
-      content: `Olá, Doutor(a). Sou o assistente de IA do Saúde ++. Estou analisando o prontuário de **${patient.name}**. Como posso ajudar na sua decisão clínica hoje?`
+      content: `Bem vindo ao Saúde ++, **${medico}**! Você irá atender o paciente **${nome}**. Como posso ajudá-lo?`
     }
   ]);
   const [input, setInput] = useState('');
@@ -34,10 +39,10 @@ export function AIAssistant({ patient }: AIAssistantProps) {
     setMessages([{
       id: Date.now().toString(),
       role: 'assistant',
-      content: `Olá, Doutor(a). Mudei para o prontuário de **${patient.name}**. Como posso ajudar?`
+      content: `Bem vindo ao Saúde ++, **${medico}**! Você irá atender o paciente **${nome}**. Como posso ajudá-lo?`
     }]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [patient.id]);
+  }, [nome]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -56,7 +61,7 @@ Seja profissional, conciso, baseado em evidências e focado na segurança do pac
 Sempre lembre o médico que suas sugestões não substituem o julgamento clínico humano.
 
 Dados do paciente atual:
-Nome: ${patient.name}
+Nome: ${nome}
 Idade: ${patient.age} | Sexo: ${patient.gender} | Tipo Sanguíneo: ${patient.bloodType}
 Alergias: ${patient.allergies.join(', ')}
 Condições: ${patient.conditions.join(', ')}

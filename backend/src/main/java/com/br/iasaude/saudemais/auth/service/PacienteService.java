@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -24,15 +25,20 @@ public class PacienteService {
     }
 
     public PacienteResponse criar(PacienteRequest request, String actor) {
+        String cpf = normalizarCpf(request.getCpf());
+        validarCpfOuLancar(cpf);
+        if (pacienteRepository.existsByCpf(cpf)) {
+            throw new IllegalArgumentException("CPF já cadastrado");
+        }
         Paciente paciente = new Paciente();
+        paciente.setCpf(cpf);
         aplicarDadosDeCadastro(paciente, request);
         String agora = Instant.now().toString();
         paciente.setCriadoEm(agora);
         paciente.setAtualizadoEm(agora);
         paciente.setCriadoPor(actor);
         paciente.setAtualizadoPor(actor);
-        Paciente salvo = pacienteRepository.save(paciente);
-        return toResponse(salvo);
+        return toResponse(pacienteRepository.save(paciente));
     }
 
     public List<PacienteResponse> listar(String busca) {
@@ -50,14 +56,27 @@ public class PacienteService {
         return toResponse(paciente);
     }
 
+    public PacienteResponse buscarPorCpf(String cpf) {
+        String cpfNormalizado = normalizarCpf(cpf);
+        Paciente paciente = pacienteRepository.findByCpf(cpfNormalizado)
+                .orElseThrow(() -> new NoSuchElementException("Paciente não encontrado"));
+        return toResponse(paciente);
+    }
+
     public PacienteResponse atualizar(String id, PacienteRequest request, String actor) {
         Paciente paciente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Paciente não encontrado"));
+        String cpf = normalizarCpf(request.getCpf());
+        validarCpfOuLancar(cpf);
+        Optional<Paciente> existingByCpf = pacienteRepository.findByCpf(cpf);
+        if (existingByCpf.isPresent() && !existingByCpf.get().getId().equals(id)) {
+            throw new IllegalArgumentException("CPF já cadastrado para outro paciente");
+        }
+        paciente.setCpf(cpf);
         aplicarDadosDeCadastro(paciente, request);
         paciente.setAtualizadoEm(Instant.now().toString());
         paciente.setAtualizadoPor(actor);
-        Paciente salvo = pacienteRepository.save(paciente);
-        return toResponse(salvo);
+        return toResponse(pacienteRepository.save(paciente));
     }
 
     public PacienteResponse atualizarVinculoMedico(String id, String medicoCrm, String actor) {
@@ -74,8 +93,7 @@ public class PacienteService {
         paciente.setMedicoCrmsComAcesso(medicosComAcesso);
         paciente.setAtualizadoEm(Instant.now().toString());
         paciente.setAtualizadoPor(actor);
-        Paciente salvo = pacienteRepository.save(paciente);
-        return toResponse(salvo);
+        return toResponse(pacienteRepository.save(paciente));
     }
 
     public void deletar(String id) {
@@ -113,7 +131,34 @@ public class PacienteService {
     private boolean contemTermo(Paciente paciente, String filtro) {
         return valorSeguro(paciente.getNome()).contains(filtro)
                 || valorSeguro(paciente.getEndereco()).contains(filtro)
-                || valorSeguro(paciente.getMedicoCrmReferencia()).contains(filtro);
+                || valorSeguro(paciente.getMedicoCrmReferencia()).contains(filtro)
+                || valorSeguro(paciente.getCpf()).contains(filtro);
+    }
+
+    // Strips formatting and returns only digits. Input from frontend may be "123.456.789-00".
+    private String normalizarCpf(String cpf) {
+        return cpf == null ? "" : cpf.replaceAll("[^0-9]", "");
+    }
+
+    private void validarCpfOuLancar(String cpf) {
+        if (!isCpfValido(cpf)) {
+            throw new IllegalArgumentException("CPF inválido");
+        }
+    }
+
+    private boolean isCpfValido(String digits) {
+        if (digits == null || digits.length() != 11) return false;
+        if (digits.chars().distinct().count() == 1) return false;
+        int sum = 0;
+        for (int i = 0; i < 9; i++) sum += Character.getNumericValue(digits.charAt(i)) * (10 - i);
+        int r = sum % 11;
+        int d1 = r < 2 ? 0 : 11 - r;
+        if (d1 != Character.getNumericValue(digits.charAt(9))) return false;
+        sum = 0;
+        for (int i = 0; i < 10; i++) sum += Character.getNumericValue(digits.charAt(i)) * (11 - i);
+        r = sum % 11;
+        int d2 = r < 2 ? 0 : 11 - r;
+        return d2 == Character.getNumericValue(digits.charAt(10));
     }
 
     private String valorSeguro(String valor) {
@@ -127,6 +172,7 @@ public class PacienteService {
     private PacienteResponse toResponse(Paciente paciente) {
         return new PacienteResponse(
                 paciente.getId(),
+                paciente.getCpf(),
                 paciente.getNome(),
                 paciente.getIdade(),
                 paciente.getEndereco(),
