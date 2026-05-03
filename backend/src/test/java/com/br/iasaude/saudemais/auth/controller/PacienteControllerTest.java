@@ -101,6 +101,7 @@ class PacienteControllerTest {
 
     private PacienteRequest request() {
         PacienteRequest req = new PacienteRequest();
+        req.setCpf("52998224725");
         req.setNome("Joao");
         req.setIdade(30);
         req.setEndereco("Rua");
