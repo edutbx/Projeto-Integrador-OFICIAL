@@ -96,7 +96,7 @@ class PacienteControllerTest {
     }
 
     private PacienteResponse response(String id, String nome) {
-        return new PacienteResponse(id, nome, 30, "Rua", 1.7, 70.0, "CRM1", Set.of("CRM1"), null, null, null);
+        return new PacienteResponse(id, "000.000.000-00", nome, 30, "Rua", 1.7, 70.0, "CRM1", Set.of("CRM1"), null, null, null);
     }
 
     private PacienteRequest request() {
