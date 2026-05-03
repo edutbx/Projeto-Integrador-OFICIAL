@@ -104,6 +104,7 @@ export interface MedicosResponse {
 
 export interface Paciente {
   id: string;
+  cpf: string;
   nome: string;
   idade: number;
   endereco: string;
@@ -117,6 +118,7 @@ export interface Paciente {
 }
 
 export interface PacientePayload {
+  cpf: string;
   nome: string;
   idade: number;
   endereco: string;

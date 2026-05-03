@@ -31,20 +31,14 @@ const IcAgenda = () => (
   </svg>
 );
 
-const CONSULTAS = [
-  
-];
-
-
 const BodyMedico: React.FC = () => (
   <main className="med-main">
     <div className="med-top">
       <a href="/novaConsulta" className="med-iniciar-btn">INICIAR CONSULTA</a>
       <img src="/img/bonecosLogo.png" alt="" className="med-bonecos" />
     </div>
-    <div className="med-acoes">
+    {/* <div className="med-acoes">
       {[
-        { Icon: IcProntuario,  label: 'Consultar\nProntuário', href: '/prontuario' },
         { Icon: IcAgenda,      label: 'Agenda', href: '/' },
       ].map(({ Icon, label, href }) => (
         <a key={label} href={href} className="med-acao-card">
@@ -52,7 +46,7 @@ const BodyMedico: React.FC = () => (
           <span>{label}</span>
         </a>
       ))}
-    </div>
+    </div> */}
   </main>
 );
 export default BodyMedico;

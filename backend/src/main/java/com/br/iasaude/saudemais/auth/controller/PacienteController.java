@@ -44,11 +44,27 @@ public class PacienteController {
         }
     }
 
+    @GetMapping("/por-cpf/{cpf}")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResponseEntity<?> buscarPorCpf(@PathVariable String cpf) {
+        try {
+            return ResponseEntity.ok(pacienteService.buscarPorCpf(cpf));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("erro", "Paciente não cadastrado"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("erro", e.getMessage()));
+        }
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> criar(@Valid @RequestBody PacienteRequest request, Authentication authentication) {
-        PacienteResponse paciente = pacienteService.criar(request, authentication.getName());
-        return ResponseEntity.ok(paciente);
+        try {
+            PacienteResponse paciente = pacienteService.criar(request, authentication.getName());
+            return ResponseEntity.ok(paciente);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("erro", e.getMessage()));
+        }
     }
 
     @PutMapping("/{id}")
@@ -63,6 +79,8 @@ public class PacienteController {
             return ResponseEntity.ok(paciente);
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("erro", e.getMessage()));
         }
     }
 

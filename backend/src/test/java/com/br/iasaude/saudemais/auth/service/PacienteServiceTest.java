@@ -37,6 +37,7 @@ class PacienteServiceTest {
     @BeforeEach
     void setup() {
         request = new PacienteRequest();
+        request.setCpf("52998224725");
         request.setNome("  Joao ");
         request.setIdade(30);
         request.setEndereco(" Rua A ");

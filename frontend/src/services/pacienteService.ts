@@ -6,7 +6,7 @@ const API = '/api/pacientes';
 async function processarResposta<T>(res: Response, erroPadrao: string): Promise<T> {
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data.error || data.message || erroPadrao);
+    throw new Error(data.erro || data.error || data.message || erroPadrao);
   }
   return res.json();
 }
@@ -43,6 +43,23 @@ export async function buscarPacienteComoGestor(id: string): Promise<Paciente> {
   return processarResposta<Paciente>(res, 'Erro ao buscar paciente');
 }
 
+export async function buscarPacienteComoMedico(id: string): Promise<Paciente> {
+  const token = getToken();
+  const res = await fetch(`${API}/${id}`, {
+    headers: cabecalhosComToken(token),
+  });
+  return processarResposta<Paciente>(res, 'Erro ao buscar paciente');
+}
+
+export async function buscarPacientePorCpfComoMedico(cpf: string): Promise<Paciente> {
+  const token = getToken();
+  const cpfDigits = cpf.replace(/\D/g, '');
+  const res = await fetch(`${API}/por-cpf/${cpfDigits}`, {
+    headers: cabecalhosComToken(token),
+  });
+  return processarResposta<Paciente>(res, 'Paciente não cadastrado');
+}
+
 export async function criarPaciente(payload: PacientePayload): Promise<Paciente> {
   const token = getGestorToken();
   const res = await fetch(API, {
@@ -71,6 +88,6 @@ export async function deletarPaciente(id: string): Promise<void> {
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data.error || data.message || 'Erro ao remover paciente');
+    throw new Error(data.erro || data.error || data.message || 'Erro ao remover paciente');
   }
 }

@@ -19,7 +19,7 @@ const DoctorIcon: React.FC = () => (
 
 const DoctorHeader: React.FC<DoctorHeaderProps> = ({ nome = 'Médico', sobrenome = 'Médico', crm = 'Crm', especializacao = 'Especialidade' }) => (
   <header className="doc-header">
-    <Logo size="sm" />
+    <Logo size="sm" href="/medico" />
     <div className="doc-header__right">
       <div className="doc-header__info">
         <p className="doc-header__name"><span className="doc-header__dr">Dr: </span>{nome} {sobrenome}</p>

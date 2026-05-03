@@ -9,6 +9,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class PacienteResponse {
     private String id;
+    private String cpf;
     private String nome;
     private Integer idade;
     private String endereco;
