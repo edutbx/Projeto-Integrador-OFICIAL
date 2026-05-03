@@ -36,10 +36,9 @@
 
 /* Ações */
 .med-acoes {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  max-width: 900px;
+  display: flex; 
+  align-items: center;
+  justify-content: center; 
   align-self: center;
   width: 100%;
 }

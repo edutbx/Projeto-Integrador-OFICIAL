@@ -72,7 +72,7 @@ const GestorHeader: React.FC<GestorHeaderProps> = ({ nome = 'Gestor', sobrenome 
 
   return (
     <header className="gestor-header">
-      <Logo size="sm" />
+      <Logo size="sm" href="/gestor" />
       <div className="gestor-header__right">
 
         {/* Sino de notificações */}

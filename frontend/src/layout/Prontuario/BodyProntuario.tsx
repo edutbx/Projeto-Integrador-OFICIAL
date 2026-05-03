@@ -9,6 +9,10 @@ import { buscarPacienteComoMedico } from '../../services/pacienteService';
 import { getUsuario } from '../../services/authService';
 import { atualizarProntuario, criarProntuarioParaPacienteComoMedico, obterProntuarioPorPacienteComoMedico } from '../../services/prontuarioService';
 
+const dataAtual = new Date();
+const dataStr = dataAtual.toLocaleDateString('pt-BR');
+const horaStr = dataAtual.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
 const basePatient = mockPatients[0];
 
 function formatarCpf(cpf: string): string {
@@ -203,7 +207,10 @@ ${fileContent}`;
         color: '#fff', fontFamily: 'Poppins, sans-serif'
       }}>
         <p style={{ fontSize: '0.78rem', color: '#93c5fd', fontWeight: 600, margin: 0 }}>
-          Data: 10/10/2026&nbsp;&nbsp;Horário: 10:20h
+         Data: {dataStr}
+        </p>
+        <p style={{ fontSize: '0.78rem', color: '#93c5fd', fontWeight: 600, margin: 0 }}>
+         Horário: {horaStr}h
         </p>
 
         {/* Avatar */}
