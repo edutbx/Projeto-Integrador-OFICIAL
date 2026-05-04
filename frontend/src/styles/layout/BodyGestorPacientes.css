@@ -1,121 +1,333 @@
+/* ── LAYOUT DA SEÇÃO ── */
+
 .gpac {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
 }
 
-.gpac__form {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  padding: 20px;
+/* ── CABEÇALHO COM BOTÃO (padrão gmed__header) ── */
+
+.gpac__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.gpac__form h2 {
-  margin: 0 0 16px;
-  color: #3b6bc8;
-  font-size: 1.05rem;
+.gpac__header h1 {
+  margin: 0;
 }
+
+.gpac__btn-novo {
+  background: #3b6bc8;
+  color: #fff;
+  border: none;
+  padding: 11px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: .92rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.gpac__btn-novo:hover { background: #2f58ad; }
+
+/* ── GRID DE CAMPOS ── */
 
 .gpac__form-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 40px;
+  margin-bottom: 24px;
+}
+
+.gpac__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.gpac__field--full {
+  grid-column: 1 / -1;
+}
+
+.gpac__label {
+  display: block;
+  font-weight: 600;
+  font-size: .88rem;
+  color: #222;
+  margin-bottom: 6px;
 }
 
 .gpac__form-grid input {
-  border: 1px solid #d8deea;
+  width: 100%;
+  padding: 11px 14px;
+  background: #fff8e8;
+  border: none;
   border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 0.95rem;
+  font-size: .92rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: box-shadow .2s;
+  box-sizing: border-box;
 }
+.gpac__form-grid input:focus { box-shadow: 0 0 0 2px #3b6bc8; }
+.gpac__form-grid input:disabled { background: #e8edf5; color: #7a8aaa; cursor: not-allowed; }
+
+.gpac__field-erro {
+  color: #e05c35;
+  font-size: .78rem;
+  margin-top: 4px;
+}
+
+/* ── ERRO GERAL ── */
+
+.gpac__erro {
+  color: #e05c35;
+  font-size: .85rem;
+  text-align: center;
+  margin: -8px 0 12px;
+}
+
+/* ── BOTÕES DO FORMULÁRIO ── */
 
 .gpac__actions {
-  margin-top: 12px;
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
 }
 
-.gpac__actions button,
-.gpac__search button,
-.gpac__row-actions button {
-  border: 0;
+.gpac__btn-primary {
+  padding: 12px 40px;
   border-radius: 8px;
-  background: #3b6bc8;
-  color: #fff;
-  padding: 9px 12px;
+  border: none;
+  font-weight: 700;
+  font-size: .95rem;
+  font-family: 'Poppins', sans-serif;
   cursor: pointer;
+  min-width: 140px;
+  background: linear-gradient(135deg, #1a4db3, #3b6bc8);
+  color: #fff;
+  transition: background .2s, box-shadow .2s;
 }
+.gpac__btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #163d94, #2f58ad);
+  box-shadow: 0 4px 16px rgba(26, 77, 179, .3);
+}
+.gpac__btn-primary:disabled { opacity: .65; cursor: not-allowed; }
 
-.gpac__btn-secondary {
-  background: #7b8dad !important;
+.gpac__btn-outline {
+  padding: 12px 40px;
+  border-radius: 8px;
+  border: 2px solid #3b6bc8;
+  font-weight: 700;
+  font-size: .95rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  min-width: 140px;
+  background: transparent;
+  color: #3b6bc8;
+  transition: background .2s;
 }
+.gpac__btn-outline:hover:not(:disabled) { background: #f4f8ff; }
+.gpac__btn-outline:disabled { opacity: .65; cursor: not-allowed; }
 
-.gpac__btn-danger {
-  background: #c84646 !important;
-}
+/* ── BARRA DE BUSCA ── */
 
 .gpac__search {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  align-items: center;
 }
 
 .gpac__search input {
   flex: 1;
-  border: 1px solid #d8deea;
+  padding: 11px 16px;
+  border: 1.5px solid #d0d8e8;
   border-radius: 8px;
-  padding: 10px 12px;
+  font-size: .92rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color .2s;
+  background: #fff;
+  color: #333;
+}
+.gpac__search input:focus { border-color: #3b6bc8; }
+.gpac__search input::placeholder { color: #aab4c8; }
+
+.gpac__search button {
+  padding: 11px 28px;
+  background: #3b6bc8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .88rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.gpac__search button:hover { background: #2f58ad; }
+
+/* ── LOADING ── */
+
+.gpac__loading {
+  color: #3b6bc8;
+  font-size: 1rem;
+  padding: 24px 0;
 }
 
-.gpac__erro {
-  margin: 0;
-  color: #b02e2e;
-  font-weight: 500;
-}
+/* ── TABELA ── */
 
 .gpac__table-wrap {
-  overflow-x: auto;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
+  overflow-x: auto;
 }
 
 .gpac__table {
   width: 100%;
   border-collapse: collapse;
+  font-size: .9rem;
   min-width: 820px;
 }
 
-.gpac__table th,
-.gpac__table td {
-  text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid #edf1f8;
-  font-size: 0.92rem;
+.gpac__table thead {
+  background: #3b6bc8;
+  color: #fff;
 }
 
 .gpac__table th {
-  background: #f7f9fe;
-  color: #34486b;
+  padding: 14px 20px;
+  text-align: left;
+  font-weight: 600;
+  font-size: .85rem;
+  letter-spacing: .3px;
 }
+
+.gpac__table tbody tr {
+  border-bottom: 1px solid #f0f4fa;
+  transition: background .15s;
+}
+.gpac__table tbody tr:hover { background: #f4f8ff; }
+
+.gpac__table td {
+  padding: 14px 20px;
+  color: #333;
+  vertical-align: middle;
+}
+
+/* ── BOTÕES DE AÇÃO NA LINHA ── */
 
 .gpac__row-actions {
   display: flex;
   gap: 6px;
+  align-items: center;
 }
 
+.gpac__btn-edit,
+.gpac__btn-prontuario {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: .8rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.gpac__btn-edit {
+  background: #e8f0fb;
+  color: #3b6bc8;
+}
+.gpac__btn-edit:hover { background: #3b6bc8; color: #fff; }
+
+.gpac__btn-prontuario {
+  background: #fff7e6;
+  color: #f4a623;
+}
+.gpac__btn-prontuario:hover { background: #f4a623; color: #fff; }
+
+.gpac__btn-danger {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: .8rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  background: #fdecea;
+  color: #c0392b;
+  transition: background .2s, color .2s;
+}
+.gpac__btn-danger:hover { background: #c0392b; color: #fff; }
+
+/* ── MODAL DO FORMULÁRIO ── */
+
+.gpac__modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.gpac__modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 48px 32px;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(13, 33, 87, 0.2);
+}
+
+.gpac__modal-title {
+  text-align: center;
+  color: #3b6bc8;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 28px;
+}
+
+/* ── RESPONSIVE ── */
+
 @media (max-width: 991px) {
-  .gpac__form-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  .gpac__modal { padding: 32px 36px 28px; }
+  .gpac__table th,
+  .gpac__table td { padding: 12px 16px; }
+}
+
+@media (max-width: 767px) {
+  .gpac__header { flex-direction: column; align-items: flex-start; }
+  .gpac__modal { padding: 28px 24px; max-width: 100%; }
+  .gpac__form-grid { grid-template-columns: 1fr; gap: 16px; }
+  .gpac__field--full { grid-column: auto; }
+  .gpac__table { font-size: .85rem; }
+  .gpac__table th,
+  .gpac__table td { padding: 10px 12px; }
+  .gpac__search { flex-direction: column; }
+  .gpac__search button { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 575px) {
-  .gpac__form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .gpac__search {
-    flex-direction: column;
-  }
+  .gpac__btn-novo { width: 100%; text-align: center; }
+  .gpac__modal { padding: 20px 16px; }
+  .gpac__modal-overlay { padding: 12px; }
+  .gpac__actions { flex-direction: column-reverse; gap: 10px; }
+  .gpac__btn-primary,
+  .gpac__btn-outline { width: 100%; text-align: center; }
+  .gpac__table th,
+  .gpac__table td { padding: 8px 10px; font-size: .8rem; }
 }

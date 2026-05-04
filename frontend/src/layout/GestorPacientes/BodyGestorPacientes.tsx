@@ -53,6 +53,7 @@ const BodyGestorPacientes: React.FC = () => {
   const [cpfErro, setCpfErro] = useState<string | null>(null);
   const [editandoId, setEditandoId] = useState<string | null>(null);
   const [form, setForm] = useState<PacientePayload>(FORM_INICIAL);
+  const [formAberto, setFormAberto] = useState(false);
 
   const tituloFormulario = useMemo(
     () => (editandoId ? 'Atualizar paciente' : 'Cadastrar paciente'),
@@ -77,9 +78,26 @@ const BodyGestorPacientes: React.FC = () => {
     carregarPacientes('');
   }, [carregarPacientes]);
 
+  function abrirFormulario() {
+    setEditandoId(null);
+    setCpfErro(null);
+    setErro(null);
+    setForm(FORM_INICIAL);
+    setFormAberto(true);
+  }
+
+  function limparFormulario() {
+    setEditandoId(null);
+    setCpfErro(null);
+    setErro(null);
+    setForm(FORM_INICIAL);
+    setFormAberto(false);
+  }
+
   function preencherForm(paciente: Paciente) {
     setEditandoId(paciente.id);
     setCpfErro(null);
+    setErro(null);
     setForm({
       cpf: formatarCpf(paciente.cpf || ''),
       nome: paciente.nome,
@@ -89,12 +107,7 @@ const BodyGestorPacientes: React.FC = () => {
       peso: paciente.peso,
       medicoCrmReferencia: paciente.medicoCrmReferencia || '',
     });
-  }
-
-  function limparFormulario() {
-    setEditandoId(null);
-    setCpfErro(null);
-    setForm(FORM_INICIAL);
+    setFormAberto(true);
   }
 
   function handleCpfChange(value: string) {
@@ -185,81 +198,13 @@ const BodyGestorPacientes: React.FC = () => {
       </aside>
 
       <section className="gestor-content gpac">
-        <h1>Pacientes</h1>
 
-        <form className="gpac__form" onSubmit={salvarPaciente}>
-          <h2>{tituloFormulario}</h2>
-          <div className="gpac__form-grid">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <input
-                type="text"
-                placeholder="CPF (somente números)"
-                value={form.cpf}
-                onChange={e => handleCpfChange(e.target.value)}
-                maxLength={14}
-                required
-              />
-              {cpfErro && <span style={{ color: '#dc2626', fontSize: '0.78rem' }}>{cpfErro}</span>}
-            </div>
-            <input
-              type="text"
-              placeholder="Nome"
-              value={form.nome}
-              onChange={e => setForm(v => ({ ...v, nome: e.target.value }))}
-              required
-            />
-            <input
-              type="number"
-              placeholder="Idade"
-              value={form.idade || ''}
-              onChange={e => setForm(v => ({ ...v, idade: Number(e.target.value) }))}
-              min={0}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Endereço"
-              value={form.endereco}
-              onChange={e => setForm(v => ({ ...v, endereco: e.target.value }))}
-              required
-            />
-            <input
-              type="number"
-              placeholder="Altura (m)"
-              value={form.altura || ''}
-              onChange={e => setForm(v => ({ ...v, altura: Number(e.target.value) }))}
-              min={0.01}
-              step={0.01}
-              required
-            />
-            <input
-              type="number"
-              placeholder="Peso (kg)"
-              value={form.peso || ''}
-              onChange={e => setForm(v => ({ ...v, peso: Number(e.target.value) }))}
-              min={0.1}
-              step={0.1}
-              required
-            />
-            <input
-              type="text"
-              placeholder="CRM médico referência (opcional)"
-              value={form.medicoCrmReferencia || ''}
-              onChange={e => setForm(v => ({ ...v, medicoCrmReferencia: e.target.value }))}
-            />
-          </div>
-
-          <div className="gpac__actions">
-            <button type="submit" disabled={saving || !!cpfErro}>
-              {saving ? 'Salvando...' : editandoId ? 'Atualizar' : 'Cadastrar'}
-            </button>
-            {editandoId && (
-              <button type="button" className="gpac__btn-secondary" onClick={limparFormulario}>
-                Cancelar edição
-              </button>
-            )}
-          </div>
-        </form>
+        <div className="gpac__header">
+          <h1>Pacientes</h1>
+          <button className="gpac__btn-novo" onClick={abrirFormulario}>
+            + Cadastrar paciente
+          </button>
+        </div>
 
         <div className="gpac__search">
           <input
@@ -276,7 +221,7 @@ const BodyGestorPacientes: React.FC = () => {
         {erro && <p className="gpac__erro">{erro}</p>}
 
         {loading ? (
-          <p>Carregando pacientes...</p>
+          <p className="gpac__loading">Carregando pacientes...</p>
         ) : (
           <div className="gpac__table-wrap">
             <table className="gpac__table">
@@ -304,9 +249,10 @@ const BodyGestorPacientes: React.FC = () => {
                     <td>{p.medicoCrmReferencia || '—'}</td>
                     <td>
                       <div className="gpac__row-actions">
-                        <button type="button" onClick={() => preencherForm(p)}>Editar</button>
+                        <button type="button" className="gpac__btn-edit" onClick={() => preencherForm(p)}>Editar</button>
                         <button
                           type="button"
+                          className="gpac__btn-prontuario"
                           onClick={() => (window.location.href = `/gestor/pacientes/prontuario?pacienteId=${p.id}`)}
                         >
                           Prontuário
@@ -322,7 +268,117 @@ const BodyGestorPacientes: React.FC = () => {
             </table>
           </div>
         )}
+
       </section>
+
+      {formAberto && (
+        <div className="gpac__modal-overlay" onClick={() => { if (!saving) limparFormulario(); }}>
+          <div className="gpac__modal" onClick={e => e.stopPropagation()}>
+            <h2 className="gpac__modal-title">{tituloFormulario}</h2>
+            <form onSubmit={salvarPaciente}>
+              <div className="gpac__form-grid">
+
+                <div className="gpac__field">
+                  <label className="gpac__label">CPF *</label>
+                  <input
+                    type="text"
+                    value={form.cpf}
+                    onChange={e => handleCpfChange(e.target.value)}
+                    maxLength={14}
+                    required
+                  />
+                  {cpfErro && <span className="gpac__field-erro">{cpfErro}</span>}
+                </div>
+
+                <div className="gpac__field">
+                  <label className="gpac__label">Nome *</label>
+                  <input
+                    type="text"
+                    value={form.nome}
+                    onChange={e => setForm(v => ({ ...v, nome: e.target.value }))}
+                    required
+                  />
+                </div>
+
+                <div className="gpac__field">
+                  <label className="gpac__label">Idade *</label>
+                  <input
+                    type="number"
+                    value={form.idade || ''}
+                    onChange={e => setForm(v => ({ ...v, idade: Number(e.target.value) }))}
+                    min={0}
+                    required
+                  />
+                </div>
+
+                <div className="gpac__field">
+                  <label className="gpac__label">Endereço *</label>
+                  <input
+                    type="text"
+                    value={form.endereco}
+                    onChange={e => setForm(v => ({ ...v, endereco: e.target.value }))}
+                    required
+                  />
+                </div>
+
+                <div className="gpac__field">
+                  <label className="gpac__label">Altura (m) *</label>
+                  <input
+                    type="number"
+                    value={form.altura || ''}
+                    onChange={e => setForm(v => ({ ...v, altura: Number(e.target.value) }))}
+                    min={0.01}
+                    step={0.01}
+                    required
+                  />
+                </div>
+
+                <div className="gpac__field">
+                  <label className="gpac__label">Peso (kg) *</label>
+                  <input
+                    type="number"
+                    value={form.peso || ''}
+                    onChange={e => setForm(v => ({ ...v, peso: Number(e.target.value) }))}
+                    min={0.1}
+                    step={0.1}
+                    required
+                  />
+                </div>
+
+                <div className="gpac__field gpac__field--full">
+                  <label className="gpac__label">CRM médico referência</label>
+                  <input
+                    type="text"
+                    value={form.medicoCrmReferencia || ''}
+                    onChange={e => setForm(v => ({ ...v, medicoCrmReferencia: e.target.value }))}
+                  />
+                </div>
+
+              </div>
+
+              {erro && <p className="gpac__erro">{erro}</p>}
+
+              <div className="gpac__actions">
+                <button
+                  type="button"
+                  className="gpac__btn-outline"
+                  onClick={limparFormulario}
+                  disabled={saving}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="gpac__btn-primary"
+                  disabled={saving || !!cpfErro}
+                >
+                  {saving ? 'Salvando...' : editandoId ? 'Atualizar' : 'Cadastrar'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
