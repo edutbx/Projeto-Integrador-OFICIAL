@@ -88,7 +88,10 @@
 .login-box__forgot {
   display: block; text-align: center; margin-top: 16px;
   color: #3b6bc8; text-decoration: underline; font-size: .9rem;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Poppins', sans-serif; width: 100%;
 }
+.login-box__forgot:hover { color: #2f58ad; }
 
 .login-box__terms {
   text-align: center; font-size: .8rem; color: #555;
