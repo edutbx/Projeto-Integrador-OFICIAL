@@ -31,7 +31,8 @@ const BodyNovaConsulta: React.FC = () => {
     try {
       const paciente = await buscarPacientePorCpfComoMedico(cpfDigits);
       window.location.href = `/prontuario?pacienteId=${paciente.id}`;
-    } catch {
+    } catch (err) {
+
       setErro('Paciente não cadastrado. Consulte o gestor para realizar o cadastro.');
     } finally {
       setCarregando(false);
@@ -51,9 +52,14 @@ const BodyNovaConsulta: React.FC = () => {
         disabled={carregando}
       />
       {erro && (
-        <p style={{ color: '#dc2626', fontSize: '0.85rem', marginTop: 8, textAlign: 'center' }}>
-          {erro}
-        </p>
+        <div className="nc-alerta-container">
+          <div className="nc-alerta-card">
+            <div className="nc-alerta-texto">
+              <strong>⚠️Atenção</strong>
+              <p>{erro}</p>
+            </div>
+          </div>
+        </div>
       )}
       <div className="nc-iniciar-row">
         <button
