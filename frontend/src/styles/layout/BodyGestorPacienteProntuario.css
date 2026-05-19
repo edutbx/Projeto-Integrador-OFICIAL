@@ -1,0 +1,71 @@
+.gpp {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gpp__paciente-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 16px 18px;
+}
+
+.gpp__paciente-card h2 {
+  margin: 0 0 8px;
+  color: #3b6bc8;
+  font-size: 1rem;
+}
+
+.gpp__paciente-card p {
+  margin: 0 0 6px;
+  color: #31415f;
+}
+
+.gpp__form {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.gpp__form textarea {
+  min-height: 84px;
+  border: 1px solid #d8deea;
+  border-radius: 8px;
+  padding: 10px 12px;
+  resize: vertical;
+  font-family: 'Poppins', sans-serif;
+}
+
+.gpp__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.gpp__actions button {
+  border: 0;
+  border-radius: 8px;
+  background: #3b6bc8;
+  color: #fff;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.gpp__btn-sec {
+  background: #7b8dad !important;
+}
+
+.gpp__erro {
+  margin: 0;
+  color: #b02e2e;
+  font-weight: 500;
+}
+
+@media (max-width: 575px) {
+  .gpp__actions {
+    flex-direction: column;
+  }
+}

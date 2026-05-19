@@ -35,6 +35,12 @@ const BodyGestor: React.FC = () => {
           >
             Médicos
           </a>
+          <a
+            href="/gestor/pacientes"
+            className={`gestor-nav__item ${path === '/gestor/pacientes' ? 'gestor-nav__item--active' : ''}`}
+          >
+            Pacientes
+          </a>
         </nav>
       </aside>
 

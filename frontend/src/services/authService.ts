@@ -203,3 +203,15 @@ export function getGestor(): { nome: string; sobrenome: string; email: string } 
   if (!nome || !email) return null;
   return { nome, sobrenome: sobrenome ?? '', email };
 }
+
+export async function trocarSenha(senhaAntiga: string, novaSenha: string): Promise<void> {
+  const res = await fetch(`${API}/trocar-senha`, {
+    method: 'PUT',
+    headers: authHeaders(),
+    body: JSON.stringify({ senhaAntiga, novaSenha }),
+  });
+  if (!res.ok) {
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d.error || 'Erro ao alterar senha');
+  }
+}

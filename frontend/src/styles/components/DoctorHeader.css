@@ -44,6 +44,27 @@
   flex-shrink: 0;
 }
 
+.doc-header__alterar-senha {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #e8f0fb;
+  color: #3b6bc8;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.doc-header__alterar-senha:hover {
+  background: #3b6bc8;
+  color: #fff;
+}
+
 .doc-header__sair {
   background: #3b6bc8;
   color: #fff;
@@ -57,6 +78,160 @@
 }
 .doc-header__sair:hover { background: #2f58ad; }
 
+/* ── MODAL DE TROCA DE SENHA ── */
+
+.doc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.doc-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 36px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, .18);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.doc-modal-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.doc-modal-desc {
+  color: #555;
+  font-size: .92rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.doc-modal-label {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.doc-modal-required {
+  color: #c0392b;
+}
+
+.doc-modal-readonly {
+  padding: 10px 14px;
+  background: #f4f8ff;
+  border: 1.5px solid #e0e8f5;
+  border-radius: 8px;
+  font-size: .92rem;
+  color: #555;
+  font-family: 'Poppins', sans-serif;
+}
+
+.doc-modal-input {
+  width: 100%;
+  padding: 11px 16px;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 8px;
+  font-size: .92rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color .2s;
+  box-sizing: border-box;
+  color: #333;
+}
+.doc-modal-input:focus { border-color: #3b6bc8; }
+.doc-modal-input:disabled { background: #f4f8ff; color: #999; }
+.doc-modal-input::placeholder { color: #aab4c8; }
+
+.doc-modal-pw-wrap {
+  position: relative;
+}
+.doc-modal-pw-wrap .doc-modal-input {
+  padding-right: 44px;
+}
+
+.doc-modal-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: #999;
+  transition: color .2s;
+}
+.doc-modal-eye:hover { color: #3b6bc8; }
+
+.doc-modal-textarea {
+  width: 100%;
+  padding: 11px 16px;
+  border: 1.5px solid #d0d8e8;
+  border-radius: 8px;
+  font-size: .92rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color .2s;
+  box-sizing: border-box;
+  resize: vertical;
+  color: #333;
+}
+.doc-modal-textarea:focus { border-color: #3b6bc8; }
+.doc-modal-textarea:disabled { background: #f4f8ff; color: #999; }
+.doc-modal-textarea::placeholder { color: #aab4c8; }
+
+.doc-modal-erro {
+  color: #c0392b;
+  font-size: .82rem;
+  margin: 0;
+  padding: 8px 12px;
+  background: #fdecea;
+  border-radius: 6px;
+}
+
+.doc-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.doc-modal-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  font-size: .88rem;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: background .2s;
+}
+.doc-modal-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.doc-modal-btn--cancel {
+  background: #f0f4fa;
+  color: #555;
+}
+.doc-modal-btn--cancel:hover:not(:disabled) { background: #e0e8f5; }
+
+.doc-modal-btn--confirm {
+  background: #3b6bc8;
+  color: #fff;
+}
+.doc-modal-btn--confirm:hover:not(:disabled) { background: #2f58ad; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 991px) {
   .doc-header { padding: 0 28px; }
@@ -65,8 +240,13 @@
   .doc-header { padding: 0 16px; height: 68px; }
   .doc-header__spec { display: none; }
   .doc-header__sair { padding: 7px 14px; font-size: .82rem; }
+  .doc-header__alterar-senha span { display: none; }
+  .doc-header__alterar-senha { padding: 8px; }
+  .doc-modal { padding: 24px 20px; }
 }
 @media (max-width: 575px) {
   .doc-header__crm { display: none; }
   .doc-header__name { font-size: .88rem; }
+  .doc-modal-actions { flex-direction: column-reverse; }
+  .doc-modal-btn { width: 100%; text-align: center; }
 }

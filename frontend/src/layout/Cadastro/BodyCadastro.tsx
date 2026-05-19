@@ -82,7 +82,10 @@ const BodyCadastro: React.FC = () => {
         await register(payload);
       }
       setSucesso(true);
-    } catch (err: any) { setErro(err.message || 'Erro ao cadastrar'); }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Erro ao cadastrar';
+      setErro(msg);
+    }
     finally { setLoading(false); }
   };
 

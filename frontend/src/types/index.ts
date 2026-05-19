@@ -1,3 +1,35 @@
+export interface Patient {
+  id: string;
+  name: string;
+  age: number;
+  gender: string;
+  bloodType: string;
+  allergies: string[];
+  conditions: string[];
+  medications: string[];
+  recentVisits: Visit[];
+  labResults: LabResult[];
+  notes: string;
+}
+
+export interface Visit {
+  id: string;
+  date: string;
+  reason: string;
+  notes: string;
+  doctor: string;
+}
+
+export interface LabResult {
+  id: string;
+  date: string;
+  test: string;
+  result: string;
+  unit: string;
+  referenceRange: string;
+  status: 'normal' | 'abnormal' | 'critical';
+}
+
 export interface AuthResponse {
   token: string;
   nome: string;
@@ -68,4 +100,70 @@ export interface MedicoResumo {
 export interface MedicosResponse {
   totalMedicosAtivos: number;
   medicos: MedicoResumo[];
+}
+
+export interface Paciente {
+  id: string;
+  cpf: string;
+  nome: string;
+  idade: number;
+  endereco: string;
+  altura: number;
+  peso: number;
+  medicoCrmReferencia: string;
+  medicoCrmsComAcesso: string[];
+  prontuarioAtualId?: string;
+  ultimaAlteracaoProntuarioPorCrm?: string;
+  ultimaAlteracaoProntuarioEm?: string;
+}
+
+export interface PacientePayload {
+  cpf: string;
+  nome: string;
+  idade: number;
+  endereco: string;
+  altura: number;
+  peso: number;
+  medicoCrmReferencia?: string;
+  medicoCrmsComAcesso?: string[];
+}
+
+export interface PacientesResponse {
+  total: number;
+  pacientes: Paciente[];
+}
+
+export interface Prontuario {
+  id: string;
+  pacienteId: string;
+  pacienteNome: string;
+  pacienteIdade: number;
+  pacienteEndereco: string;
+  pacienteAltura: number;
+  pacientePeso: number;
+  medicoCrmReferencia: string;
+  resumoProblema: string;
+  historicoDoencaAtual: string;
+  sintomasRelatados: string;
+  alergias: string;
+  medicamentosEmUso: string;
+  hipoteseDiagnostica: string;
+  condutaMedica: string;
+  examesSolicitados: string;
+  observacoesGerais: string;
+  interpretacaoIa: string;
+  atualizadoPor: string;
+  atualizadoEm: string;
+}
+
+export interface ProntuarioPayload {
+  resumoProblema: string;
+  historicoDoencaAtual?: string;
+  sintomasRelatados?: string;
+  alergias?: string;
+  medicamentosEmUso?: string;
+  hipoteseDiagnostica?: string;
+  condutaMedica?: string;
+  examesSolicitados?: string;
+  observacoesGerais?: string;
 }

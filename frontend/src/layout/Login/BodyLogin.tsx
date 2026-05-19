@@ -10,7 +10,7 @@ const BodyLogin: React.FC = () => {
   const [erro, setErro]         = useState('');
   const [loading, setLoading]   = useState(false);
 
-  // Estado do modal
+  // Estado do modal "Solicitar cadastro"
   const [modalAberto, setModalAberto] = useState(false);
   const [mNome, setMNome]             = useState('');
   const [mEmail, setMEmail]           = useState('');
@@ -20,23 +20,33 @@ const BodyLogin: React.FC = () => {
   const [mSucesso, setMSucesso]       = useState(false);
   const [mErro, setMErro]             = useState('');
 
+  // Estado do modal "Esqueceu sua senha"
+  const [esqAberto, setEsqAberto]     = useState(false);
+  const [esqNome, setEsqNome]         = useState('');
+  const [esqEmail, setEsqEmail]       = useState('');
+  const [esqCrm, setEsqCrm]           = useState('');
+  const [esqEnviando, setEsqEnviando] = useState(false);
+  const [esqSucesso, setEsqSucesso]   = useState(false);
+  const [esqErro, setEsqErro]         = useState('');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErro(''); setLoading(true);
     try {
       await login(crm, senha);
       window.location.href = '/medico';
-    } catch (err: any) {
-      setErro(err.message || 'Credenciais inválidas');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Credenciais inválidas';
+      setErro(msg);
     } finally { setLoading(false); }
   };
 
+  // ── Solicitar cadastro ──────────────────────────────────────────────────────
   const abrirModal = () => {
     setModalAberto(true);
     setMSucesso(false); setMErro('');
     setMNome(''); setMEmail(''); setMCrm(''); setMMensagem('');
   };
-
   const fecharModal = () => { setModalAberto(false); setMSucesso(false); };
 
   const handleEnviar = async (e: React.FormEvent) => {
@@ -48,6 +58,30 @@ const BodyLogin: React.FC = () => {
     } catch {
       setMErro('Erro ao enviar. Tente novamente.');
     } finally { setMEnviando(false); }
+  };
+
+  // ── Esqueceu senha ──────────────────────────────────────────────────────────
+  const abrirEsq = () => {
+    setEsqAberto(true);
+    setEsqSucesso(false); setEsqErro('');
+    setEsqNome(''); setEsqEmail(''); setEsqCrm('');
+  };
+  const fecharEsq = () => { setEsqAberto(false); setEsqSucesso(false); };
+
+  const handleEnviarEsq = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setEsqEnviando(true); setEsqErro('');
+    try {
+      await enviarSolicitacao({
+        nomeRemetente: esqNome,
+        emailRemetente: esqEmail,
+        crm: esqCrm,
+        mensagem: 'Solicitação de recuperação de senha',
+      });
+      setEsqSucesso(true);
+    } catch {
+      setEsqErro('Erro ao enviar. Tente novamente.');
+    } finally { setEsqEnviando(false); }
   };
 
   return (
@@ -84,7 +118,7 @@ const BodyLogin: React.FC = () => {
               </div>
               {erro && <p className="login-box__erro">{erro}</p>}
               <button type="submit" className="login-box__submit" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</button>
-              <a href="/" className="login-box__forgot">Esqueceu sua senha?</a>
+              <button type="button" className="login-box__forgot" onClick={abrirEsq}>Esqueceu sua senha?</button>
             </form>
             <p className="login-box__terms">
               Ao entrar, você concorda com os <a href="/">Termos de Uso</a> e com as <a href="/">Políticas de Privacidade.</a>
@@ -135,6 +169,53 @@ const BodyLogin: React.FC = () => {
                     <button type="button" className="solicit-modal__cancel" onClick={fecharModal}>Cancelar</button>
                     <button type="submit" className="solicit-modal__send" disabled={mEnviando}>
                       {mEnviando ? 'Enviando...' : 'Enviar solicitação'}
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal de recuperação de senha */}
+      {esqAberto && (
+        <div className="solicit-overlay" onClick={e => { if (e.target === e.currentTarget) fecharEsq(); }}>
+          <div className="solicit-modal">
+            <button className="solicit-modal__close" onClick={fecharEsq}>×</button>
+
+            {esqSucesso ? (
+              <div className="solicit-modal__sucesso">
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="26" fill="#e8f5e9"/>
+                  <path d="M15 26l8 8 14-14" stroke="#2e7d32" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <h3>Solicitação enviada!</h3>
+                <p>O gestor foi notificado e realizará a redefinição da sua senha em breve. Você receberá os novos dados por email.</p>
+                <button className="solicit-modal__ok" onClick={fecharEsq}>Ok, entendi</button>
+              </div>
+            ) : (
+              <>
+                <h2 className="solicit-modal__title">Recuperar senha</h2>
+                <p className="solicit-modal__sub">Preencha seus dados para identificação. O gestor será notificado e redefinirá sua senha.</p>
+                <form onSubmit={handleEnviarEsq}>
+                  <div className="solicit-modal__field">
+                    <label>Nome completo *</label>
+                    <input type="text" placeholder="Seu nome completo" value={esqNome} onChange={e => setEsqNome(e.target.value)} required />
+                  </div>
+                  <div className="solicit-modal__field">
+                    <label>E-mail *</label>
+                    <input type="email" placeholder="seu@email.com" value={esqEmail} onChange={e => setEsqEmail(e.target.value)} required />
+                  </div>
+                  <div className="solicit-modal__field">
+                    <label>CRM *</label>
+                    <input type="text" placeholder="Seu CRM" value={esqCrm} onChange={e => setEsqCrm(e.target.value)} required />
+                  </div>
+                  {esqErro && <p className="solicit-modal__erro">{esqErro}</p>}
+                  <div className="solicit-modal__actions">
+                    <button type="button" className="solicit-modal__cancel" onClick={fecharEsq}>Cancelar</button>
+                    <button type="submit" className="solicit-modal__send" disabled={esqEnviando}>
+                      {esqEnviando ? 'Enviando...' : 'Enviar solicitação'}
                     </button>
                   </div>
                 </form>

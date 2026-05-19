@@ -1,6 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import '../../styles/layout/BodySobreNos.css';
 
+const IconeMissao = () => (
+  <svg width="48" height="48" viewBox="0 0 32 32" fill="none">
+    <path d="M8 28V6" stroke="#3b6bc8" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M8 6l16 5-16 5" fill="#f4a623" stroke="#f4a623" strokeWidth="1.5" strokeLinejoin="round"/>
+    <circle cx="24" cy="24" r="5" stroke="#3b6bc8" strokeWidth="2"/>
+    <circle cx="24" cy="24" r="2" fill="#f4a623"/>
+  </svg>
+);
+const IconeVisao = () => (
+  <svg width="48" height="48" viewBox="0 0 32 32" fill="none">
+    <path d="M3 16s4.5-9 13-9 13 9 13 9-4.5 9-13 9S3 16 3 16z" stroke="#3b6bc8" strokeWidth="2" strokeLinejoin="round"/>
+    <circle cx="16" cy="16" r="4" stroke="#3b6bc8" strokeWidth="2"/>
+    <circle cx="16" cy="16" r="1.5" fill="#f4a623"/>
+    <path d="M16 5v2M16 25v2M5 16H3M29 16h-2" stroke="#f4a623" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+);
+
 const IconeInovacao = () => (
   <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
     <circle cx="16" cy="14" r="7" stroke="#3b6bc8" strokeWidth="2"/>
@@ -73,14 +90,14 @@ const BodySobreNos: React.FC = () => {
       <section className="sobre-cards">
         <div className="sobre-card reveal">
           <div className="sobre-card__icon-wrap">
-            <img src="/img/ícone Missão.png" alt="Missão" />
+            <IconeMissao />
           </div>
           <h3 className="sobre-card__title">NOSSA MISSÃO</h3>
           <p>Garantir que cada profissional de saúde tenha acesso a prontuários claros, padronizados e adaptados, promovendo segurança e eficiência no atendimento.</p>
         </div>
         <div className="sobre-card reveal">
           <div className="sobre-card__icon-wrap">
-            <img src="/img/ícone Visão.png" alt="Visão" />
+            <IconeVisao />
           </div>
           <h3 className="sobre-card__title">NOSSA VISÃO</h3>
           <p>Ser referência em inovação no uso de Inteligência Artificial para documentação médica, transformando a forma como profissionais acessam e compreendem os prontuários.</p>

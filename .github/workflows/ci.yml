@@ -1,0 +1,179 @@
+name: CI - Monorepo Quality Gate
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['main, dev']
+  pull_request:
+    branches: ['main, dev']
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      java: ${{ steps.filter.outputs.java }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      docker: ${{ steps.filter.outputs.docker }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            java:
+              - 'backend/**'
+              - '.github/workflows/ci.yml'
+            frontend:
+              - 'frontend/**'
+              - '.github/workflows/ci.yml'
+            docker:
+              - 'docker-compose.yml'
+              - 'backend/Dockerfile'
+              - 'frontend/Dockerfile'
+              - 'frontend/nginx.conf'
+              - '.github/workflows/ci.yml'
+
+  java-backend:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.java == 'true'
+
+    strategy:
+      matrix:
+        java-version: ['17', '21']
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: chmod +x mvnw
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java-version }}
+          cache: maven
+
+      - run: ./mvnw -v
+
+      - name: Build + Tests + Coverage
+        run: ./mvnw -B -ntp clean verify
+
+      - name: Static Analysis
+        run: ./mvnw -B -ntp pmd:pmd
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: java-${{ matrix.java-version }}
+          path: |
+            backend/target/surefire-reports/**
+            backend/target/site/jacoco/**
+
+  frontend:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+
+    strategy:
+      matrix:
+        node-version: ['20', '22']
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci --no-audit
+
+      - name: Security audit
+        run: |
+          npm audit --omit=dev --json > audit.json || true
+          node -e "
+          const r=require('./audit.json');
+          const c=r.metadata?.vulnerabilities?.critical||0;
+          if(c>0){console.error('Critical vulns');process.exit(1);}
+          "
+
+      - run: npm run test:ci
+
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-${{ matrix.node-version }}
+          path: |
+            frontend/coverage/**
+            frontend/dist/**
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, java-backend, frontend]
+    if: needs.detect-changes.outputs.docker == 'true'
+
+
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      TAG: ${{ github.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Validate docker-compose
+        run: docker compose config
+
+      - name: Build images
+        run: |
+          docker compose build
+
+      - name: Start containers
+        run: docker compose up -d
+
+      - name: Validate runtime
+        run: |
+          sleep 10
+          docker ps
+          docker compose ps
+
+      - name: Fail if container crashed
+        run: |
+          if docker ps -a | grep -q "Exited"; then
+            echo "Container failed"
+            docker logs $(docker ps -aq)
+            exit 1
+          fi
+
+      - name: Push images to Docker Hub (saude)
+        run: |
+          docker compose push
+
+      - name: Stop containers
+        run: docker compose down

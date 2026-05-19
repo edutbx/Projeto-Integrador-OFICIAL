@@ -1,4 +1,4 @@
-export async function interpretarPdf(file: File): Promise<{ respostaIA?: string; erroIA?: string }> {
+export async function interpretarPdf(file: File): Promise<{ conteudoExtraido?: string; respostaIA?: string; erroIA?: string }> {
   const token = localStorage.getItem('jwt');
   const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
 

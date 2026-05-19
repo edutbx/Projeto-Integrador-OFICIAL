@@ -13,7 +13,7 @@ export default function Medico() {
   return (
     <div className="med-page">
       <DoctorHeader nome={usuario?.nome} sobrenome={usuario?.sobrenome} crm={usuario?.crm} especializacao={usuario?.especializacao} />
-      <BodyMedico nome={usuario?.nome} crm={usuario?.crm} />
+      <BodyMedico />
     </div>
   );
 }
