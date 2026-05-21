@@ -58,7 +58,7 @@
 .home__hero-btn {
   display: inline-block;
   margin-top: 20px;
-  background: #f4a623;
+  background: #E86424;
   color: #fff;
   padding: 14px 40px;
   border-radius: 8px;
@@ -68,7 +68,7 @@
   transition: background .2s, box-shadow .2s;
   box-shadow: 0 4px 16px rgba(244, 166, 35, 0.35);
 }
-.home__hero-btn:hover { background: #e09010; box-shadow: 0 6px 20px rgba(244,166,35,.45); }
+.home__hero-btn:hover { background: #e7601c; }
 
 /* ── SERVIÇOS ── */
 .home__servicos { padding: 72px 80px 48px; text-align: center; background: #fff; }
@@ -202,7 +202,7 @@
 .home__cta-btn {
   display: inline-block;
   margin-top: 8px;
-  background: #f4a623;
+  background: #E86424;
   color: #fff;
   padding: 14px 48px;
   border-radius: 8px;
@@ -212,7 +212,7 @@
   transition: background .2s, box-shadow .2s;
   box-shadow: 0 4px 16px rgba(244, 166, 35, 0.35);
 }
-.home__cta-btn:hover { background: #e09010; box-shadow: 0 6px 20px rgba(244,166,35,.45); }
+.home__cta-btn:hover { background: #e7601c; }
 
 /* back-to-top */
 .home__top-btn {

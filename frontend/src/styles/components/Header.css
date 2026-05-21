@@ -27,7 +27,7 @@
 .pub-header__link:hover { color: #f4a623; }
 
 .pub-header__btn {
-  background: #3b6bc8;
+  background: #E86424;
   color: #fff;
   text-decoration: none;
   padding: 10px 28px;
@@ -36,7 +36,7 @@
   font-size: 0.95rem;
   transition: background 0.2s;
 }
-.pub-header__btn:hover { background: #2f58ad; }
+.pub-header__btn:hover { background: #e7601c; }
 
 /* Hamburguer – hidden on desktop */
 .pub-header__ham {

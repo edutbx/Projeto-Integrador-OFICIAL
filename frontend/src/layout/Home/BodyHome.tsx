@@ -58,10 +58,10 @@ const BodyHome: React.FC = () => {
       {/* ── HERO ── */}
       <section className="home__hero reveal">
         <div className="home__hero-img-wrap">
-          <img src="/img/estetoscopio.png" alt="Estetoscópio" className="home__hero-img" />
+          <img src="img\foto-nova-home.png" alt="Estetoscópio" className="home__hero-img" />
         </div>
         <div className="home__hero-text">
-          <h1 className="home__hero-title">O FUTURO DA SAÚDE É AGORA</h1>
+          <h1 className="home__hero-title">Tecnologia que transforma cuidado em vida.</h1>
           <p>Mais clareza, padronização e segurança na comunicação médica.</p>
           <p>Com ajuda de inteligência artificial, os prontuários são adaptados à especialidade de cada profissional, <strong>reduzindo erros e otimizando o atendimento.</strong></p>
           <a href="/entrar" className="home__hero-btn">Acessar Plataforma</a>
